@@ -1,0 +1,1136 @@
+[2025-04-21 13:59:56] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 13:59:56] local.INFO: status stopped stopped  
+[2025-04-21 14:00:14] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:00:14] local.INFO: status running running  
+[2025-04-21 14:04:13] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"status"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:04:13] local.INFO: status running running  
+[2025-04-21 14:06:29] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:06:29] local.INFO: status running running  
+[2025-04-21 14:10:32] local.ERROR: Non-static method Redis::get() cannot be called statically {"view":{"view":"/www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php","data":[]},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Non-static method Redis::get() cannot be called statically at /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php:18)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#3 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#17 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#23 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(34): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#43 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#62 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#63 {main}
+
+[previous exception] [object] (Error(code: 0): Non-static method Redis::get() cannot be called statically at /www/wwwroot/syswaw/storage/framework/views/e672d7517812be8607ab41c3ba159eb8.php:53)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#3 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#17 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#23 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(34): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#43 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#62 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#63 {main}
+"} 
+[2025-04-21 14:10:50] local.ERROR: Non-static method Redis::get() cannot be called statically {"view":{"view":"/www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php","data":[]},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Non-static method Redis::get() cannot be called statically at /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php:18)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#3 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#17 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#23 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(34): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#43 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#62 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#63 {main}
+
+[previous exception] [object] (Error(code: 0): Non-static method Redis::get() cannot be called statically at /www/wwwroot/syswaw/storage/framework/views/e672d7517812be8607ab41c3ba159eb8.php:53)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#3 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#17 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#23 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(34): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#43 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#62 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#63 {main}
+"} 
+[2025-04-21 14:17:02] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:17:02] local.INFO: status stopped stopped  
+[2025-04-21 14:17:11] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:17:11] local.INFO: status running running  
+[2025-04-21 14:34:05] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:34:05] local.INFO: status stopped stopped  
+[2025-04-21 14:37:17] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:37:17] local.INFO: status running running  
+[2025-04-21 14:37:22] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:37:22] local.INFO: status stopped stopped  
+[2025-04-21 14:42:27] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:42:27] local.INFO: status running running  
+[2025-04-21 14:43:17] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:43:17] local.INFO: status stopped stopped  
+[2025-04-21 14:44:18] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:44:18] local.INFO: status running running  
+[2025-04-21 14:55:16] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:55:16] local.INFO: status stopped stopped  
+[2025-04-21 14:55:21] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 14:55:21] local.INFO: status running running  
+[2025-04-21 15:01:26] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-21 15:01:34] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-21 15:05:09] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:05:09] local.INFO: status stopped stopped  
+[2025-04-21 15:07:29] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:07:29] local.INFO: status running running  
+[2025-04-21 15:08:16] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:08:16] local.INFO: status stopped stopped  
+[2025-04-21 15:08:45] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:08:45] local.INFO: status running running  
+[2025-04-21 15:09:19] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:09:19] local.INFO: status stopped stopped  
+[2025-04-21 15:09:46] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:09:46] local.INFO: status running running  
+[2025-04-21 15:09:52] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:09:52] local.INFO: status stopped stopped  
+[2025-04-21 15:12:57] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:12:57] local.INFO: status running running  
+[2025-04-21 15:12:58] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"restart-finished"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:12:58] local.INFO: status running running  
+[2025-04-21 15:16:34] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:16:34] local.INFO: status stopped stopped  
+[2025-04-21 15:16:43] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:16:43] local.INFO: status running running  
+[2025-04-21 15:18:22] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:18:22] local.INFO: status stopped stopped  
+[2025-04-21 15:18:26] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"status"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:18:26] local.INFO: status stopped stopped  
+[2025-04-21 15:18:32] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:18:32] local.INFO: status running running  
+[2025-04-21 15:19:23] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:19:23] local.INFO: status stopped stopped  
+[2025-04-21 15:19:26] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:19:26] local.INFO: status running running  
+[2025-04-21 15:19:54] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:19:54] local.INFO: status stopped stopped  
+[2025-04-21 15:19:58] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:19:58] local.INFO: status running running  
+[2025-04-21 15:21:15] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-21 15:26:27] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-21 15:31:16] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:31:16] local.INFO: status stopped stopped  
+[2025-04-21 15:31:23] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 15:31:23] local.INFO: status running running  
+[2025-04-21 16:16:35] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 16:16:35] local.INFO: status stopped stopped  
+[2025-04-21 16:26:14] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 16:26:14] local.INFO: status running running  
+[2025-04-21 17:12:55] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:12:55] local.INFO: status running running  
+[2025-04-21 17:13:07] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:13:07] local.INFO: status stopped stopped  
+[2025-04-21 17:13:18] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:13:18] local.INFO: status stopped stopped  
+[2025-04-21 17:19:55] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:19:55] local.INFO: status stopped stopped  
+[2025-04-21 17:21:06] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:21:06] local.INFO: status stopped stopped  
+[2025-04-21 17:22:38] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:22:38] local.INFO: status running running  
+[2025-04-21 17:23:06] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:23:06] local.INFO: status stopped stopped  
+[2025-04-21 17:41:55] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:41:55] local.INFO: status running running  
+[2025-04-21 17:42:07] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:42:07] local.INFO: status stopped stopped  
+[2025-04-21 17:42:20] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 17:42:20] local.INFO: status stopped stopped  
+[2025-04-21 18:09:20] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 18:09:20] local.INFO: status stopped stopped  
+[2025-04-21 18:12:00] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-21 18:12:00] local.INFO: status running running  
+[2025-04-22 04:41:06] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-22 09:57:40] local.ERROR: Route [admin.tcp.index] not defined. {"view":{"view":"/www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php","data":[]},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php(51): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(35): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+
+[previous exception] [object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/storage/framework/views/e672d7517812be8607ab41c3ba159eb8.php(90): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(35): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+"} 
+[2025-04-22 14:28:40] local.ERROR: Route [admin.tcp.index] not defined. {"view":{"view":"/www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php","data":[]},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php(51): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+
+[previous exception] [object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/storage/framework/views/e672d7517812be8607ab41c3ba159eb8.php(90): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+"} 
+[2025-04-22 14:38:10] local.ERROR: View [admin.tcp-server.index] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [admin.tcp-server.index] not found. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php:137)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Factory.php(137): Illuminate\\View\\FileViewFinder->find()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(1020): Illuminate\\View\\Factory->make()
+#3 /www/wwwroot/syswaw/app/Http/Controllers/Tcp/TcpServerController.php(71): view()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\Tcp\\TcpServerController->index()
+#5 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#10 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#12 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#18 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#36 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#38 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#43 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#57 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#58 {main}
+"} 
+[2025-04-22 14:39:15] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-22 14:39:26] local.ERROR: View [admin.tcp-server.index] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [admin.tcp-server.index] not found. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php:137)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php(79): Illuminate\\View\\FileViewFinder->findInPaths()
+#1 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Factory.php(137): Illuminate\\View\\FileViewFinder->find()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(1020): Illuminate\\View\\Factory->make()
+#3 /www/wwwroot/syswaw/app/Http/Controllers/Tcp/TcpServerController.php(71): view()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\Tcp\\TcpServerController->index()
+#5 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch()
+#7 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#10 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#12 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#18 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#19 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#25 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#36 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#38 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#43 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#45 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#57 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#58 {main}
+"} 
+[2025-04-22 14:40:33] local.ERROR: Route [admin.tcp.index] not defined. {"view":{"view":"/www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php","data":[]},"userId":1,"exception":"[object] (Spatie\\LaravelIgnition\\Exceptions\\ViewException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php(51): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+
+[previous exception] [object] (Symfony\\Component\\Routing\\Exception\\RouteNotFoundException(code: 0): Route [admin.tcp.index] not defined. at /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:477)
+[stacktrace]
+#0 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(811): Illuminate\\Routing\\UrlGenerator->route()
+#1 /www/wwwroot/syswaw/storage/framework/views/e672d7517812be8607ab41c3ba159eb8.php(90): route()
+#2 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(123): require('...')
+#3 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(124): Illuminate\\Filesystem\\Filesystem::Illuminate\\Filesystem\\{closure}()
+#4 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(58): Illuminate\\Filesystem\\Filesystem->getRequire()
+#5 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(22): Illuminate\\View\\Engines\\PhpEngine->evaluatePath()
+#6 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(72): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->evaluatePath()
+#7 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Mechanisms/ExtendBlade/ExtendedCompilerEngine.php(10): Illuminate\\View\\Engines\\CompilerEngine->get()
+#8 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(207): Livewire\\Mechanisms\\ExtendBlade\\ExtendedCompilerEngine->get()
+#9 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(190): Illuminate\\View\\View->getContents()
+#10 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/View.php(159): Illuminate\\View\\View->renderContents()
+#11 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(69): Illuminate\\View\\View->render()
+#12 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Response.php(35): Illuminate\\Http\\Response->setContent()
+#13 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(918): Illuminate\\Http\\Response->__construct()
+#14 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(885): Illuminate\\Routing\\Router::toResponse()
+#15 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Routing\\Router->prepareResponse()
+#16 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}()
+#17 /www/wwwroot/syswaw/vendor/spatie/laravel-permission/src/Middleware/RoleMiddleware.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#18 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Spatie\\Permission\\Middleware\\RoleMiddleware->handle()
+#19 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#20 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#21 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#22 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle()
+#23 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#24 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle()
+#25 /www/wwwroot/syswaw/app/Http/Middleware/Authenticate.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#26 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\Authenticate->handle()
+#27 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#28 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle()
+#29 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#30 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest()
+#31 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle()
+#32 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#33 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle()
+#34 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#35 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle()
+#36 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#37 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then()
+#38 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack()
+#39 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute()
+#40 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute()
+#41 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch()
+#42 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}()
+#43 /www/wwwroot/syswaw/vendor/livewire/livewire/src/Features/SupportDisablingBackButtonCache/DisableBackButtonCacheMiddleware.php(19): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#44 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Livewire\\Features\\SupportDisablingBackButtonCache\\DisableBackButtonCacheMiddleware->handle()
+#45 /www/wwwroot/syswaw/app/Http/Middleware/SetLocale.php(38): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#46 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\SetLocale->handle()
+#47 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#48 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#49 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle()
+#50 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#51 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle()
+#52 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle()
+#53 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#54 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle()
+#55 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#56 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle()
+#57 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#58 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle()
+#59 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#60 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle()
+#61 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}()
+#62 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then()
+#63 /www/wwwroot/syswaw/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter()
+#64 /www/wwwroot/syswaw/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle()
+#65 {main}
+"} 
+[2025-04-22 15:23:19] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-22 15:23:19] local.INFO: status stopped stopped  
+[2025-04-22 18:50:23] local.ERROR: Uncaught ReflectionException: Class "App\Http\Middleware\RoleIdCheck" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct()
+#1 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Http\\Middleware\\RoleIdCheck\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionMethod->__construct()
+#1 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 18:50:23] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 18:51:32] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 18:51:37] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 18:54:14] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 18:55:15] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:01:37] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:01:50] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:03:08] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:04:32] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:05:06] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:06:15] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:07:20] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-22 19:08:07] local.ERROR: Uncaught ReflectionException: Class "App\Policies\StorePolicy" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught ReflectionException: Class \"App\\Policies\\StorePolicy\" does not exist in Command line code:1
+Stack trace:
+#0 Command line code(1): ReflectionClass->__construct()
+#1 [internal function]: {closure}()
+#2 Command line code(1): array_map()
+#3 {main}
+  thrown at Command line code:1)
+[stacktrace]
+#0 {main}
+"} 
+[2025-04-23 12:54:07] local.INFO: 已刪除 0 個過期且未使用的金鑰  
+[2025-04-23 12:54:22] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"running","action":"start"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-23 12:54:22] local.INFO: status running running  
+[2025-04-23 12:54:28] local.INFO: 接收到的 TCP 請求 {"X-AUTH-TOKEN":"2aqaz123123","payload":{"status":"stopped","action":"stop"},"TCP_API_KEY_ENV":"2aqaz123123"} 
+[2025-04-23 12:54:28] local.INFO: status stopped stopped  
+[2025-04-23 14:55:55] local.INFO: 已刪除 0 個過期且未使用的金鑰  

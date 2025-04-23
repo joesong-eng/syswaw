@@ -1,0 +1,17 @@
+2025-04-21 18:09:14,920 - INFO - 收到終止信號，正在關閉 TCP Server...
+2025-04-21 18:09:18,242 - ERROR - ❌ Laravel 廣播失敗: HTTPSConnectionPool(host='sys.tg25.win', port=443): Read timed out. (read timeout=3)
+2025-04-21 18:09:18,316 - INFO - 🛑 TCP Server 已停止
+2025-04-21 18:11:59,546 - INFO - 📥 收到 Redis 命令: start
+2025-04-21 18:12:00,757 - INFO - ✅ 訪問 api Laravel: {'status': 'running', 'action': 'start'}
+2025-04-21 18:12:00,758 - INFO - 🚀 TCP Server 已啟動，PID: 758071
+2025-04-22 15:23:15,502 - INFO - 📥 收到 Redis 命令: stop
+2025-04-22 15:23:15,603 - INFO - 🛑 TCP Server (PID: 758071) 已終止
+2025-04-22 15:23:19,935 - INFO - ✅ 訪問 api Laravel: {'status': 'stopped', 'action': 'stop'}
+2025-04-22 15:23:19,997 - INFO - 🛑 TCP Server 已停止
+2025-04-23 12:54:17,681 - INFO - 📥 收到 Redis 命令: start
+2025-04-23 12:54:22,452 - ERROR - ❌ Laravel 廣播失敗: HTTPSConnectionPool(host='sys.tg25.win', port=443): Read timed out. (read timeout=3)
+2025-04-23 12:54:22,568 - INFO - 🚀 TCP Server 已啟動，PID: 869030
+2025-04-23 12:54:28,234 - INFO - 📥 收到 Redis 命令: stop
+2025-04-23 12:54:28,242 - INFO - 🛑 TCP Server (PID: 869030) 已終止
+2025-04-23 12:54:29,124 - INFO - ✅ 訪問 api Laravel: {'status': 'stopped', 'action': 'stop'}
+2025-04-23 12:54:29,125 - INFO - 🛑 TCP Server 已停止
