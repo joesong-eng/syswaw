@@ -1,2 +1,0 @@
-# syswaw
-group_iot
