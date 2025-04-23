@@ -39,5 +39,6 @@ public/.well-known/
 python/__pycache__/
 *.pyc
 
-
+# Supervisor logs
+sudo systemctl stop supervisor
 
