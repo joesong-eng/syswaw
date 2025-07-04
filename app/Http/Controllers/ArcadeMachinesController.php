@@ -1,0 +1,364 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Machine;
+use App\Models\Arcade;
+use App\Models\User;
+use App\Models\MachineAuthKey;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
+
+class ArcadeMachinesController extends Controller
+{
+    public function index(Request $request)
+    {
+        $user = Auth::user();
+        $queryMachines = Machine::query();
+        $ownerId = $user->hasRole('arcade-owner') ? $user->id : ($user->hasRole('arcade-staff') ? $user->parent_id : null);
+        if ($ownerId) {
+            $arcadeIds = Arcade::where('owner_id', $ownerId)->pluck('id');
+            $queryMachines->whereIn('arcade_id', $arcadeIds);
+        } else {
+            $queryMachines->whereRaw('1 = 0');
+        }
+        $queryMachines->with(['arcade', 'owner', 'machineAuthKey']);
+        $machines = $queryMachines->orderBy('created_at', 'desc')->paginate(15);
+        // $arcades = $ownerId ? Arcade::where('owner_id', $ownerId)->get() : collect();
+        $arcades = $ownerId ? Arcade::where('owner_id', $ownerId)->get(['id', 'name', 'currency']) : collect(); // 選取 currency
+
+        $potentialMachineOwners = User::orderBy('name')->get();
+
+        $availableAuthKeys = $ownerId ? MachineAuthKey::where('owner_id', $ownerId)
+            ->whereNull('machine_id')
+            ->where('status', 'pending')
+            ->get() : collect();
+        return view('arcade.machines.index', compact('machines', 'arcades', 'potentialMachineOwners', 'availableAuthKeys'));
+    }
+
+    public function toggleActive(Request $request, Machine $machine)
+    {
+        $user = Auth::user();
+        $ownerId = $user->hasRole('arcade-owner') ? $user->id : ($user->hasRole('arcade-staff') ? $user->parent_id : null);
+
+        if (!$ownerId) {
+            Log::warning('toggleActive: 無法確定使用者的 ownerId。', ['user_id' => $user->id]);
+            return redirect()->back()->with('error', __('auth.unauthorized_action'));
+        }
+
+        $arcade = $machine->arcade;
+        if (!$arcade || $arcade->owner_id !== $ownerId) {
+            Log::warning('toggleActive: 機台不屬於授權的遊藝場。', [
+                'user_id' => $user->id,
+                'machine_id' => $machine->id,
+                'arcade_owner_id' => $arcade ? $arcade->owner_id : 'N/A',
+                'expected_owner_id' => $ownerId,
+            ]);
+            return redirect()->back()->with('error', __('auth.unauthorized_action'));
+        }
+
+        $newActiveState = $request->validate(['is_active' => 'required|boolean'])['is_active'];
+        $machine->is_active = $newActiveState;
+        $machine->save();
+
+        return redirect()->back()->with('success', __('msg.machine_status_updated_successfully'));
+    }
+    public function store(Request $request)
+    {
+        $allowedMachineTypes = array_keys(config('machines.types', []));
+        $validated = $request->validate([
+            'auth_key' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'machine_type' => ['required', 'string', Rule::in($allowedMachineTypes)],
+            'arcade_id' => 'required|exists:arcades,id',
+            'chip_hardware_id' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('machine_auth_keys')->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                })
+            ],
+            'owner_id' => 'required|integer|exists:users,id', // 確保是整數且存在
+            'coin_input_value' => 'nullable|numeric|min:0',
+            'credit_button_value' => 'nullable|numeric|min:0',
+            'payout_button_value' => 'nullable|numeric|min:0',
+            'payout_type' => ['nullable', 'string', Rule::in(['points', 'tickets', 'coins', 'ball', 'prize', 'none', 'money_slot'])],
+            'payout_unit_value' => 'nullable|numeric|min:0',
+            'revenue_split' => 'nullable|numeric|min:0|max:100',
+            'bill_acceptor_enabled' => 'boolean',
+            'bill_currency' => 'nullable|string|max:3',
+            'accepted_denominations' => 'nullable|array', // 新增驗證
+            'accepted_denominations.*' => 'nullable|numeric', // 驗證陣列中的每個值
+
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $authKey = MachineAuthKey::where('auth_key', $validated['auth_key'])->first();
+            if ($authKey) {
+                if ($authKey->machine_id !== null) {
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->with('error', '此金鑰已被其他機器綁定。')
+                        ->withInput();
+                }
+                if (is_null($authKey->chip_hardware_id)) {
+                    $authKey->chip_hardware_id = $validated['chip_hardware_id'];
+                } elseif ($authKey->chip_hardware_id !== $validated['chip_hardware_id']) {
+                    Log::warning('嘗試使用已綁定不同硬體 ID 的金鑰。', [
+                        'auth_key' => $validated['auth_key'],
+                    ]);
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->with('error', '金鑰存在但其硬體ID與提供的不符。')
+                        ->withInput();
+                }
+                $authKey->status = 'active';
+                $authKey->owner_id = $validated['owner_id'];
+                $authKey->save();
+            } else {
+                $authKey = MachineAuthKey::create([
+                    'auth_key' => $validated['auth_key'],
+                    'chip_hardware_id' => $validated['chip_hardware_id'],
+                    'owner_id' => $validated['owner_id'],
+                    'created_by' => Auth::id(),
+                    'status' => 'active',
+                    'expires_at' => now()->addHours(24),
+                ]);
+            }
+
+            $acceptedDenominationsInput = $validated['accepted_denominations'] ?? null;
+            $machine = Machine::create([
+                'name' => $validated['name'],
+                'machine_type' => $validated['machine_type'],
+                'arcade_id' => $validated['arcade_id'],
+                'owner_id' => $validated['owner_id'],
+                'created_by' => Auth::id(),
+                'auth_key_id' => $authKey->id,
+                'status' => 'active',
+                'is_active' => true,
+
+                'coin_input_value'      => $validated['coin_input_value'] ?? null,
+                'credit_button_value'   => $validated['credit_button_value'] ?? null,
+                'payout_button_value'   => $validated['payout_button_value'] ?? null,
+                'payout_type'           => $validated['payout_type'] ?? 'none',
+                'payout_unit_value' => $validated['payout_unit_value'] ?? null,
+                'revenue_split' => $validated['revenue_split'] ?? null,
+
+                'bill_acceptor_enabled' => $validated['bill_acceptor_enabled'] ?? false,
+                'bill_currency'         => $validated['bill_currency'] ?? null, // 保留 bill_currency 的賦值
+                'accepted_denominations' => $acceptedDenominationsInput ? json_encode($acceptedDenominationsInput) : null,
+                // 移除 bill_unit_value 的賦值
+            ]);
+            // 如果是 money_slot 类型，强制启用 bill_acceptor_enabled
+            if ($machine->machine_type === 'money_slot') {
+                $machine->bill_acceptor_enabled = true;
+            }
+            $authKey->machine_id = $machine->id;
+            $authKey->save();
+
+            DB::commit();
+
+            // dd($machine->toArray(), $authKey->toArray()); // 檢查理論上已保存的數據
+            return redirect()->route('arcade.machines.index')
+                ->with('success', __('msg.machine_added_successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error creating machine: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            return redirect()->back()
+                ->with('error', __('msg.error_creating_machine') . ': ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+    public function update(Request $request, Machine $machine)
+    {
+        $user = Auth::user();
+        $ownerId = $user->hasRole('arcade-owner') ? $user->id : ($user->hasRole('arcade-staff') ? $user->parent_id : null);
+
+        // 驗證使用者是否有權限更新此機台
+        if (!$ownerId || !$machine->arcade || $machine->arcade->owner_id !== $ownerId) {
+            Log::warning('updateMachine: Unauthorized attempt.', [
+                'user_id' => $user->id,
+                'machine_id' => $machine->id,
+                'arcade_owner_id' => $machine->arcade ? $machine->arcade->owner_id : 'N/A',
+                'expected_owner_id' => $ownerId,
+            ]);
+            return redirect()->back()->with('error', __('auth.unauthorized_action'))->withInput();
+        }
+        Log::info('ArcadeMachinesController@update incoming request data:', $request->all());
+
+        $allowedMachineTypes = array_keys(config('machines.types', []));
+        Log::info('ArcadeMachinesController@update allowed machine types:', $allowedMachineTypes);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'machine_type' => [
+                'required',
+                'string',
+                Rule::in($allowedMachineTypes)
+            ],
+            'arcade_id' => 'required|exists:arcades,id',
+            'auth_key' => 'nullable|string|exists:machine_auth_keys,auth_key',
+            'chip_hardware_id' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique('machine_auth_keys', 'chip_hardware_id')->ignore(optional($machine->machineAuthKey)->id)
+            ],
+            'owner_id' => 'required|integer|exists:users,id', // 確保是整數且存在
+
+            'coin_input_value' => 'nullable|numeric|min:0',
+            'credit_button_value' => 'nullable|numeric|min:0',
+            'payout_button_value' => 'nullable|numeric|min:0',
+            // 'balls_per_credit' => 'nullable|integer|min:1',
+            'payout_type' => ['nullable', 'string', Rule::in(['points', 'tickets', 'coins', 'ball', 'prize', 'none', 'money_slot'])],
+            'payout_unit_value' => 'nullable|numeric|min:0',
+            'revenue_split' => 'nullable|numeric|min:0|max:100',
+            'bill_acceptor_enabled' => 'boolean',
+            'bill_currency' => 'nullable|string|max:3',
+            'accepted_denominations' => 'nullable|array', // 新增驗證
+            'accepted_denominations.*' => 'nullable|numeric', // 驗證陣列中的每個值
+
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $acceptedDenominationsInput = $validated['accepted_denominations'] ?? null;
+            $machineData = [
+                'name' => $validated['name'],
+                'machine_type' => $validated['machine_type'],
+                'arcade_id' => $validated['arcade_id'],
+                'owner_id' => $validated['owner_id'],
+
+
+                'coin_input_value' => $validated['coin_input_value'] ?? null,
+                'credit_button_value' => $validated['credit_button_value'] ?? null,
+                'payout_button_value' => $validated['payout_button_value'] ?? null,
+                // 'balls_per_credit' => $validated['balls_per_credit'] ?? null,
+                'payout_type' => $validated['payout_type'] ?? 'none',
+                'payout_unit_value' => $validated['payout_unit_value'] ?? null,
+                'revenue_split' => $validated['revenue_split'] ?? null,
+                'bill_acceptor_enabled' => $validated['bill_acceptor_enabled'] ?? false,
+                'bill_currency' => $validated['bill_currency'] ?? null,
+                'accepted_denominations' => $acceptedDenominationsInput ? json_encode($acceptedDenominationsInput) : null,
+                // 移除 bill_unit_value 的賦值
+            ];
+            // 如果是 money_slot 类型，强制启用 bill_acceptor_enabled
+            if ($validated['machine_type'] === 'money_slot') {
+                $machineData['bill_acceptor_enabled'] = true;
+            }
+            $currentAuthKey = $machine->machineAuthKey;
+            $submittedAuthKeyValue = $validated['auth_key'] ?? null;
+            $submittedChipHardwareIdValue = $validated['chip_hardware_id'] ?? null;
+            $newAuthKeyProvided = !empty($submittedAuthKeyValue);
+
+            if ($newAuthKeyProvided) {
+                $newAuthKey = MachineAuthKey::where('auth_key', $submittedAuthKeyValue)->firstOrFail();
+
+                if ($newAuthKey->machine_id !== null && $newAuthKey->machine_id != $machine->id) {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', '提供的新金鑰已被其他機器綁定。')->withInput();
+                }
+
+                if ($currentAuthKey && $currentAuthKey->id !== $newAuthKey->id) {
+                    $currentAuthKey->update(['status' => 'pending', 'machine_id' => null, 'chip_hardware_id' => null]);
+                }
+
+                $newAuthKeyUpdateData = [
+                    'status' => 'active',
+                    'machine_id' => $machine->id,
+                    'owner_id' => $validated['owner_id'],
+                ];
+
+                // 如果提交了 chip_hardware_id，則更新 newAuthKey 的 chip_hardware_id
+                if (array_key_exists('chip_hardware_id', $validated)) {
+                    if ($submittedChipHardwareIdValue !== null) {
+                        $existingKeyWithHwId = MachineAuthKey::where('chip_hardware_id', $submittedChipHardwareIdValue)
+                            ->where('id', '!=', $newAuthKey->id)
+                            ->first();
+                        if ($existingKeyWithHwId) {
+                            DB::rollBack();
+                            return redirect()->back()->with('error', __('msg.chip_hardware_id_already_used'))->withInput();
+                        }
+                        $newAuthKeyUpdateData['chip_hardware_id'] = $submittedChipHardwareIdValue;
+                    } else {
+                        // 如果 chip_hardware_id 提交為 null，則設為 null
+                        $newAuthKeyUpdateData['chip_hardware_id'] = null;
+                    }
+                }
+
+                $newAuthKey->update($newAuthKeyUpdateData);
+                $machineData['auth_key_id'] = $newAuthKey->id;
+            } elseif ($currentAuthKey && array_key_exists('chip_hardware_id', $validated) && $currentAuthKey->chip_hardware_id !== $submittedChipHardwareIdValue) {
+                if ($submittedChipHardwareIdValue !== null) {
+                    $existingKeyWithHwId = MachineAuthKey::where('chip_hardware_id', $submittedChipHardwareIdValue)
+                        ->where('id', '!=', $currentAuthKey->id)
+                        ->first();
+                    if ($existingKeyWithHwId) {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', __('msg.chip_hardware_id_already_used_existing'))->withInput();
+                    }
+                }
+                $currentAuthKey->update(['chip_hardware_id' => $submittedChipHardwareIdValue]);
+            }
+            // 如果沒有提供新的 auth_key，但 owner_id 變了，則更新當前 key 的 owner_id
+            if (!$newAuthKeyProvided && $currentAuthKey && $currentAuthKey->owner_id != $validated['owner_id']) {
+                $currentAuthKey->update(['owner_id' => $validated['owner_id']]);
+            }
+
+            // 更新機台資料
+            $machine->update($machineData);
+
+            DB::commit();
+
+            return redirect()->route('arcade.machines.index')->with('success', __('msg.machine_updated_successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error updating machine in ArcadeMachinesController: ' . $e->getMessage(), ['machine_id' => $machine->id, 'request_data' => $request->all(), 'trace' => $e->getTraceAsString()]);
+            return redirect()->back()->with('error', __('msg.error_updating_machine') . ': ' . $e->getMessage())->withInput();
+        }
+    }
+
+    public function destroy(Machine $machine)
+    {
+        $user = Auth::user();
+        $ownerId = $user->hasRole('arcade-owner') ? $user->id : ($user->hasRole('arcade-staff') ? $user->parent_id : null);
+
+        // 驗證使用者是否有權限刪除此機台
+        if (!$ownerId || !$machine->arcade || $machine->arcade->owner_id !== $ownerId) {
+            Log::warning('destroyMachine: Unauthorized attempt.', [
+                'user_id' => $user->id,
+                'machine_id' => $machine->id,
+                'arcade_owner_id' => optional($machine->arcade)->owner_id ?? 'N/A',
+                'expected_owner_id' => $ownerId,
+            ]);
+            return redirect()->back()->with('error', __('auth.unauthorized_action'));
+        }
+
+        try {
+            DB::beginTransaction();
+
+            if ($machine->machineAuthKey) {
+                Log::info('Unbinding MachineAuthKey during machine deletion.', ['machine_id' => $machine->id, 'auth_key_id' => $machine->machineAuthKey->id]);
+                $machine->machineAuthKey()->update(['status' => 'pending', 'machine_id' => null, 'chip_hardware_id' => null]);
+            }
+
+            Log::info('Soft deleting machine.', ['machine_id' => $machine->id]);
+            $machine->delete();
+
+            DB::commit();
+
+            return redirect()->route('arcade.machines.index')->with('success', __('msg.machine_deleted_successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error deleting machine in ArcadeMachinesController: ' . $e->getMessage(), ['machine_id' => $machine->id]);
+            return redirect()->back()->with('error', __('msg.error_deleting_machine') . ': ' . $e->getMessage());
+        }
+    }
+}

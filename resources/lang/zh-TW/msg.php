@@ -1,0 +1,592 @@
+<?php
+return [
+    // --- General ---
+    'actions' => '操作',
+    'period' => '期間',
+    'time'      => '時間',
+    'add' => '新增',
+    'address' => '地址',
+    'all' => '全部',
+    'back' => '返回',
+    'cancel' => '取消',
+    'change' => '更改',
+    'close' => '關閉',
+    'confirm' => '確認',
+    'create' => '建立',
+    'date' => '日期',
+    'default' => '預設',
+    'delete' => '刪除',
+    'edit' => '編輯',
+    'email' => '電子郵件',
+    'enter' => '輸入',
+    'error' => '錯誤',
+    'filter' => '篩選',
+    'hi' => '歡迎',
+    'home' => '首頁',
+    'info' => '資訊',
+    'level' => '級別',
+    'list' => '列表',
+    'management' => '管理',
+    'message' => '訊息',
+    'migrate' => '遷移',
+    'name' => '名稱',
+    'next' => '下一頁',
+    'no' => '否',
+    'offline' => '離線',
+    'online' => '在線',
+    'optional' => '可選',
+    'other' => '其他',
+    'password' => '密碼',
+    'phone' => '電話',
+    'previous' => '上一頁',
+    'print' => '列印',
+    'refresh' => '刷新',
+    'reset' => '重置',
+    'restart' => '重啟',
+    'save' => '儲存',
+    'search' => '搜尋',
+    'select' => '選擇',
+    'show' => '顯示',
+    'sort' => '排序',
+    'start' => '啟動',
+    'status' => '狀態',
+    'stop' => '關閉',
+    'submit' => '提交',
+    'success' => '成功',
+    'type' => '類型',
+    'update' => '更新',
+    'verify' => '驗證',
+    'warning' => '警告',
+    'yes' => '是',
+    'generate' => '生成',
+    'generating' => '生成中',
+    'authorization_code' => '授權碼',
+    'not_set' => '未設定',
+    // --- Roles ---
+    'admin' => '管理員',
+    'arcade_owner' => '遊藝場老闆',
+    'arcade_staff' => '遊藝場員工',
+    'current_role' => '目前角色',
+    'machine_owner' => '遊戲機廠商',
+    'manager' => '經理',
+    'no_role_assigned' => '未分配角色',
+    'owner' => '擁有者',
+    'role' => '帳戶類別',
+    'staff' => '員工',
+    'arcade' => '遊藝場',
+    // --- Arcade ---
+    'all_arcades' => '全部遊藝場',
+    'arcade' => '遊藝場',
+    'arcade_address' => '地址：',
+    'arcade_hall' => '營業廳',
+    'arcade_info' => '遊藝場資訊',
+    'arcade_management' => '遊藝場管理',
+    'arcade_management_desc' => '新增或刪除遊藝場',
+    'arcade_name' => '店名：',
+    'arcade_owner_label' => '店主：',
+    'arcade_phone' => '電話：',
+    'arcade_type' => '遊藝場類別',
+    'arcades_dashboard' => '遊藝場管理後台',
+    'platform_share_pct' => '平台分成比例', // 新增：平台分成比例
+    'bind_arcade' => '需要申請商戶金鑰以綁定遊藝場',
+    'create_arcade' => '新增遊藝場',
+    'filter_arcade' => '篩選遊藝場',
+    'physical_arcade' => '實體營業廳',
+    'revenue_split' => '機主分潤比例',
+    'revenue_split_hint' => '輸入機主可獲得的營收百分比，例如輸入 70 代表 70%。留空則使用預設值或不參與分潤。',
+    'all_arcades' => '全部遊藝場',
+    'select_arcade' => '選擇營業廳',
+    'this_arcade' => '這間遊藝場',
+    'unbound_arcade' => '您尚未綁定任何遊藝場',
+    'virtual_arcade' => '虛擬營業廳',
+    'vsarcade' => '自有遊藝場',
+    'vsarcade_desc' => '編輯自有遊藝場',
+    'no_arcade_info' => '尚未開通遊藝場',
+    'business_hours' => '營業時段',
+
+    // --- Machine ---
+    'add_machine_owner' => '新增遊戲機廠商帳戶',
+    'add_machine_owner_desc' => '設置遊戲機廠商預設帳戶',
+    'edit_machine' => '編輯遊戲機',
+    'machine' => '遊戲機',
+    'machine_dashboard' => '遊戲機管理後台',
+    'machine_id' => '遊戲機 ID',
+    'machine_info' => '遊戲機資訊',
+    'machine_management' => '遊戲機管理',
+    'machine_management_desc' => '遊戲機列表',
+    'machine_name' => '遊戲機',
+    'machine_ownership' => '遊戲機歸屬',
+    'machine_type' => '機器類型',
+    'select_machine_owner' => '選擇遊戲機廠商',
+    'this_machine' => '這台遊戲機',
+    'machine_deleted_successfully' => '遊戲機已刪除',
+    'machine_added_successfully'    => '遊戲機已新增',
+    'machine_updated_successfully'    => '遊戲機已更新',
+    'machine_status_updated_successfully'    => '遊戲機狀態已更新',
+
+    // --- Machine Types ---
+    'air_hockey' => '氣墊球機',
+    'arcade_music_game' => '大型音樂遊戲機',
+    'basketball_game' => '空中籃球',
+    'beat_em_up' => '打擊遊戲機',
+    'claw_machine' => '娃娃機',
+    'dance_game' => '舞蹈機',
+    'electronic_shooting_game' => '電子射擊遊戲機',
+    'flight_simulator' => '模擬飛行機',
+    'giant_claw_machine' => '巨型夾娃娃機',
+    'interactive_dance_game' => '跳舞/運動互動遊戲機',
+    'labyrinth_game' => '迷宮遊戲機',
+    'light_and_sound_game' => '光明遊戲機',
+    'light_gun_game' => '射擊遊戲機',
+    'machine_type_general' => '通用',
+    'mini_golf_game' => '高爾夫遊戲機',
+    'pinball' => '彈珠台',
+    'pachinko' => '柏青哥',
+    'lottery'  =>  '彩票機',
+    'bill'     =>  '紙鈔機',
+    'gambling' =>  '博弈型',
+    'punching_machine' => '拳擊機',
+    'racing_game' => '競速遊戲機',
+    'slot_machine' => '拉霸',
+    'stacker_machine' => '堆疊遊戲機',
+    'water_shooting_game' => '水槍射擊遊戲',
+    'normally' => '通用',
+    'claw' => '娃娃機',
+    'money_slot' => '紙鈔機(儲值)',
+
+    // --- Chip/Token/Key ---
+    'add_token' => '新增金鑰',
+    'api_key' => 'API 金鑰',
+    'arcade_key_management' => '遊藝場金鑰管理',
+    'arcade_key_management_desc' => '新增或刪除遊藝場金鑰',
+    'chip' => '晶片',
+    'chip_key_already_used' => '通訊卡金鑰已使用',
+    'chip_key_not_found' => '找不到通訊卡金鑰',
+    'chip_key_not_found_desc' => '請確認您輸入的通訊卡金鑰是否正確',
+    'chip_token' => '通訊卡金鑰',
+    'copied' => '已複製！',
+    'creator' => '製表',
+    'err_del_arcade_key' => '金鑰已綁定遊藝場，無法直接刪除',
+    'expires_at' => '到期時間',
+    'id_token' => '[ID] 標籤',
+    'machine_key_management' => '通訊卡金鑰管理',
+    'machine_key_management_desc' => '新增通訊卡金鑰',
+    'paste_chip_url_or_id' => '貼上金鑰或包含金鑰的網址',
+    'token' => '金鑰',
+    'token_management' => '金鑰管理',
+    'unused' => '未使用',
+    'used' => '已使用',
+
+    // --- User/Profile/Auth ---
+    'account_deactivated_contact_admin' => '您的帳戶已被停用，請洽詢您的上級管理員。',
+    'already_registered' => '已經註冊？',
+    'assign_parent_user' => '指定上級',
+    'change_password' => '更改密碼',
+    'confirm_password' => '確認密碼',
+    'create_user' => '新增使用者',
+    'current_password' => '目前密碼',
+    'edit_profile' => '編輯個人資料',
+    'email_not_verified_message' => '請檢查您的電子郵件收件夾，並點擊我們發送給您的驗證連結。如果您沒有收到郵件，我們可以重新發送。',
+    'email_not_verified_title' => '電子郵件尚未驗證',
+    'email_unverified' => '您的電子郵件地址尚未驗證。',
+    'email_verified' => '您的電子郵件尚未驗證！',
+    'email_warning' => '請輸入您的電子郵件（註冊後無法更改），驗證碼將發送至此。',
+    'enter_username_to_filter' => '輸入使用者名稱進行篩選...',
+    'filter_existing_users' => '篩選現有使用者',
+    'forgot_password' => '忘記密碼？',
+    'login' => '登入',
+    'logout' => '登出',
+    'new_password' => '新密碼',
+    'old_password' => '舊密碼',
+    'password_security_description' => '確保您的帳戶使用長且隨機的密碼以保持安全。',
+    'personal_info' => '個人資料',
+    'personal_info_desc' => '修改或更新您的個人資料',
+    'previous_parent' => '前上級',
+    'profile' => '個人資料',
+    'profile_description' => '更新您帳戶的個人資料和電子郵件地址，或是修改密碼。',
+    'profile_info' => '查看和管理您的個人資訊',
+    'profile_information' => '個人資料資訊',
+    'register' => '註冊',
+    'remember_me' => '記住我',
+    'remove_photo' => '移除頭像',
+    'resend_verification_email' => '重新發送驗證郵件',
+    'resend_verification_email_link' => '點擊此處重新發送驗證郵件。',
+    'saved' => '已儲存',
+    'select_new_photo' => '選擇新頭像',
+    'select_parent_user' => '選擇上級使用者',
+    'staff_management' => '員工管理',
+    'staff_management_desc' => '編輯員工帳戶',
+    'text_filter' => '輸入名稱以篩選',
+    'user' => '使用者',
+    'user_management' => '使用者管理',
+    'user_management_desc' => '管理系統使用者和權限',
+    'verification_new' => '一封新的驗證連結已經寄到您的電子郵件地址。',
+    'verification_prompt' => '在繼續之前，請透過點擊我們剛寄給您的電子郵件中的連結來驗證您的電子郵件地址。如果您未收到該電子郵件，我們很樂意再發送一次。',
+    'verification_resend' => '重新發送驗證郵件',
+    'welcome' => '歡迎，:name！',
+    'Whoops!' => 'Oops! 花生蝦咪歹幾？',
+
+    // --- Dashboard ---
+    'admin_dashboard' => '系統管理後台',
+    'arcade_owner_dashboard' => '遊藝場後台',
+    'dashboard' => '儀表板',
+    'machine_owner_dashboard' => '遊戲機後台',
+    'member_dashboard' => '會員後台',
+
+    // --- Transactions ---
+    'ball_in' => '進球',
+    'ball_out' => '出球',
+    'coin' => '投幣',
+    'credit' => '投幣',
+    'deduct' => '扣款',
+    'no_transactions_found' => '沒有找到交易記錄。',
+    'recharge' => '儲值',
+    'refund' => '退款',
+    'transaction_management' => '收支查詢',
+    'transaction_management_desc' => '查詢遊戲機收支狀況',
+
+    // --- Permissions/Roles ---
+    'role_management' => '角色管理',
+    'role_management_desc' => '新增、編輯或刪除角色',
+    'sidebar_permissions' => '權限設定',
+
+    // --- Data/Monitoring ---
+    'data_management' => '數據管理',
+    'data_management_desc' => '查詢即時數據',
+    'data_monitoring' => '數據監控',
+    'data_stream' => '數據流',
+    'data_stream_desc' => '查詢即時數據',
+    'retrieve_data' => '擷取資料',
+
+    // --- Invitations ---
+    'generate_new_code' => '更新邀請碼',
+    'invalid_invitation_code' => '無效的邀請碼。',
+    'invitation_code' => '邀請碼',
+    'invitation_code_confirm' => '更新後舊的邀請碼將立即失效，確定要更新嗎？',
+    'invitation_code_description' => '更新邀請碼，用於邀請新員工。',
+    'not_generated' => '未設置邀請碼',
+
+    // --- Confirmations/Warnings ---
+    'auth.verification_link_sent_custom_message' => '授權驗證連結已發送到您的電子郵件地址。',
+    'confirm_action' => '您確定要 :action 嗎？',
+    'confirm_active' => '您確定要 :action 嗎？',
+    'confirm_activate_machine' => '您確定要啟用這台遊戲機嗎？',
+    'confirm_add_item' => '您確定要新增嗎？',
+    'confirm_deactivate' => '您確定要停用嗎？',
+    'confirm_deactivate_machine' => '您確定要停用這台遊戲機嗎？',
+    'confirm_delete' => '您確定要刪除嗎？',
+    'confirm_delete_arcade' => '您確定要刪除這間遊藝場嗎？',
+    'confirm_delete_machine' => '您確定要刪除這台遊戲機嗎？',
+    'confirm_delete_message' => '您確定要刪除這筆記錄嗎？',
+    'confirm_delete_message_multiple' => '您確定要刪除這些記錄嗎？',
+    'whoops_something_wrong' => '哎呀！出了些問題。',
+
+    // --- System Features ---
+    'accounting_settings_desc' => '設定帳務參數，管理分潤比例和預設貨幣價值。',
+    'active' => '啟用',
+    'add_auth_key' => '新增認證金鑰',
+    'auth_keys' => '認證金鑰',
+    'auth_key_bound_hint' => '已綁定金鑰，若需更換請先解綁。',
+    'auth_key_not_bound_hint' => '未綁定金鑰。',
+    'chip_hardware_id' => '通訊卡 ID',
+    'chip_hardware_id_hint' => '請輸入與金鑰對應的物理晶片 ID。',
+    'chip_hardware_id_placeholder' => '晶片的物理 ID',
+    'confirm_delete_key' => '您確定要刪除此認證金鑰嗎？此操作無法撤銷。',
+    'data_record' => '數據記錄',
+    'data_record_desc' => '記錄和查詢系統運行數據，確保運營追蹤完整。',
+    'data_transparency' => '數據透明化',
+    'data_transparency_description' => '透過即時數據查詢和清晰的可視化報表，隨時掌握遊戲機運營狀況，確保資訊公開透明。',
+    'failed_to_generate_key' => '生成金鑰失敗：',
+    'generate_key_confirm' => '您確定要生成新的認證金鑰嗎？此操作無法撤銷。',
+    'generate_key_request_error' => '生成金鑰請求錯誤',
+    'generate_key_request_failed' => '生成金鑰請求失敗',
+    'inactive' => '停用',
+    'machine_auth_key_management' => '遊戲機認證金鑰管理',
+    'machine_auth_keys' => '遊戲機認證金鑰',
+    'machine_auth_key_display_label' => '機器驗證金鑰 (Auth Key)',
+
+    'machine_auth_key_management_desc' => '管理遊戲機的認證金鑰，確保設備安全連線。',
+    'machine_type_points_redemption' => '積分兌換型',
+    'machine_type_ticket_redemption' => '彩票兌換型',
+    'machine_type_prizes_redemption' => '獎品兌換型',
+    'machines.dashboard' => '遊戲機儀表板',
+    'multilevel_management' => '多層次管理',
+    'multilevel_management_description' => '我們的系統支持多層次權限管理，讓管理員、遊藝場老闆和員工各司其職，提升運營效率。',
+    'no_auth_keys_found' => '目前沒有任何機器認證金鑰。',
+    'no_machines_found' => '目前沒有任何遊戲機。',
+    'not_set' => '未設定',
+    'balls_per_token_count' => '顆/代幣(枚)',
+    'credit_value_per_token' => '元/每代幣(枚)',
+    'empty_uses_default' => '若留空，將使用系統預設值。',
+    'payout_type' => '獎品類型',
+    'payout_type_hint' => '定獎品類型。',
+    'payout_unit_value_rmb' => '元/每獎品單位成本',
+    'payout_unit_value_hint' => '定義每單位獎品 (如彩票、積分、獎品成本) 的貨幣價值。',
+    'pinball_only_empty_uses_default' => '僅適用於彈珠台類型。若留空，將使用系統預設值。',
+    'points_per_credit_action' => '每次開分/點數',
+    'points_per_credit_action_hint' => '適用於積分或彩票。',
+    'points_per_credit_action_placeholder' => '例:開分一次100點',
+    'payout_type_none' => '無兌換',
+    'payout_type_pachinko' => '小鋼珠',
+    'payout_type_points' => '積分',
+    'payout_type_prize_claw' => '獎品 (娃娃機適用)',
+    'payout_type_tickets' => '彩票',
+    'payout_type_coins' => '代幣',
+    'pending' => '待啟用',
+    'remote_control' => '遠程控制',
+    'remote_control_description' => '利用物聯網技術，隨時隨地遠程監控和調整遊戲機設置，輕鬆管理您的遊藝場。',
+    'unknown_error' => '未知錯誤',
+    'vsstore' => '虛擬商店',
+
+    // --- Homepage/About/Contact ---
+    'about_us' => [
+        'title' => '關於我們',
+        'content1' => '我是一名在台灣居住十年的馬來西亞人，熱愛旅遊和分享。',
+        'content2' => '我開始提供包車旅遊服務。我們的團隊由擁有十年以上客運經驗的司機組成。',
+        'content3' => '我們的目標是為顧客提供獨特的旅行體驗，讓他們享受非凡的旅程。',
+        'content4' => '我們期待與您分享我們的旅遊經驗，並提供服務，為您打造難忘的旅行。',
+    ],
+    'contact' => [
+        'title' => '聯絡我們',
+        'subscribe' => '掃描二維碼或點擊按鈕即可快速聯絡我們。',
+    ],
+    'homepage' => [
+        'tagline' => '智慧管理，一手掌控',
+        'description' => [
+            'line1' => '透過先進的物聯網技術，隨時隨地監控和管理您的店鋪遊戲機。',
+            'line2' => '提升營運效率，優化客戶體驗，讓管理變得簡單而高效。',
+            'line3' => '加入我們，讓您的店鋪與未來接軌，享受數位化管理的無限可能。',
+        ],
+    ],
+    'system_description' => '透過我們的管理系統，遊藝場老闆和遊戲機主都能輕鬆管理遊戲機！無論遊戲機位於店內還是不同店鋪，所有數據一目了然，提高運營效率。',
+    'welcome_root' => '歡迎使用遊戲機智能管理系統',
+
+    // --- Accounting/Statistics ---
+    'accounting_settings' => '帳務設定',
+    'arcade_statistics' => '遊藝場營運統計',
+    'ball_in_total' => '總投球數 (Ball In)',
+    'ball_out_total' => '總出球數 (Ball Out)',
+    'default_credit_value_desc' => '當單台遊戲機未設定特定 Credit 價值時，將使用此預設值進行營收計算。',
+    'default_credit_value_label' => '預設每 Credit 價值 (台幣)',
+    'machine_default_share_pct_label' => '預設遊戲機老闆分潤百分比 (%)',
+    'net_ball_count' => '淨球數 (投球 - 出球)',
+    'no_arcade_found_for_statistics' => '未找到遊藝場以顯示統計數據。',
+    'no_statistics_data' => '目前尚無統計數據可顯示。',
+    'platform_share_pct_label' => '平台商分潤百分比 (%)',
+    'arcade_default_share_pct_label' => '預設遊藝場老闆分潤百分比 (%)',
+    'revenue_share_percentages' => '分潤百分比設定',
+    'save_settings' => '儲存設定',
+    'share_percentage_sum_note' => '平台商、預設遊藝場老闆和預設遊戲機老闆的分潤百分比總和必須等於 100%。',
+    'statistics_summary' => '統計總覽',
+
+
+    // 新增機器彈出視窗 - 通用設定與標籤
+    'enable_credit_value_config' => '啟用「每代幣價值」設定',
+    'credit_value_per_token_generic' => '元/代幣(枚)', // 用於取代舊的帶有RMB的標籤
+
+    // 新增機器彈出視窗 - 小鋼珠 (payout_type = 'pachinko') 特定設定
+    'pinball_specific_settings' => '小鋼珠類型專用設定', // 區塊標題
+    'enable_credit_button_pinball' => '啟用「開分鍵」功能', // 小鋼珠的開分鍵勾選框
+    'pinball_credit_button_value_label' => '元/開分鍵(次)', // 開分鍵對應的輸入框標籤
+    'pinball_credit_button_value_hint' => '說明：按下開分鍵時增加的遊戲點數或等值。', // 開分鍵輸入框的提示
+    'enable_payout_button_pinball' => '啟用「洗分鍵」功能', // 小鋼珠的洗分鍵勾選框
+    'pinball_payout_button_balls_label' => '元/洗分鍵(次)', // 洗分鍵對應的輸入框標籤
+    'pinball_payout_button_balls_hint' => '說明：按下洗分鍵時退回的鋼珠數量。', // 洗分鍵輸入框的提示
+    // 'balls_per_token_count' => '每代幣出珠數 (顆)', // 這個可能已存在，但確認用於此處
+
+    // 新增機器彈出視窗 - 積分/彩票 (payout_type = 'points' or 'tickets') 特定設定
+    'points_tickets_specific_settings' => '積分/彩票類型專用設定', // 區塊標題
+    'enable_credit_action_points_tickets' => '啟用「開分」功能', // 積分/彩票的開分功能勾選框
+    'per_credit_action' => '開分一次', // 開分對應的輸入框標籤
+    // 'points_per_credit_action_placeholder' => '例如：100點或10張彩票', // 這個可能已存在
+    // 'points_per_credit_action_hint' => '說明：...', // 這個可能已存在
+    'enable_payout_button_points_tickets' => '啟用「洗分鍵」功能', // 積分/彩票的洗分鍵勾選框
+    'payout_value' => '洗分一次', // 洗分鍵對應的輸入框標籤
+    'payout_button_value_points_tickets_hint' => '說明：按下洗分鍵時退回的點數/彩票的等值價值。', // 洗分鍵輸入框提示
+
+    // 新增機器彈出視窗 - 代幣 (payout_type = 'coins') 特定設定
+    'coins_specific_settings' => '代幣類型專用設定', // 區塊標題
+    'enable_credit_button_coins' => '啟用「開分鍵」功能', // 代幣的開分鍵勾選框
+    'credit_button_value_coins' => '元/開分增加代幣價值', // 開分鍵對應的輸入框標籤
+    'credit_button_value_coins_hint' => '說明：按下開分鍵時增加的代幣價值。', // 開分鍵輸入框提示
+    'enable_payout_button_coins' => '啟用「洗分鍵」功能', // 代幣的洗分鍵勾選框
+    'payout_button_value_coins' => '每次洗分退回代幣價值', // 洗分鍵對應的輸入框標籤
+    'payout_button_value_coins_hint' => '說明：按下洗分鍵時退回的代幣價值。', // 洗分鍵輸入框提示
+
+    // 新增機器彈出視窗 - 動態標籤 (用於 "每獎品單位價值" 欄位)
+
+
+
+    // 新增機器彈出視窗 - 動態 Placeholder (用於 "每獎品單位價值" 輸入框)
+
+    // 'payout_unit_value_placeholder' => '輸入單位價值', // 通用 placeholder，可能已存在
+
+    // 新增機器彈出視窗 - 動態提示 (用於 "每獎品單位價值" 輸入框下方)
+    'payout_value_per_ball_hint_generic' => '說明：設定每顆退出鋼珠的成本價值。',
+    'payout_value_per_point_hint_generic' => '說明：設定每點積分的成本價值。',
+    'payout_value_per_ticket_hint_generic' => '說明：設定每張彩票的成本價值。',
+    'payout_value_per_token_payout_hint_generic' => '說明：設定每個作為獎品退出的代幣的成本價值。',
+    'payout_value_per_prize_hint_generic' => '說明：設定每個獎品的成本價值。',
+
+    // 通用 Placeholder (如果尚未定義)
+    'example_value_placeholder' => '例如：10', // 用於積分/彩票和代幣的洗分鍵價值等
+    'example_100_bucks' => '按一次開分鍵等於100元', // 用於小鋼珠開分鍵
+
+    // 腳本中的提示訊息 (script.blade.php)
+    'failed_to_generate_key' => '產生金鑰失敗：',
+    'unknown_error' => '未知錯誤',
+    'generate_key_request_error' => '產生金鑰請求錯誤',
+    'generate_key_request_failed' => '產生金鑰請求失敗',
+    'one_token_equals'  => '一枚代幣',
+    'currency_unit'     => '元', // Changed from 'Yuan' to generic 'units'
+    'chip_hardware_id_already_used'         => '此晶片硬體 ID 已被其他金鑰使用。',
+    'chip_hardware_id_already_used_existing' => '此晶片硬體 ID 已被其他金鑰使用(更新現有)。',
+    'one_token_buys'    => '一枚代幣',
+    'balls_unit'        => '顆',
+    'payout_type_ball' => '小鋼珠',
+    'payout_type_points' => '點數',
+    'payout_type_tickets' => '彩票',
+    'payout_type_prize_claw' => '獎品 (夾娃娃機)',
+    'payout_type_none'          => '無',
+    'ball_input_value_hint' => '設定投入一顆鋼珠時代表的價值。',
+
+    'specific_settings'         => '專用設定',
+    'bill_acceptor_enabled'    => '啟用紙幣接收',
+    'bill_currency'            => '紙鈔幣種',
+    'bill_unit_value'          => '紙鈔單位價值',
+    'accepted_bills'           => '可接受面額',
+    'bill_to_token_rate'       => '紙鈔兌換代幣比例',
+    'bill_acceptor_model'      => '紙鈔機型號',
+    'bill_entry_source'        => '紙鈔投入口來源',
+    'default_enabled_for_money_slot' => '儲值機預設啟用',
+
+    'currency'      => '幣種',
+    'TWD'        => '新台幣',
+    'CNY'        => '人民幣',
+    'USD'        => '美元',
+    'JPY'        => '日圓',
+    'MYR'        => '馬來西亞令吉',
+    'IDR'        => '印尼盾',
+    'SGD'        => '新加坡元',
+    'VND'        => '越南盾',
+
+    'auto_set_based_on_currency' => '根據幣種自動設定',
+    'accepted_denominations' => '可接受面額',
+    'select_all' => '全選',
+    'deselect_all' => '取消全選',
+    'per_ball_value' => '小鋼珠價值',
+    'per_point_value' => '點數價值',
+    'per_ticket_value' => '彩票價值',
+    'per_token_value' => '代幣價值',
+    'per_prize_value' => '獎品價值',
+    'failed_to_update_machine' => '更新失敗',
+
+    'unauthorized_action' => '你哪位？？',
+    'error_deleting_machine' => '刪除時出錯',
+    'zh_ask' => '?',
+    'invitation_code_generated' => '新的邀請碼好了',
+    'staff_updated_successfully' => '新增職員--OK',
+
+    'error' => '錯誤',
+    'filter' => '篩選',
+    'hi' => '歡迎',
+    'time' => '時間',
+    'home' => '首頁',
+    'info' => '資訊',
+    'level' => '級別',
+
+    // Time filter options
+    'time_filter' => '時間篩選',
+    'today' => '今天',
+    'yesterday' => '昨天',
+    'last_3_days' => '最近3天',
+    'last_7_days' => '最近7天',
+    'this_week' => '本週',
+    'last_week' => '上週',
+    'this_month' => '本月',
+    'last_month' => '上個月',
+
+    'coin_out' => '退幣',
+    'bill_denomination' => '紙鈔',
+    'assign_credit' => '開分',
+    'settled_credit' => '洗分',
+
+    'current_data'  => '即時數據',
+
+    'platform_machine_share_pct' => '平台對機台抽成',
+
+    'regex' => ':attribute 格式無效，請使用 1-10 位的英文、數字、下滑線、連字符、點或 @ 符號。',
+    'custom' => [
+        'chip_hardware_id' => [
+            'unique' => '此通訊卡 ID 已被使用，請選擇另一個。',
+        ],
+    ],
+    'all_owners' => '全部擁有者',
+    'game_machine_report' => '遊戲機報表',
+    'owner' => '擁有者',
+
+
+    'reports' => '報表',
+    'filter_reports' => '篩選報表',
+    'arcade' => '遊藝場',
+    'machine' => '遊戲機',
+    'owner' => '廠商',
+    'time_range' => '時間區間',
+    'machine_type' => '機器類型',
+    'all' => '全部',
+    'today' => '今天',
+    'yesterday' => '昨天',
+    'last_3_days' => '最近3天',
+    'this_week' => '本週',
+    'last_week' => '上週',
+    'last_3_weeks' => '前3周',
+    'this_month' => '本月',
+    'last_month' => '上個月',
+    'last_3_months' => '前3月',
+    'apply_filters' => '應用篩選',
+    'report_results' => '報表結果',
+    'start_time' => '開始時間',
+    'end_time' => '結束時間',
+    'revenue' => '營收',
+    'no_reports_found' => '沒有找到相關報表。',
+    'pinball' => '彈珠台', // 機台類型翻譯
+    'claw_machine' => '娃娃機',
+    'normally' => '普通機', // 我從 machine_data.sql 看到有這個類型，如果不是請修改
+    'slot_machine' => '拉霸',
+    'gambling' => '博弈型',
+    'data_insufficient' => '數據不足，無法計算營收', // 補上報表中的提示訊息
+    // ===================================================
+    // <<< 在這裡或檔案任意位置加入新的翻譯鍵 >>>
+
+    // --- Machine Behavioral Templates ---
+    'template_simple_io' => '一般娛樂機 (投幣/出獎)',
+    'template_gambling_like' => '電子遊戲機 (多重輸入/返還率)',
+    'template_claw_like' => '獎品機 (娃娃機/禮品機)',
+    'template_pinball_like' => '彈珠台 (鋼珠交換)',
+    'template_input_only' => '兌換/儲值機 (只進不出)',
+
+    // --- Payout Types (有些可能已存在，可以檢查並覆蓋) ---
+    'payout_type_none' => '純娛樂 (無產出)',
+    'payout_type_pachinko' => '小鋼珠',
+    'payout_type_points' => '點數',
+    'payout_type_tickets' => '彩票',
+    'payout_type_coins' => '代幣',
+    'payout_type_prize_claw' => '獎品',
+
+    // --- UI/Form Labels ---
+    'select_machine_function' => '選擇機台的主要功能',
+    'please_select' => '請選擇...',
+    'basic_info' => '基本資訊',
+    'communication_card_settings' => '通訊卡設定',
+    'detailed_function_settings' => '詳細功能設定',
+    'appearance_type' => '外觀類型',
+    'bill_acceptor_settings' => '紙鈔機設定',
+    'per_ball_value' => '每顆鋼珠價值',
+    'per_ticket_value' => '每張彩票價值',
+    'per_point_value' => '每點點數價值',
+    'per_prize_value' => '每個獎品均價',
+    'per_coin_value' => '每枚代幣價值',
+
+    // ===================================================
+
+];

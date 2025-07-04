@@ -1,0 +1,179 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminArcadesController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AdminMachinesController;
+use App\Http\Controllers\Admin\MachineAuthKeyController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Tcp\TcpServerController;
+use App\Http\Controllers\Tcp\Api\TcpStatusController;
+use App\Http\Controllers\EtherealController;
+
+
+Route::middleware(['setLocale', 'auth'])->group(function () {
+    Route::prefix('tcp-server')->group(function () {
+        Route::get('/', [TcpServerController::class, 'index'])->name('admin.tcp-server');
+        Route::post('/capture-data', [TcpServerController::class, 'captureData'])->middleware('auth');
+        Route::post('/control', [TcpServerController::class, 'control'])->name('admin.tcp-server.control');
+        Route::get('/openDataGate', [TcpServerController::class, 'openDataGate'])->middleware('auth')->name('admin.tcp-server.openDataGate');
+        Route::post('/openDataGate', [TcpServerController::class, 'openDataGate'])->middleware('auth')->name('admin.tcp-server.openDataGate');
+        Route::get('/streamData', [TcpServerController::class, 'streamData'])->name('admin.tcp-server.streamData');
+        // Route::get('/tcpData', [TcpServerController::class, 'tcpData'])->name('admin.tcp-server.tcpData');
+        Route::get('/status', [TcpStatusController::class, 'getStatus'])->name('admin.tcp.status');
+        Route::post('control-schedule', [TcpServerController::class, 'controlSchedule'])->name('admin.tcp-server.controlSchedule');
+    });
+    Route::get('/ethereal', [EtherealController::class, 'index']);
+    Route::post('/ethereal/broadcast', [EtherealController::class, 'xbroadcast'])->name('ethereal.broadcast');
+    Route::post('/ethereal/event', [EtherealController::class, 'xevent']);
+    Route::post('/ethereal/redis_ctrl', [EtherealController::class, 'redis_ctrl'])->name('ethereal.redis_ctrl');
+
+    Route::resource('roles', RoleController::class)->except(['destroy', 'update']);
+    Route::middleware('role:admin')->group(function () {
+        Route::delete('/roles/del/{role}', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
+        Route::put('/roles/update/{role}', [RoleController::class, 'update'])->name('admin.roles.update');
+
+        Route::get('users', [UserController::class, 'index'])->name('users');
+        Route::post('users', [UserController::class, 'store'])->name('admin.users.store');
+        Route::delete('/user/del/{user}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+        Route::put('user/update/{user}', [UserController::class, 'update'])->name('admin.user.update');
+        Route::post('user/{user}/deactivate', [UserController::class, 'deactivate'])->name('users.deactivate');
+        Route::post('users/search', [UserController::class, 'search'])->name('admin.user.search');
+        Route::post('users/{user}/verify', [UserController::class, 'verifyEmail'])->name('admin.users.verify');
+
+        Route::get('dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+
+        // -------- Arcade *****
+        Route::get('arcades', [AdminArcadesController::class, 'index'])->name('arcades');
+        Route::get('arcade/create', [AdminArcadesController::class, 'create'])->name('admin.arcade.create');
+        Route::post('arcade/store', [AdminArcadesController::class, 'store'])->name('admin.arcade.store');
+        Route::put('arcade/update/{id}', [AdminArcadesController::class, 'update'])->name('admin.arcade.update'); // Keep as PUT for updates
+        Route::delete('arcade/destroy/{id}', [AdminArcadesController::class, 'destroy'])->name('admin.arcade.destroy'); // Change POST to DELETE
+        Route::patch('arcades/{id}/toggleActive', [AdminArcadesController::class, 'toggleActive'])->name('admin.arcade.toggleActive');
+
+        // -------- ArcadeKey *****
+        Route::get('arcadeKey', [AdminArcadesController::class, 'arcadeKey'])->name('arcadeKey');
+        Route::post('keyStore', [AdminArcadesController::class, 'keyStore'])->name('admin.keyStore');
+        Route::delete('keyDestroy/{id}', [AdminArcadesController::class, 'keyDestroy'])->name('arcade.keyDestroy');
+
+        // -------- Machines *****
+        // Route::prefix('machines')->name('machines.')->group(function () {
+        // Route::get('/', [AdminMachinesController::class, 'index'])->name('index');
+        // Route::post('/', [AdminMachinesController::class, 'store'])->name('store');
+
+        Route::prefix('{machine}')->where(['machine' => '[0-9]+'])->group(function () { // Ensure {machine} is numeric if it's an ID
+            // Edit is typically handled by a modal, so a dedicated GET /edit route might not be needed
+            // Route::get('/edit', [ArcadeMachinesController::class, 'edit'])->name('edit');
+            Route::patch('/machines', [AdminMachinesController::class, 'update'])->name('machines.update');
+            Route::delete('/machines', [AdminMachinesController::class, 'destroy'])->name('machines.destroy');
+            Route::patch('/toggle-active', [AdminMachinesController::class, 'toggleActive'])->name('toggleActive');
+        });
+        Route::post('machines', [AdminMachinesController::class, 'store'])->name('machines.store');
+        // });
+        Route::get('machines', [AdminMachinesController::class, 'index'])->name('admin.machines');
+        // Route::patch('machine/update/{machine}', [AdminMachinesController::class, 'update'])->name('admin.machines.update');
+        // Route::patch('machines/{machine}', [AdminMachinesController::class, 'update'])->name('admin.machines.update');
+        // Route::get('machines/{machine}', [AdminMachinesController::class, 'update'])->name('admin.machines.update');
+        Route::get('machine/create', [AdminMachinesController::class, 'create'])->name('admin.machines.create');
+        Route::get('machine/edit/{machine}', [AdminMachinesController::class, 'edit'])->name('admin.machines.edit');
+        // Route::delete('machines/{machine}', [AdminMachinesController::class, 'destroy'])->name('admin.machines.destroy');
+        Route::patch('machine/toggleActive/{id}', [AdminMachinesController::class, 'toggleActive'])->name('machines.toggleActive');
+
+        // -------- Machine Authentication Keys (Admin) *****
+        Route::prefix('auth-keys')->name('auth_keys.')->group(function () {
+            Route::get('/', [MachineAuthKeyController::class, 'index']);
+            Route::post('/generateSingleKey', [MachineAuthKeyController::class, 'generateSingleKey'])->name('generateSingleKey');
+            Route::get('/generateSingleKey', [MachineAuthKeyController::class, 'generateSingleKey']);
+        });
+        Route::post('/generateSingleKey', [MachineAuthKeyController::class, 'generateSingleKey'])->name('admin.generateSingleKey');
+
+        Route::post('machine_auth_keys/print', [MachineAuthKeyController::class, 'printKeys'])->name('admin.machine_auth_keys.print');
+        Route::post('/', [MachineAuthKeyController::class, 'index'])->name('machine_auth_keys.index');
+        // Route::resource('machine_auth_keys', MachineAuthKeyController::class)->names([
+        //     'index'     => 'machine_auth_keys.index',
+        //     'create'    => 'machine_auth_keys.create',
+        //     'store'     => 'machine_auth_keys.store',
+        //     'show'      => 'machine_auth_keys.show',
+        //     'edit'      => 'machine_auth_keys.edit',
+        //     'update'    => 'machine_auth_keys.update',
+        //     'destroy'   => 'machine_auth_keys.destroy',
+        // ]);
+    });
+
+
+    // --- 儀表板 ---
+    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+
+    // --- 報表系統 ---
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::post('/generate', [ReportController::class, 'generate'])->name('generate');
+        Route::post('/print', [ReportController::class, 'print'])->name('print');
+        Route::post('/export-csv', [ReportController::class, 'exportCsv'])->name('csv');
+    });
+
+    // =========================================================
+    //         以下為僅限 'admin' 角色的超級管理員功能
+    // =========================================================
+    Route::middleware('role:admin')->group(function () {
+
+        // // --- 用戶管理 ---
+        // Route::prefix('users')->name('users.')->group(function () {
+        //     Route::get('/', [UserController::class, 'index'])->name('index');
+        //     Route::post('/', [UserController::class, 'store'])->name('store');
+        //     Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        //     Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        //     Route::post('/{user}/deactivate', [UserController::class, 'deactivate'])->name('deactivate');
+        //     Route::post('/{user}/verify', [UserController::class, 'verifyEmail'])->name('verify');
+        //     Route::post('/search', [UserController::class, 'search'])->name('search');
+        // });
+
+        // // --- 角色與權限管理 ---
+        // Route::prefix('roles')->name('roles.')->group(function () {
+        //     Route::get('/', [RoleController::class, 'index'])->name('index');
+        //     Route::get('/create', [RoleController::class, 'create'])->name('create');
+        //     Route::post('/', [RoleController::class, 'store'])->name('store');
+        //     Route::get('/{role}/edit', [RoleController::class, 'edit'])->name('edit');
+        //     Route::put('/{role}', [RoleController::class, 'update'])->name('update');
+        //     Route::delete('/{role}', [RoleController::class, 'destroy'])->name('destroy');
+        // });
+
+        // --- 遊藝場管理 ---
+        // Route::prefix('arcades')->name('arcades.')->group(function () {
+        //     Route::get('/', [AdminArcadesController::class, 'index'])->name('index');
+        //     Route::get('/create', [AdminArcadesController::class, 'create'])->name('create');
+        //     Route::post('/', [AdminArcadesController::class, 'store'])->name('store');
+        //     // 注意：這裡的路由參數應該是 'arcade' 而不是 'id'
+        //     Route::patch('/{arcade}/update', [AdminArcadesController::class, 'update'])->name('update');
+        //     Route::delete('/{arcade}', [AdminArcadesController::class, 'destroy'])->name('destroy');
+        //     Route::patch('/{arcade}/toggle-active', [AdminArcadesController::class, 'toggleActive'])->name('toggleActive');
+        // });
+
+        // // --- 遊藝場金鑰管理 ---
+        // Route::prefix('arcade-keys')->name('arcade-keys.')->group(function () {
+        //     Route::get('/', [AdminArcadesController::class, 'arcadeKey'])->name('index');
+        //     Route::post('/', [AdminArcadesController::class, 'keyStore'])->name('store');
+        //     Route::delete('/{key}', [AdminArcadesController::class, 'keyDestroy'])->name('destroy');
+        // });
+
+        // // --- 機台管理 ---
+        // Route::prefix('machines')->name('machines.')->group(function () {
+        //     Route::get('/', [AdminMachinesController::class, 'index'])->name('index');
+        //     Route::get('/create', [AdminMachinesController::class, 'create'])->name('create');
+        //     Route::post('/', [AdminMachinesController::class, 'store'])->name('store');
+        //     // 注意：路由參數應該是 'machine'
+        //     Route::get('/{machine}/edit', [AdminMachinesController::class, 'edit'])->name('edit');
+        //     Route::patch('/{machine}', [AdminMachinesController::class, 'update'])->name('update');
+        //     Route::delete('/{machine}', [AdminMachinesController::class, 'destroy'])->name('destroy');
+        //     Route::patch('/{machine}/toggle-active', [AdminMachinesController::class, 'toggleActive'])->name('toggleActive');
+        // });
+
+        // // --- 機台金鑰管理 ---
+        // // 使用 resource 路由來簡化，Laravel 會自動生成標準的 7 個路由
+        // Route::resource('machine_auth_keys', MachineAuthKeyController::class);
+        // // 為 resource 路由之外的自訂動作單獨定義
+        // Route::post('machine_auth_keys/print', [MachineAuthKeyController::class, 'printKeys'])->name('machine_auth_keys.print');
+        // Route::post('machine_auth_keys/generate-single', [MachineAuthKeyController::class, 'generateSingleKey'])->name('machine_auth_keys.generateSingle');
+    }); // End of admin role middleware
+}); // End of main auth middleware group

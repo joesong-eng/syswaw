@@ -1,0 +1,52 @@
+/* resources/css/custom.css */
+
+/* 從 Blade 的 <style> 標籤中剪下貼過來的內容 */
+[x-cloak] {
+    display: none !important;
+}
+.loading-overlay {
+    position: fixed;
+    /* ... 其他樣式 ... */
+}
+/* 其他你的自定義 CSS */
+.c-list,
+.c-list * {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: 300;
+}
+#sidebarkid::-webkit-scrollbar {
+    display: none;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 1px 20px 1px 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-position: right 5px center;
+    background-size: 16px;
+}
+:root {
+    --table-max-height: calc(100vh - 350px);
+    --table-max-height-sm: calc(100vh - 155px);
+}
+
+/* 特別是圖片路徑的修正 */
+.bg-logo1 {
+    background-image: url('/images/iotlink_01.png'); /* 注意這裡的變化 */
+}
+
+.bg-logo2 {
+    background-image: url('/images/iotlink_02.png'); /* 注意這裡的變化 */
+}
+
+/* 暗黑模式下切換背景圖片 */
+@media (prefers-color-scheme: dark) {
+    .bg-logo1 {
+        background-image: url('/images/iotlink_02.png'); /* 注意這裡的變化 */
+    }
+    .bg-logo2 {
+        background-image: url('/images/iotlink_01.png'); /* 注意這裡的變化 */
+    }
+}

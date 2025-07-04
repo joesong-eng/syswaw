@@ -1,0 +1,8 @@
+.venv/
+storage/logs/
+python/certs/
+__pycache__/
+*.pyc
+.env
+node_modules
+node_modules
