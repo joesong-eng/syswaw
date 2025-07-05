@@ -32,7 +32,7 @@ BEHAVIOR_MAP = {
     'slot_machine': 'gambling_like', 'gambling': 'gambling_like',
     'normally': 'simple_io', 'racing_game': 'simple_io', 'dance_game': 'simple_io',
     'basketball_game': 'simple_io',
-    'money_slot': 'input_only', # <<< 新增這一行
+    'money_slot': 'input_only',
 }
 
 # --- Machine Class Factory ---
@@ -41,7 +41,7 @@ MACHINE_CLASSES = {
     "claw_like": ClawMachine,
     "simple_io": SimpleIOMachine,
     "gambling_like": GamblingLikeMachine,
-    "input_only": InputOnlyMachine, # <<< 新增這一行
+    "input_only": InputOnlyMachine,
 }
 
 def fetch_machine_configs_from_db():

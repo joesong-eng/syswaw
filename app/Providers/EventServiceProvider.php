@@ -18,11 +18,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        // Registered::class => [
-        //     function ($event) {
-        //         $event->user->sendEmailVerificationNotification();
-        //     },
-        // ],
+        \App\Events\MachineDataReceived::class => [
+            \App\Listeners\StoreMachineData::class,
+        ],
     ];
 
     /**
