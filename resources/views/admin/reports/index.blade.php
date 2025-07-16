@@ -1,8 +1,9 @@
+{{-- /www/wwwroot/syswaw/resources/views/admin/reports/index.blade.php --}}
 @extends('layouts.app')
 
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('msg.reports') }}
+        {{ __('msg.reports') }}_admin
     </h2>
 @endsection
 
@@ -17,26 +18,32 @@
     )" class="py-1">
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-8">
             <!-- 篩選器區域 (可折疊) -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-2 sticky top-0 z-3">
-                <div class="p-4 sm:px-12  bg-white border-b border-gray-200">
-                    <div class="flex justify-between items-center cursor-pointer" @click="filtersOpen = !filtersOpen">
-                        <h3 class="text-lg font-medium text-gray-900">篩選條件</h3>
-                        <button class="text-gray-500 hover:text-gray-700">
-                            <svg x-show="filtersOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-2 absolute top-0 right-0 z-10">
+                <div class="p-1 px-3 sm:px-6 bg-white border-b border-gray-200">
+                    <!-- 篩選條件標題列 -->
+                    <div class="flex justify-between items-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors px-3 py-2 rounded-md"
+                        @click="filtersOpen = !filtersOpen">
+                        <div class="flex items-center text-gray-700 font-semibold text-base">
+                            <svg class="w-5 h-5 mr-2 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M3 4a1 1 0 011-1h12a1 1 0 01.8 1.6L12 11.5V16a1 1 0 01-1.447.894l-2-1A1 1 0 018 15v-3.5L3.2 4.6A1 1 0 013 4z" />
                             </svg>
-                            <svg x-show="!filtersOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                            篩選條件
+                        </div>
+                        <button class="text-gray-500 hover:text-gray-700 transform transition-transform duration-200"
+                            :class="{ 'rotate-180': filtersOpen }">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
                     </div>
 
+                    <!-- 篩選表單 -->
                     <div x-cloak x-show="!filtersOpen" x-transition>
                         <form action="{{ route('admin.reports.generate') }}" method="POST" class="mt-2">
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 items-end">
+                                <!-- 日期區間 -->
                                 <div>
                                     <label for="period"
                                         class="block text-sm font-medium text-gray-700">{{ __('msg.period') }}</label>
@@ -58,6 +65,8 @@
                                         </option>
                                     </select>
                                 </div>
+
+                                <!-- 場地 -->
                                 <div>
                                     <label for="arcade_id"
                                         class="block text-sm font-medium text-gray-700">{{ __('msg.arcade') }}</label>
@@ -68,10 +77,13 @@
                                         @foreach ($arcades as $arcade)
                                             <option value="{{ $arcade->id }}"
                                                 {{ old('arcade_id') == $arcade->id ? 'selected' : '' }}>
-                                                {{ $arcade->name }}</option>
+                                                {{ $arcade->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <!-- 類型 -->
                                 <div>
                                     <label for="machine_type"
                                         class="block text-sm font-medium text-gray-700">{{ __('msg.machine_type') }}</label>
@@ -86,6 +98,8 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <!-- 機器 -->
                                 <div>
                                     <label for="machine_id"
                                         class="block text-sm font-medium text-gray-700">{{ __('msg.machine') }}</label>
@@ -99,6 +113,8 @@
                                         </template>
                                     </select>
                                 </div>
+
+                                <!-- 廠商 -->
                                 @if (Auth::user()->hasRole('admin') || $owners->isNotEmpty())
                                     <div>
                                         <label for="owner_id"
@@ -110,21 +126,26 @@
                                             @foreach ($owners as $owner)
                                                 <option value="{{ $owner->id }}"
                                                     {{ old('owner_id') == $owner->id ? 'selected' : '' }}>
-                                                    {{ $owner->name }}</option>
+                                                    {{ $owner->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 @endif
+
+                                <!-- 行動裝置的產生按鈕 -->
                                 <div class="mt-3 flex justify-end">
                                     <button type="submit"
-                                        class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 block xl:hidden">
+                                        class="items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 block xl:hidden">
                                         產生報表
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- 桌機版的產生按鈕 -->
                             <div class="mt-3 flex justify-end">
                                 <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 hidden xl:block">
+                                    class="items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 hidden xl:block">
                                     產生報表
                                 </button>
                             </div>
@@ -132,6 +153,8 @@
                     </div>
                 </div>
             </div>
+
+
 
             <!-- 報表結果顯示區 -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -175,175 +198,114 @@
                                 <p class="text-gray-500">在指定條件下找不到數據</p>
                             </div>
                         @else
-                            <div class="mt-4 overflow-x-auto">
-                                <div class="overflow-y-auto max-h-[400px]"> {{-- Added for vertical scrolling --}}
-                                    <table class="min-w-full divide-y divide-gray-200">
+                            @php
+                                // 預先計算 colspan 的值
+                                $summaryColspan = 1; // '機台' 欄位
+                                if (empty(session('filters.arcade_id'))) {
+                                    $summaryColspan++; // 如果顯示 '場地'
+                                }
+                                if (empty(session('filters.owner_id'))) {
+                                    $summaryColspan++; // 如果顯示 '廠商'
+                                }
+                            @endphp
+                            <div class="mt-2 overflow-x-auto">
+                                <div class="overflow-y-auto max-h-[calc(100vh-150px)]">
+                                    <table
+                                        class="min-w-full divide-y divide-gray-200 w-full table-fixed border-collapse text-sm">
                                         <thead class="bg-gray-50">
                                             <tr>
-                                                <th
-                                                    class="px-1 py-1 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-2 py-0 text-left sticky top-0 bg-gray-100 z-1 w-[20%]">
                                                     機台
                                                 </th>
-                                                @if (empty(session('filters.arcade_id')))
-                                                    <th
-                                                        class="px-1 py-1 text-left text-xs font-medium text-gray-500 uppercase">
-                                                        場地</th>
+                                                <!-- 場地與廠商（合併為一個 th） -->
+                                                @if (empty(session('filters.arcade_id')) || empty(session('filters.owner_id')))
+                                                    <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[30%] min-w-[100px]"
+                                                        colspan="2">
+                                                        <div
+                                                            class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 min-w-[100px]">
+                                                            @if (empty(session('filters.arcade_id')))
+                                                                <div class="flex-1 text-left min-w-[100px]">場地</div>
+                                                            @endif
+                                                            @if (empty(session('filters.owner_id')))
+                                                                <div class="flex-1 text-left min-w-[100px]">廠商</div>
+                                                            @endif
+                                                        </div>
+                                                    </th>
                                                 @endif
-                                                @if (empty(session('filters.owner_id')))
-                                                    <th
-                                                        class="px-1 py-1 text-left text-xs font-medium text-gray-500 uppercase">
-                                                        廠商</th>
-                                                @endif
-                                                <th
-                                                    class="px-1 py-1 text-right text-xs font-medium text-gray-500 uppercase">
-                                                    投幣</th>
-                                                <th
-                                                    class="px-1 py-1 text-right text-xs font-medium text-gray-500 uppercase">
-                                                    開分</th>
-                                                <th
-                                                    class="px-1 py-1 text-right text-xs font-medium text-gray-500 uppercase">
-                                                    收入</th>
-                                                <th
-                                                    class="px-1 py-1 text-right text-xs font-medium text-gray-500 uppercase">
-                                                    支出</th>
-                                                <th
-                                                    class="px-1 py-1 text-right text-xs font-medium text-gray-500 uppercase">
-                                                    淨利</th>
+                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                    投幣
+                                                </th>
+                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                    開分
+                                                </th>
+                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                    收入
+                                                </th>
+                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                    支出
+                                                </th>
+                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                    淨利
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             <template x-for="(data, index) in displayedData" :key="index">
                                                 <tr>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-900"
+                                                    <td class="px-1 py-2  text-sm text-gray-900"
                                                         x-text="data.machine_name"></td>
-                                                    @if (empty(session('filters.arcade_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.arcade_name"></td>
+                                                    @if (empty(session('filters.arcade_id')) || empty(session('filters.owner_id')))
+                                                        <td class="px-2 py-2  text-sm text-gray-500" colspan="2"
+                                                            style="min-width: 100px;">
+                                                            <div
+                                                                class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 min-w-[100px]">
+                                                                @if (empty(session('filters.arcade_id')))
+                                                                    <div class="flex-1 text-left min-w-[100px] inline-block truncate"
+                                                                        x-text="data.arcade_name"></div>
+                                                                @endif
+                                                                @if (empty(session('filters.owner_id')))
+                                                                    <div class="flex-1 text-left  min-w-[100px] inline-block truncate"
+                                                                        x-text="data.owner_name"></div>
+                                                                @endif
+                                                            </div>
+                                                        </td>
                                                     @endif
-                                                    @if (empty(session('filters.owner_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.owner_name"></td>
-                                                    @endif
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
+                                                    <td class="px-1 py-2  text-sm text-center"
                                                         x-text="formatNumber(data.credit_in_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
+                                                    <td class="px-1 py-2  text-sm text-center"
                                                         x-text="formatNumber(data.assign_credit_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-green-600 font-semibold"
+                                                    <td class="px-1 py-2  text-sm text-center text-green-600 font-semibold"
                                                         x-text="formatNumber(data.total_revenue)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-red-600"
+                                                    <td class="px-1 py-2  text-sm text-center text-red-600"
                                                         x-text="formatNumber(data.total_cost)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
-                                                        :class="data.net_profit >= 0 ? 'text-blue-600' : 'text-red-700'"
-                                                        x-text="formatNumber(data.net_profit)"></td>
-                                                </tr>
-                                            </template>
-                                            <template x-for="(data, index) in displayedData" :key="index">
-                                                <tr>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-900"
-                                                        x-text="data.machine_name"></td>
-                                                    @if (empty(session('filters.arcade_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.arcade_name"></td>
-                                                    @endif
-                                                    @if (empty(session('filters.owner_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.owner_name"></td>
-                                                    @endif
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.credit_in_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.assign_credit_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-green-600 font-semibold"
-                                                        x-text="formatNumber(data.total_revenue)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-red-600"
-                                                        x-text="formatNumber(data.total_cost)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
-                                                        :class="data.net_profit >= 0 ? 'text-blue-600' : 'text-red-700'"
-                                                        x-text="formatNumber(data.net_profit)"></td>
-                                                </tr>
-                                            </template>
-                                            <template x-for="(data, index) in displayedData" :key="index">
-                                                <tr>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-900"
-                                                        x-text="data.machine_name"></td>
-                                                    @if (empty(session('filters.arcade_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.arcade_name"></td>
-                                                    @endif
-                                                    @if (empty(session('filters.owner_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.owner_name"></td>
-                                                    @endif
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.credit_in_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.assign_credit_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-green-600 font-semibold"
-                                                        x-text="formatNumber(data.total_revenue)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-red-600"
-                                                        x-text="formatNumber(data.total_cost)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
-                                                        :class="data.net_profit >= 0 ? 'text-blue-600' : 'text-red-700'"
-                                                        x-text="formatNumber(data.net_profit)"></td>
-                                                </tr>
-                                            </template>
-                                            <template x-for="(data, index) in displayedData" :key="index">
-                                                <tr>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-900"
-                                                        x-text="data.machine_name"></td>
-                                                    @if (empty(session('filters.arcade_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.arcade_name"></td>
-                                                    @endif
-                                                    @if (empty(session('filters.owner_id')))
-                                                        <td class="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
-                                                            x-text="data.owner_name"></td>
-                                                    @endif
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.credit_in_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right"
-                                                        x-text="formatNumber(data.assign_credit_value)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-green-600 font-semibold"
-                                                        x-text="formatNumber(data.total_revenue)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right text-red-600"
-                                                        x-text="formatNumber(data.total_cost)"></td>
-                                                    <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
+                                                    <td class="px-1 py-2  text-sm text-center font-bold"
                                                         :class="data.net_profit >= 0 ? 'text-blue-600' : 'text-red-700'"
                                                         x-text="formatNumber(data.net_profit)"></td>
                                                 </tr>
                                             </template>
                                         </tbody>
-                                        @php
-                                            // 預先計算 colspan 的值
-                                            $summaryColspan = 1; // '機台' 欄位
-                                            if (empty(session('filters.arcade_id'))) {
-                                                $summaryColspan++; // 如果顯示 '場地'
-                                            }
-                                            if (empty(session('filters.owner_id'))) {
-                                                $summaryColspan++; // 如果顯示 '廠商'
-                                            }
-                                        @endphp
-                                        <!-- <<< 新增：總計列 (tfoot) >>> -->
-                                        <tfoot class="bg-gray-100 border-t-2 border-gray-300">
+                                        <!-- 總計列 -->
+                                        <tfoot>
                                             <tr>
-                                                <td class="px-1 py-2 text-left text-sm font-bold text-gray-700"
-                                                    colspan="{{ $summaryColspan }}">
-                                                    頁面總計</td>
-                                                <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
+                                                <td class="px-1 py-2 text-left text-sm font-bold text-gray-700 sticky bottom-0 bg-gray-100 z-10"
+                                                    colspan="{{ empty(session('filters.arcade_id')) && empty(session('filters.owner_id')) ? 3 : (empty(session('filters.arcade_id')) || empty(session('filters.owner_id')) ? 2 : 1) }}">
+                                                    頁面總計
+                                                </td>
+                                                <td class="px-1 py-2 text-sm text-right font-bold sticky bottom-0 bg-gray-100 z-10"
                                                     x-text="formatNumber(pageSummary.credit_in_value)"></td>
-                                                <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold"
+                                                <td class="px-1 py-2 text-sm text-right font-bold sticky bottom-0 bg-gray-100 z-10"
                                                     x-text="formatNumber(pageSummary.assign_credit_value)"></td>
-                                                <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold text-green-700"
+                                                <td class="px-1 py-2 text-sm text-right font-bold text-green-700 sticky bottom-0 bg-gray-100 z-10"
                                                     x-text="formatNumber(pageSummary.total_revenue)"></td>
-                                                <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-bold text-red-700"
+                                                <td class="px-1 py-2 text-sm text-right font-bold text-red-700 sticky bottom-0 bg-gray-100 z-10"
                                                     x-text="formatNumber(pageSummary.total_cost)"></td>
-                                                <td class="px-1 py-2 whitespace-nowrap text-sm text-right font-extrabold"
+                                                <td class="px-1 py-2 text-sm text-right font-extrabold sticky bottom-0 bg-gray-100 z-10"
                                                     :class="pageSummary.net_profit >= 0 ? 'text-blue-700' : 'text-red-800'"
                                                     x-text="formatNumber(pageSummary.net_profit)"></td>
                                             </tr>
                                         </tfoot>
                                     </table>
-                                </div> {{-- End of vertical scrolling div --}}
+                                </div>
                                 <div x-show="hasMoreData" x-intersect:enter="loadMore()"
                                     class="p-4 text-center text-gray-500">正在載入更多...</div>
                             </div>
@@ -358,6 +320,24 @@
         </div>
     </div>
 
+
+@endsection
+
+@push('style')
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* 移除所有 select 元素的默認下拉箭頭（以防未來添加） */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+    </style>
+@endpush
+@push('scripts')
     <script>
         function reportPage() {
             return {
@@ -452,4 +432,4 @@
             }
         }
     </script>
-@endsection
+@endpush

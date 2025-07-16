@@ -41,7 +41,6 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['web', 'setLocale']) // setLocale 中間件應該在此應用
                 ->group(function () {
                     require base_path('routes/web.php'); // 直接 require web.php
-                    require base_path('routes/auth.php'); // 直接 require auth.php
                 });
 
             // 管理員專用路由

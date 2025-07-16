@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Tcp\Api\TcpStatusController;
 use App\Http\Controllers\Api\WebArcadeController;
+use App\Http\Controllers\Tcp\TcpServerController;
 // use App\Http\Controllers\MachineDataController;
-
 // Route::middleware('api')->group(function () {
 //     // 你的API路由
 // });

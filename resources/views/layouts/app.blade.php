@@ -4,20 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? config('app.name', 'SYS') }}</title>
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @csrf
+    <title>{{ $title ?? config('app.name', 'SYS') }}</title> {{-- Use $title if passed, otherwise default --}}
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Montserrat:wght@300;400;700&family=Figtree:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @livewireStyles
 
-    {{-- 將通用 CSS 樣式放入 head 區塊，使用 @stack('styles') 引入 --}}
-    {{-- @stack('styles') --}}
-    {{-- <style>
+    <style>
         [x-cloak] {
             display: none !important;
         }
@@ -62,6 +66,20 @@
             }
         }
 
+        /* #header {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            padding: 16px;
+            border: 1px solid #badbcc;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: opacity 0.5s ease, height 0.5s ease;
+        } */
+
+        /* .hidden {
+            display: none;
+        } */
+
         .c-list,
         .c-list * {
             font-family: 'Roboto Condensed', sans-serif;
@@ -69,18 +87,69 @@
             /* 使用瘦細字體 */
         }
 
+        /* .sidr {
+            border-right: 1px solid rgb(125, 125, 252);
+            overflow: auto;
+            display: flex;
+            align-items: center;
+        } */
+
+        /* .of {
+            overflow-wrap: break-word;
+        } */
+
         @media (min-width: 640px) {
             .sm\:block {
                 display: block;
             }
         }
 
+        /* #sidebarkid {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        #sidebarkid {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }*/
+
         #sidebarkid::-webkit-scrollbar {
             display: none;
         }
 
+        /* @keyframes slideIn {
+            from {
+                transform: translateY(-300%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-300%);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 1s forwards;
+        }
+
+        .slide-out {
+            animation: slideOut 1s forwards;
+        } */
+
         .bg-logo1 {
-            background-image: url("{{ asset('storage/images/iotlink_01.png') }}");
+            background-image: url('{{ asset('storage/images/iotlink_01.png') }}');
         }
 
         .bg-logo2 {
@@ -97,6 +166,10 @@
                 background-image: url('{{ asset('storage/images/iotlink_01.png') }}');
             }
         }
+
+        /* [x-cloak] {
+            display: none !important;
+        } */
 
         select {
             -webkit-appearance: none;
@@ -127,11 +200,14 @@
             --table-max-height: calc(100vh - 350px);
             --table-max-height-sm: calc(100vh - 155px);
         }
-    </style> --}}
+    </style>
+
 </head>
 
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900" x-data="{ isSidebarOpen: false, transitionsEnabled: false }" x-init="setTimeout(() => { transitionsEnabled = true }, 50)">
+    <!-- Layout Wrapper -->
     <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
         <aside id="sidebar" {{-- Sidebar --}}
             class="fixed inset-y-0 left-0 z-40 w-64 bg-white dark:bg-gray-800 shadow-lg transform -translate-x-full md:relative md:translate-x-0 flex flex-col"
             x-cloak {{-- 1. 添加 x-cloak --}}
@@ -139,6 +215,7 @@
                 'transition-transform duration-300 ease-in-out': transitionsEnabled, // 2. 恢復 transition 條件
                 'translate-x-0': isSidebarOpen {{-- 2. 只在展開時添加 translate-x-0 --}}
             }">
+            <!-- Sidebar Header -->
             <div
                 class="flex items-center justify-center h-12 bg-white  dark:bg-gray-900 flex-shrink-0 border border-gray-200 dark:border-gray-700">
                 {{-- Placeholder for Logo or Title --}}
@@ -148,6 +225,7 @@
                     </button>
                 </div>
             </div>
+            <!-- Email Verification Notice -->
             @if (Auth::check() && !Auth::user()->hasVerifiedEmail())
                 <div
                     class="p-3 m-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 dark:bg-yellow-700 dark:text-yellow-100 dark:border-yellow-300 rounded-md shadow-md">
@@ -163,6 +241,7 @@
                     </form>
                 </div>
             @endif
+            <!-- End Email Verification Notice -->
             <nav class="mt-2 px-2 space-y-1 flex-1 overflow-y-auto pb-4">
                 @if (Auth::check() && Auth::user()->roles()->count() > 0)
                     <x-modal.sidebar class="relative pt-14 flex-shrink-0" />
@@ -170,15 +249,20 @@
             </nav>
         </aside>
 
+        <!-- Mobile Overlay -->
         <div id="bg-sidebar" x-show="isSidebarOpen" {{-- Mobile Overlay --}}
             class="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden" x-cloak @click="isSidebarOpen = false"
             x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
             x-transition:leave-start="opacity-100">
         </div>
+        <!-- End Sidebar Overlay -->
+
+        <!-- Main Content Area -->
         <div class="relative flex-1 flex flex-col overflow-hidden w-full"> {{-- Main Area Wrapper --}}
             <header
                 class="bg-white dark:bg-gray-800 shadow-md h-12 flex items-center justify-between w-full flex-shrink-0 p-3">
+                <!-- Mobile Menu Button -->
                 <button @click="isSidebarOpen = !isSidebarOpen"
                     class="text-gray-500 dark:text-gray-400 focus:outline-none md:hidden">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -186,6 +270,7 @@
                             d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
+                <!-- Header Content / Title -->
                 <div class="flex-1 flex justify-start md:justify-start">
                     @hasSection('header')
                         <div class="max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
@@ -199,10 +284,11 @@
                     @include('navigation-menu', ['title' => $title ?? ''])
                 </nav>
             </header>
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900">
-                {{-- Page Content Area --}}
+            <!-- End Top Navigation Bar -->
+
+            <!-- Page Content -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900"> {{-- Page Content Area --}}
                 <div class="container max-h-full relative mx-auto px-1 lg:px-8 py-1 xl:max-w-7xl">
-                    {{-- 這裡的 session 訊息可以使用 Livewire 的提示功能來優化，但為了保留你的結構暫不修改 --}}
                     @if (session('success'))
                         <div class="absolute bg-green-100 text-green-800 p-3 rounded z-10">
                             {{ session('success') }}
@@ -225,7 +311,9 @@
                     @yield('content')
                 </div>
             </main>
+            <!-- End Page Content -->
         </div>
+        <!-- End Main Content Area -->
     </div>
     {{-- 添加全局狀態指示器 --}}
     <div id="global-reverb-status"
@@ -235,197 +323,190 @@
     <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
     </div>
-
     @livewireScripts
-
-    {{-- 使用 @stack('scripts') 來引入所有自訂 JavaScript --}}
     @stack('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- 將你的 style 放到 @push('styles') 區塊中 --}}
-    @push('styles')
-    @endpush
-
-    {{-- 將你的 script 放到 @push('scripts') 區塊中 --}}
-    @push('scripts')
-        <script>
-            function showLoadingOverlay(id = 'loadingOverlay') {
-                document.getElementById(id).style.display = 'flex';
-            }
-
-            function hideLoadingOverlay(id = 'loadingOverlay') {
-                document.getElementById(id).style.display = 'none';
-            }
-            // 綁定表單提交事件
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('form').forEach(form => {
-                    form.addEventListener('submit', async (event) => {
-                        if (form.dataset.preventSubmit === 'true') {
-                            return; // 停止提交與 loadingOverlay
-                        } // 检查是否有特定class或data属性
-                        const isConfirmSubmit = form.classList.contains('confirm-submit');
-                        const confirmationMessage = form.getAttribute('data-confirm') ||
-                            (isConfirmSubmit ? '{{ __('msg.add_token') }}' : null);
-
-                        // 需要确认的情况
-                        if (confirmationMessage) {
-                            event.preventDefault();
-                            try {
-                                const result = await Swal.fire({
-                                    title: '{{ __('msg.confirm') }}',
-                                    text: confirmationMessage,
-                                    icon: 'question',
-                                    showCancelButton: true,
-                                    confirmButtonText: '{{ __('msg.yes') }}',
-                                    cancelButtonText: '{{ __('msg.cancel') }}'
-                                });
-                                if (result.isConfirmed) {
-                                    console.log(
-                                        'User confirmed the action'
-                                    ); // Log when user clicks Confirm
-                                    showLoadingOverlay();
-                                    form.submit();
-                                } else {
-                                    console.log(
-                                        'User canceled the action'); // Log when user clicks Cancel
-                                    hideLoadingOverlay();
-                                }
-                            } catch (error) {
-                                console.error('Confirmation dialog error:', error);
-                                hideLoadingOverlay();
-                            }
-                        } else {
-                            showLoadingOverlay();
-                        }
-                    });
-                });
-                // **** 修改：先檢查 sidebarkid 是否存在 ****
-                const sidebarkid = document.getElementById('sidebarkid');
-                if (sidebarkid) { // 只有當 sidebarkid 存在時才執行以下操作
-                    const scrollPosition2 = localStorage.getItem('sidebarkid-scroll') || 0;
-                    sidebarkid.scrollLeft = scrollPosition2; // 滾動到記住的位置
-                    sidebarkid.addEventListener('scroll', function() {
-                        localStorage.setItem('sidebarkid-scroll', sidebarkid.scrollLeft);
-                    }, {
-                        passive: true
-                    });
-                }
-
-                const successMessage = document.getElementById('success-message');
-                const errorMessage = document.getElementById('error-message');
-                if (successMessage) {
-                    console.log('successMessage in');
-                    setTimeout(() => {
-                        successMessage.classList.add('slide-out');
-                    }, 3000); // 停留3秒
-                }
-                if (errorMessage) {
-                    setTimeout(() => {
-                        errorMessage.classList.add('slide-out');
-                    }, 10000); // 停留10秒
-                }
-            }, {
-                passive: true
-            });
-
-            function showLocalMessage() { // 如果消息容器不存在，则动态创建并插入到 <header> 底下
-                let successMessage = document.getElementById('success-message');
-                if (!successMessage) {
-                    successMessage = document.createElement('div');
-                    successMessage.id = 'success-message';
-                    successMessage.className =
-                        'absolute message ms-4 p-2 text-green-800 bg-green-100 z-10 border border-green-200 rounded-lg duration-1000 ease-out transform transition-transform slide-in';
-                    document.querySelector('header').appendChild(successMessage); // 插入到 <header> 底下
-                }
-
-                // 设置消息内容和样式
-                successMessage.textContent = '{{ __('msg.err_del_arcadeKey') }}'; // 使用 Laravel 翻译函数
-                successMessage.className =
-                    'absolute message ms-4 p-2 text-red-800 bg-red-100 z-10 border border-red-200 rounded-lg duration-1000 ease-out transform transition-transform slide-in';
-
-                // 3 秒后自动隐藏消息
-                setTimeout(() => {
-                    successMessage.classList.add('slide-out');
-                    successMessage.textContent = ''; // 清空内容
-                }, 3000);
-            }
-
-            function handlePrintClick() {
-                const selectedCheckboxes = document.querySelectorAll('input[name="selected_ids[]"]:checked');
-                let selectedIds = [];
-                selectedCheckboxes.forEach(checkbox => {
-                    selectedIds.push(checkbox.value);
-                });
-
-                if (selectedIds.length === 0) {
-                    alert('請至少選取一筆金鑰');
-                    return;
-                }
-
-                const printForm = document.getElementById('printForm');
-                if (!printForm) {
-                    alert('找不到列印表單元素！');
-                    return;
-                }
-                printForm.querySelectorAll('input[name="selected_ids[]"]').forEach(input => input.remove());
-
-                selectedIds.forEach(id => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'selected_ids[]';
-                    input.value = id;
-                    printForm.appendChild(input);
-                });
-                printForm.submit();
-            }
-            window.handlePrintClick = handlePrintClick;
-            /**
-             * 將時間戳或日期物件格式化為 'YY-MMDD HH:MM:SS' 格式。
-             * @param {string|number|Date|null} timestamp - 輸入的時間戳 (可以是 ISO 字串、Unix 時間戳毫秒數或 Date 物件)。如果為 null 或 undefined，則使用當前時間。
-             * @returns {string} 格式化後的日期字串，或在無效時返回 'N/A'。
-             */
-            function formatTimestamp(timestamp = null) {
-                // 如果 timestamp 為 null 或 undefined，則使用當前時間
-                const date = timestamp ? new Date(timestamp) : new Date();
-
-                // 檢查日期是否有效
-                if (isNaN(date.getTime())) {
-                    return 'N/A';
-                }
-
-                // 格式化日期
-                const year = date.getFullYear().toString().slice(-2); // 取年份後兩位
-                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份補零
-                const day = date.getDate().toString().padStart(2, '0'); // 日期補零
-                const hours = date.getHours().toString().padStart(2, '0'); // 小時補零
-                const minutes = date.getMinutes().toString().padStart(2, '0'); // 分鐘補零
-                const seconds = date.getSeconds().toString().padStart(2, '0'); // 秒數補零
-
-                // 組合成 YY-MMDD HH:MM:SS 格式
-                return `${year}-${month}${day} ${hours}:${minutes}:${seconds}`;
-            }
-        </script>
-        <script>
-            function copyToClipboard(text, elementId) {
-                navigator.clipboard.writeText(text).then(function() {
-                    // Optional: Provide visual feedback
-                    const element = document.getElementById(elementId);
-                    if (element) {
-                        const originalText = element.innerText;
-                        element.innerText = '{{ __('msg.copied') }}'; // Display "Copied!"
-                        element.classList.add('text-green-500'); // Change color
-                        setTimeout(() => {
-                            element.innerText = originalText;
-                            element.classList.remove('text-green-500');
-                        }, 1500); // Revert after 1.5 seconds
-                    }
-                    console.log('Async: Copying to clipboard was successful!');
-                }, function(err) {
-                    console.error('Async: Could not copy text: ', err);
-                    // Optional: Show an error message to the user
-                });
-            }
-        </script>
-    @endpush
 </body>
 
 </html>
+
+<script>
+    function showLoadingOverlay(id = 'loadingOverlay') {
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function hideLoadingOverlay(id = 'loadingOverlay') {
+        document.getElementById(id).style.display = 'none';
+    }
+    // 綁定表單提交事件
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', async (event) => {
+                if (form.dataset.preventSubmit === 'true') {
+                    return; // 停止提交與 loadingOverlay
+                } // 检查是否有特定class或data属性
+                const isConfirmSubmit = form.classList.contains('confirm-submit');
+                const confirmationMessage = form.getAttribute('data-confirm') ||
+                    (isConfirmSubmit ? '{{ __('msg.add_token') }}' : null);
+
+                // 需要确认的情况
+                if (confirmationMessage) {
+                    event.preventDefault();
+                    try {
+                        const result = await Swal.fire({
+                            title: '{{ __('msg.confirm') }}',
+                            text: confirmationMessage,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: '{{ __('msg.yes') }}',
+                            cancelButtonText: '{{ __('msg.cancel') }}'
+                        });
+                        if (result.isConfirmed) {
+                            console.log(
+                                'User confirmed the action'
+                            ); // Log when user clicks Confirm
+                            showLoadingOverlay();
+                            form.submit();
+                        } else {
+                            console.log(
+                                'User canceled the action'); // Log when user clicks Cancel
+                            hideLoadingOverlay();
+                        }
+                    } catch (error) {
+                        console.error('Confirmation dialog error:', error);
+                        hideLoadingOverlay();
+                    }
+                } else {
+                    showLoadingOverlay();
+                }
+            });
+        });
+        // **** 修改：先檢查 sidebarkid 是否存在 ****
+        const sidebarkid = document.getElementById('sidebarkid');
+        if (sidebarkid) { // 只有當 sidebarkid 存在時才執行以下操作
+            const scrollPosition2 = localStorage.getItem('sidebarkid-scroll') || 0;
+            sidebarkid.scrollLeft = scrollPosition2; // 滾動到記住的位置
+            sidebarkid.addEventListener('scroll', function() {
+                localStorage.setItem('sidebarkid-scroll', sidebarkid.scrollLeft);
+            }, {
+                passive: true
+            });
+        }
+
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        if (successMessage) {
+            console.log('successMessage in');
+            setTimeout(() => {
+                successMessage.classList.add('slide-out');
+            }, 3000); // 停留10秒
+        }
+        if (errorMessage) {
+            setTimeout(() => {
+                errorMessage.classList.add('slide-out');
+            }, 10000); // 停留10秒
+        }
+    }, {
+        passive: true
+    });
+
+    function showLocalMessage() { // 如果消息容器不存在，则动态创建并插入到 <header> 底下
+        let successMessage = document.getElementById('success-message');
+        if (!successMessage) {
+            successMessage = document.createElement('div');
+            successMessage.id = 'success-message';
+            successMessage.className =
+                'absolute message ms-4 p-2 text-green-800 bg-green-100 z-10 border border-green-200 rounded-lg duration-1000 ease-out transform transition-transform slide-in';
+            document.querySelector('header').appendChild(successMessage); // 插入到 <header> 底下
+        }
+
+        // 设置消息内容和样式
+        successMessage.textContent = '{{ __('msg.err_del_arcadeKey') }}'; // 使用 Laravel 翻译函数
+        successMessage.className =
+            'absolute message ms-4 p-2 text-red-800 bg-red-100 z-10 border border-red-200 rounded-lg duration-1000 ease-out transform transition-transform slide-in';
+
+        // 3 秒后自动隐藏消息
+        setTimeout(() => {
+            successMessage.classList.add('slide-out');
+            successMessage.textContent = ''; // 清空内容
+        }, 3000);
+    }
+
+    function handlePrintClick() {
+        // 取得所有被選取的 checkbox（name 為 selected_ids[]）
+        const selectedCheckboxes = document.querySelectorAll('input[name="selected_ids[]"]:checked');
+        let selectedIds = [];
+        selectedCheckboxes.forEach(checkbox => {
+            selectedIds.push(checkbox.value);
+        });
+
+        if (selectedIds.length === 0) {
+            alert('請至少選取一筆金鑰');
+            return;
+        }
+
+        // 找到頁面中 ID 為 printForm 的隱藏表單
+        const printForm = document.getElementById('printForm');
+        if (!printForm) {
+            alert('找不到列印表單元素！');
+            return;
+        }
+        // 清除舊的 selected_ids[] input
+        printForm.querySelectorAll('input[name="selected_ids[]"]').forEach(input => input.remove());
+
+        // 將被選取的金鑰 ID 插入隱藏欄位
+        selectedIds.forEach(id => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_ids[]';
+            input.value = id;
+            printForm.appendChild(input); // 添加到找到的表單中
+        });
+        printForm.submit(); // 提交找到的表單
+    }
+    /**
+     * 將時間戳或日期物件格式化為 'YY-MMDD HH:MM:SS' 格式。
+     * @param {string|number|Date|null} timestamp - 輸入的時間戳 (可以是 ISO 字串、Unix 時間戳毫秒數或 Date 物件)。如果為 null 或 undefined，則使用當前時間。
+     * @returns {string} 格式化後的日期字串，或在無效時返回 'N/A'。
+     */
+    function formatTimestamp(timestamp = null) {
+        // 如果 timestamp 為 null 或 undefined，則使用當前時間
+        const date = timestamp ? new Date(timestamp) : new Date();
+
+        // 檢查日期是否有效
+        if (isNaN(date.getTime())) {
+            return 'N/A';
+        }
+
+        // 格式化日期
+        const year = date.getFullYear().toString().slice(-2); // 取年份後兩位
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份補零
+        const day = date.getDate().toString().padStart(2, '0'); // 日期補零
+        const hours = date.getHours().toString().padStart(2, '0'); // 小時補零
+        const minutes = date.getMinutes().toString().padStart(2, '0'); // 分鐘補零
+        const seconds = date.getSeconds().toString().padStart(2, '0'); // 秒數補零
+
+        // 組合成 YY-MMDD HH:MM:SS 格式
+        return `${year}-${month}${day} ${hours}:${minutes}:${seconds}`;
+    }
+</script>
+<script>
+    function copyToClipboard(text, elementId) {
+        navigator.clipboard.writeText(text).then(function() {
+            // Optional: Provide visual feedback
+            const element = document.getElementById(elementId);
+            if (element) {
+                const originalText = element.innerText;
+                element.innerText = '{{ __('msg.copied') }}'; // Display "Copied!"
+                element.classList.add('text-green-500'); // Change color
+                setTimeout(() => {
+                    element.innerText = originalText;
+                    element.classList.remove('text-green-500');
+                }, 1500); // Revert after 1.5 seconds
+            }
+            console.log('Async: Copying to clipboard was successful!');
+        }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+            // Optional: Show an error message to the user
+        });
+    }
+</script>

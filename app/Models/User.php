@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +16,7 @@ use App\Models\Arcade; // Import the Arcade model
 use App\Models\Machine; // Import the Machine model
 use App\Models\MachineAuthKey; // Import the MachineAuthKey model
 /**
- * 
+ *
  *
  * @method bool hasRole(string|array|\Spatie\Permission\Contracts\Role $roles)
  * @method void sendEmailVerificationNotification()
@@ -84,12 +85,11 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens,
         HasFactory,
         HasProfilePhoto,
-        Notifiable,
-        \Illuminate\Auth\MustVerifyEmail,
-        TwoFactorAuthenticatable, // SoftDeletes trait 應該在 HasRoles 之前或之後都可以
+        TwoFactorAuthenticatable,
         SoftDeletes,
         Notifiable,
-        HasRoles;
+        HasRoles,
+        MustVerifyEmailTrait;
     /**
      * The attributes that are mass assignable.
      *
@@ -99,12 +99,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = ['phone', 'name', 'email', 'password', 'is_member', 'is_active', 'parent_id', 'created_by', 'email_verified_at', 'sidebar_permissions', 'invitation_code'];
 
 
-    // 定義與機台管理員的關聯（改為 arcade 關聯）
-    public function arcade()
-    {
-        return $this->hasOne(Arcade::class, 'owner_id');
-    }
-
     // 定義與機器管理員的關聯
     public function managedArcades()
     {
@@ -112,10 +106,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('token')
             ->withTimestamps();
     }
-    public function tokens()
-    {
-        return $this->hasMany(Token::class);
-    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -213,22 +204,24 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected static function booted()
     {
-        static::deleting(function ($user) {
-            // 如果是硬刪除 (非軟刪除觸發)
-            if (!$user->isForceDeleting()) {
-                // 處理下屬員工的 parent_id，將其設為 null
-                $user->children()->update(['parent_id' => null]);
+        // The 'deleting' event fires for both soft and force deletes.
+        // If this logic should only run on force deletes, consider using the 'forceDeleting' event instead.
+        // static::forceDeleting(function ($user) { ... });
+        static::deleting(function (User $user) {
+            // On delete, disassociate children and other owned entities.
+            // This will set their foreign keys to null.
 
-                // 處理該用戶擁有的 Arcade，將其 owner_id 設為 null (或根據業務邏輯轉移)
-                $user->arcades()->update(['owner_id' => null]);
+            // Set parent_id of child users to null
+            $user->children()->update(['parent_id' => null]);
 
-                // 處理該用戶擁有的 Machine，將其 owner_id 設為 null (或根據業務邏輯轉移)
-                Machine::where('owner_id', $user->id)->update(['owner_id' => null]);
+            // Set owner_id of owned Arcades to null
+            $user->arcades()->update(['owner_id' => null]);
 
-                // 處理該用戶擁有的 MachineAuthKey，可以選擇刪除或設為無主
-                // $user->machineAuthKeysOwned()->delete(); // 如果金鑰必須有擁有者，則刪除
-                $user->machineAuthKeysOwned()->update(['owner_id' => null]); // 或者設為無主
-            }
+            // Set owner_id of owned Machines to null
+            Machine::where('owner_id', $user->id)->update(['owner_id' => null]);
+
+            // Set owner_id of owned MachineAuthKeys to null
+            $user->machineAuthKeysOwned()->update(['owner_id' => null]);
         });
     }
 }

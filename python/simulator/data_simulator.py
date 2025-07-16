@@ -20,8 +20,8 @@ SERVER_PORT = 39001
 SEND_INTERVAL = 10 # 從 60 改成 10 秒
 
 DB_CONFIG = {
-    'user': 'syswaw', 'password': '2a@684240',
-    'host': '127.0.0.1', 'database': 'syswaw',
+    'user': 'sxswaw', 'password': '2a@684240',
+    'host': '127.0.0.1', 'database': 'sxswaw',
     'unix_socket': '/tmp/mysql.sock'
 }
 

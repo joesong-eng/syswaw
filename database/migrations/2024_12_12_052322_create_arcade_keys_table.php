@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->timestamp('expires_at'); // 過期時間
             $table->boolean('used')->default(false); // 是否已使用
 
-            // 新增多態關聯欄位    
+            // 新增多態關聯欄位
             $table->unsignedBigInteger('authenticatable_id')->default(0); // 關聯模型的主鍵 ID
             $table->string('authenticatable_type')->nullable(); // 關聯模型的類型（如 Store 或 Machine）
 

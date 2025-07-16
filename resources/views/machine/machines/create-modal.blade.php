@@ -1,8 +1,7 @@
 <div x-cloak class="fixed inset-0 z-50" x-show="addMachineModal">
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="relative w-full h-full flex items-center justify-center p-1">
-        <div class="p-6 relative bg-white w-full max-w-md rounded-lg shadow-lg"
-            @click.away="addMachineModal = false">
+        <div class="p-6 relative bg-white w-full max-w-md rounded-lg shadow-lg" @click.away="addMachineModal = false">
 
             <div class="bg-white p-3 rounded-lg shadow-lg">
                 <h2 class="text-lg font-semibold mb-4 text-gray-900">

@@ -1,5 +1,5 @@
 <svg fill="#ADD8E6" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" class="text-dark dark:text-white "
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" class="text-dark "
     viewBox="0 0 536.541 536.541" xml:space="preserve">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

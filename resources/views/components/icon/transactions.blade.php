@@ -1,4 +1,4 @@
-<svg width="1.5rem" height="1.5rem" viewBox="0 0 24 24" fill="currentColor" class="text-dark dark:text-white "
+<svg width="1.5rem" height="1.5rem" viewBox="0 0 24 24" fill="currentColor" class="text-dark "
     xmlns="http://www.w3.org/2000/svg">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

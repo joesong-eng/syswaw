@@ -3,68 +3,63 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Machine Behavioral Templates
+    | Machine Behavior-Driven Templates (引導式設定)
     |--------------------------------------------------------------------------
     |
-    | Defines machine behaviors. Each template has a display name,
-    | allowed payout types, and a list of specific machine types that
-    | fall under this behavior.
+    | 這個結構定義了「新增機台」時的引導式選項。
+    | 每個 key (e.g., 'entertainment_only') 代表一個主要的營運模式。
+    | - 'display': 在第一步選擇中顯示給用戶的文字 (對應翻譯鍵)。
+    | - 'follow_up': 根據第一步選擇，需要用戶進一步提供的資訊。
+    |   - 'payout_type_selection': 需要用戶選擇返還物類型。
+    |   - 'optional_modules': 讓用戶勾選額外支援的功能。
+    | - 'fixed_payout_type': 此模式下固定的返還物類型。
+    | - 'db_category_map': 此模式對應到資料庫中的核心分類 (建議未來新增 machine_category 欄位)。
     |
     */
     'templates' => [
-        'simple_io' => [
-            'display' => 'msg.template_simple_io', // 翻譯鍵："一般娛樂機 (投幣/出獎)"
-            'payout_types' => ['none', 'tickets', 'points', 'coins'],
-            'machine_types' => [
-                'normally' => 'msg.normally',
-                'racing_game' => 'msg.racing_game',
-                'dance_game' => 'msg.dance_game',
-                'basketball_game' => 'msg.basketball_game',
-                'air_hockey' => 'msg.air_hockey',
-                'beat_em_up' => 'msg.beat_em_up',
-                'light_gun_game' => 'msg.light_gun_game',
-                'light_and_sound_game' => 'msg.light_and_sound_game',
-                'punching_machine' => 'msg.punching_machine',
-                // ...可以繼續增加
-            ],
+        'entertainment_only' => [
+            'display' => 'msg.template_entertainment_only', // "一般娛樂機 (投幣玩遊戲，無返還)"
+            'follow_up' => [],
+            'fixed_payout_type' => 'none',
+            'db_category_map' => 'pure_game',
         ],
-        'gambling_like' => [
-            'display' => 'msg.template_gambling_like', // 翻譯鍵："電子遊戲機 (多重輸入/返還率)"
-            'payout_types' => ['tickets', 'points', 'coins'],
-            'machine_types' => [
-                'slot_machine' => 'msg.slot_machine',
-                'gambling' => 'msg.gambling',
+        'redemption' => [
+            'display' => 'msg.template_redemption', // "獎勵型遊戲機 (投幣玩，依表現給獎勵)"
+            'follow_up' => [
+                'payout_type_selection' => ['tickets', 'coins', 'prize', 'points'],
             ],
+            'db_category_map' => 'redemption',
         ],
-        'claw_like' => [
-            'display' => 'msg.template_claw_like', // 翻譯鍵："獎品機 (娃娃機/禮品機)"
-            'payout_types' => ['prize'], // 娃娃機的產出類型固定是 'prize'
-            'machine_types' => [
-                'claw_machine' => 'msg.claw_machine',
-                'giant_claw_machine' => 'msg.giant_claw_machine',
-                'stacker_machine' => 'msg.stacker_machine',
-            ],
+        'pinball' => [
+            'display' => 'msg.template_pinball', // "彈珠台 (換鋼珠，玩遊戲贏鋼珠)"
+            'follow_up' => [],
+            'fixed_payout_type' => 'ball',
+            'db_category_map' => 'pinball_pachinko',
         ],
-        'pinball_like' => [
-            'display' => 'msg.template_pinball_like', // 翻譯鍵："彈珠台 (鋼珠交換)"
-            'payout_types' => ['ball'], // 彈珠台的產出類型固定是 'ball'
-            'machine_types' => [
-                'pinball' => 'msg.pinball',
-                'pachinko' => 'msg.pachinko',
+        'gambling' => [
+            'display' => 'msg.template_gambling', // "電子遊戲機 (主要透過開分/洗分記帳)"
+            'follow_up' => [
+                'optional_modules' => [
+                    ['accepts_coin' => '接受硬幣'],
+                    ['accepts_bill' => '接受紙鈔'],
+                    ['payouts_coin' => '硬幣出點'],
+                    ['payouts_ticket' => '彩票出點'],
+                ],
             ],
+            'fixed_payout_type' => 'none', // 基礎是 none，可被模組覆蓋
+            'db_category_map' => 'gambling',
         ],
-        'input_only' => [
-            'display' => 'msg.template_input_only', // 翻譯鍵："兌換/儲值機 (只進不出)"
-            'payout_types' => ['none'], // 只進不出的機器沒有產出類型
-            'machine_types' => [
-                'money_slot' => 'msg.money_slot',
-            ],
+        'utility' => [
+            'display' => 'msg.template_utility', // "兌換/儲值機 (只收錢，用於兌換)"  // "兌換/儲值機 (只收錢，用於兌換)"
+            'follow_up' => [],
+            'fixed_payout_type' => 'none',
+            'db_category_map' => 'other', // 'other'
         ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Payout Type Definitions
+    | Machine Type Definitions (for display purposes)
     |--------------------------------------------------------------------------
     */
     'types' => [

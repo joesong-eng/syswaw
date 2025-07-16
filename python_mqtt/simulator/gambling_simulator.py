@@ -8,7 +8,7 @@ class GamblingLikeMachine(BaseMachine):
         super().__init__(config)
 
         # --- 模擬參數設定 ---
-        self.COIN_INPUT_RANGE = [10, 50]  # 每輪模擬的「投幣次數」範圍
+        self.COIN_INPUT_RANGE = [1, 20]  # 每輪模擬的「投幣次數」範圍
         self.BILL_INPUT_RANGE = [0, 2]    # 每輪模擬的「投紙鈔張數」範圍
 
         # --- 核心參數：計算「平均每次遊玩返獎次數」 ---
@@ -33,6 +33,10 @@ class GamblingLikeMachine(BaseMachine):
 
         # 紙鈔面額到計數的映射 (用於 bill_denomination)
         self.DENOMINATION_VALUE_TO_CODE = { '100': 1, '200': 2, '500': 5, '1000': 10, '2000': 20 }
+
+        # --- 新增：洗分相關參數 ---
+        self.SETTLED_CREDIT_PROBABILITY = 0.05 # 5% 的機率觸發洗分
+        self.SETTLED_CREDIT_RANGE = [10, 50]   # 每次洗分的數量範圍
 
     def update_state(self):
         # --- Step 1: 計算本輪總共「可玩幾次」 (Total Plays) ---
@@ -76,6 +80,10 @@ class GamblingLikeMachine(BaseMachine):
                 # 對每一次遊玩，都隨機生成一個返獎次數
                 delta_coin_out += random.randint(*self.payout_count_range)
 
-        # --- Step 3: 更新累計「計數」 ---
+        # --- Step 3: 模擬洗分 (Settled Credit) ---
+        if random.random() < self.SETTLED_CREDIT_PROBABILITY:
+            self.settled_credit += random.randint(*self.SETTLED_CREDIT_RANGE)
+
+        # --- Step 4: 更新累計「計數」 ---
         self.credit_in += delta_credit_in # 只累加真實的投幣次數
         self.coin_out += delta_coin_out

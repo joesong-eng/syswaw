@@ -5,4 +5,6 @@ return [
     'password' => 'The password provided is incorrect. ',
     'throttle' => 'Too many login attempts, please try again in :seconds seconds. ',
     'account_deactivated_contact_admin' => 'Your account has been deactivated. Please contact your administrator. ',
+    'The provided password does not match your current password.' => 'The provided password does not match your current password.',
+
 ];

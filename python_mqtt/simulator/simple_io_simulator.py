@@ -5,8 +5,8 @@ from pinball_simulator import BaseMachine
 class SimpleIOMachine(BaseMachine):
     def __init__(self, config):
         super().__init__(config)
-        self.COIN_INPUT_RANGE = [10, 60]
-        self.PAYOUT_RATIO = 0.05
+        self.COIN_INPUT_RANGE = [1, 20]
+        self.PAYOUT_RATIO = 0.01
 
     def update_state(self):
         delta_credit_in = random.randint(*self.COIN_INPUT_RANGE)
@@ -24,6 +24,6 @@ class SimpleIOMachine(BaseMachine):
         if self.payout_unit_value > 0:
             payout_count = int(total_plays * self.PAYOUT_RATIO)
             for _ in range(payout_count):
-                delta_coin_out += random.randint(1, 3)
+                delta_coin_out += random.randint(1, 2)
 
         self.coin_out += delta_coin_out

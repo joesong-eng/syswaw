@@ -3,6 +3,8 @@
 return [
     // --- General ---
     'actions' => 'Actions',
+    'period' => 'Period',
+    'time' => 'Time',
     'add' => 'Add',
     'address' => 'Address',
     'all' => 'All',
@@ -370,10 +372,6 @@ return [
     'save_settings' => 'Save Settings',
     'share_percentage_sum_note' => 'The sum of the revenue percentages for the platform, default arcade owner, and default machine owner must equal 100%.',
     'statistics_summary' => 'Statistics Summary',
-];
-
-// New Machine Modal - General Settings and Labels
-$newKeys = [
     'enable_credit_value_config' => 'Enable "Value per Token" Setting',
     'credit_value_per_token_generic' => 'Credit Value per Token', // Used to replace old label with RMB
 
@@ -441,6 +439,16 @@ $newKeys = [
     'payout_type_prize_claw' => 'Prize (Claw Machine)', // 或者 '獎品 (娃娃機)'
     'payout_type_none'          => 'None',
     'ball_input_value_hint' => 'Set the value represented when one pinball is inserted.',
-];
 
-return array_merge(parent::all(), $newKeys); // Merge existing translations and new translations
+    'log_out_other_browser_sessions' => 'Log Out Other Browser Sessions',
+    'browser_sessions' => 'Browser Sessions',
+    'account' => 'Account',
+    'history' => 'History',
+
+    'template_entertainment_only' => 'Entertainment Only (Coin-in, No Payout)',
+    'template_redemption' => 'Redemption Game (Coin-in, Payout based on Performance)',
+    'template_pinball' => 'Pinball (Ball Exchange)',
+    'template_gambling' => 'Electronic Gambling Machine (Credit/Payout Based)',
+    'template_utility' => 'Utility/Input-Only Machine (Money Exchange)',
+
+];

@@ -1,4 +1,3 @@
-<!-- Create Machine Modal -->
 <style>
     select {
         -webkit-appearance: none;
@@ -28,7 +27,6 @@
                         {{ __('msg.add') }} {{ __('msg.machine') }}
                     </h3>
                     <div class="mt-4 space-y-4">
-                        <!-- 1Name -->
                         <div>
                             <label for="create_name" class="block text-sm font-medium text-gray-700">
                                 {{ __('msg.name') }} <span class="text-red-500">*</span>
@@ -40,7 +38,6 @@
                             @enderror
                         </div>
 
-                        <!-- 2Arcade -->
                         <div>
                             <label for="create_arcade_id" class="block text-sm font-medium text-gray-700">
                                 {{ __('msg.arcade') }} <span class="text-red-500">*</span>
@@ -57,7 +54,6 @@
                             @enderror
                         </div>
 
-                        <!-- 3Chip Hardware ID and Auth Key -->
                         <div class="flex gap-4">
                             <div class="w-[40%]">
                                 <x-machine-attr name="chip_hardware_id" label="msg.chip_hardware_id" required="true"
@@ -72,34 +68,68 @@
                             </div>
                         </div>
 
-                        <!--*****m01 遊戲機-******-->
                         {{-- <div x-show="createForm.machine_type !== 'money_slot'"
                             class="border border-gray-200 p-4 rounded-md space-y-4 "> --}}
 
-                        <div class="border border-gray-200 p-4 rounded-md space-y-4 ">
-                            <!-- Machine Type and Payout Type -->
-                            <div class="MTP flex flex-col sm:flex-row gap-4">
-                                <div class="flex-1 機器類型">
-                                    <x-machine-attr name="machine_type" label="msg.machine_type" type="select"
-                                        required="true" model="createForm.machine_type" :options="config('machines.types', [])" />
+                        <div x-show="createForm.machine_category !== 'utility'"
+                            class="border border-gray-200 p-4 rounded-md space-y-4">
+                            <div>
+                                <label for="create_machine_category" class="block text-sm font-medium text-gray-700">
+                                    {{ __('msg.main_op_mode') }} <span class="text-red-500">*</span>
+                                </label>
+                                <select name="machine_category" id="create_machine_category"
+                                    x-model="createForm.machine_category" @change="updateCreateFormBasedOnCategory()"
+                                    required
+                                    class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">{{ __('msg.please_select') }}</option>
+                                    @foreach (config('machines.templates', []) as $key => $template)
+                                        <option value="{{ $key }}">{{ __($template['display']) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div x-show="createForm.machine_category">
+                                <div x-show="createForm.payout_type_selection.length > 0">
+                                    <label for="create_payout_type" class="block text-sm font-medium text-gray-700">
+                                        {{ __('msg.payout_type') }} <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="payout_type" id="create_payout_type" x-model="createForm.payout_type"
+                                        class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option value="">{{ __('msg.please_select') }}</option>
+                                        <template x-for="payout in createForm.payout_type_selection"
+                                            :key="payout.value">
+                                            <option :value="payout.value" x-text="payout.text"></option>
+                                        </template>
+                                    </select>
                                 </div>
-                                <div x-show="!createForm.machine_type || createForm.machine_type !== 'money_slot'"
-                                    class="獎品類型 flex-1">
-                                    <x-machine-attr name="payout_type" label="msg.payout_type" type="select"
-                                        required="true" model="createForm.payout_type" :options="[
-                                            'none' => 'msg.select',
-                                            'ball' => 'msg.payout_type_pachinko',
-                                            'points' => 'msg.payout_type_points',
-                                            'tickets' => 'msg.payout_type_tickets',
-                                            'coins' => 'msg.payout_type_coins',
-                                            'prize' => 'msg.payout_type_prize_claw',
-                                        ]" />
+
+                                <div x-show="createForm.optional_modules.length > 0" class="mt-4">
+                                    <label
+                                        class="block text-sm font-medium text-gray-700">{{ __('msg.optional_modules') }}</label>
+                                    <div class="mt-2 space-y-2">
+                                        <template x-for="module in createForm.optional_modules" :key="module.value">
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" :name="'modules[' + module.value + ']'"
+                                                    :value="module.value" x-model="createForm.selected_modules"
+                                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                <span class="ml-2 text-sm text-gray-600" x-text="module.text"></span>
+                                            </label>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div x-show="!createForm.machine_type || createForm.machine_type !== 'money_slot'">
-                                <!-- Credit and Balls Configuration -->
-                                <div class="CBC flex flex-col flex-row  justify-between sm:flex-row gap-4 mb-4">
+                            <div x-show="createForm.machine_category !== 'utility'" class="mt-4">
+                                <label for="create_machine_type" class="block text-sm font-medium text-gray-700">
+                                    {{ __('msg.machine_appearance_type') }}
+                                </label>
+                                <input type="text" name="machine_type" id="create_machine_type"
+                                    x-model="createForm.machine_type" placeholder="{{ __('msg.optional_input') }}"
+                                    class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+
+                            <div x-show="createForm.machine_category !== 'utility'">
+                                <div class="CBC flex flex-col justify-between sm:flex-row gap-4 mb-4">
                                     <div
                                         class="cbckid flex items-center space-x-2 text-sm text-gray-700 order-2 sm:order-1">
                                         <input type="checkbox" x-model="createForm.coin_input_value_enabled"
@@ -133,7 +163,6 @@
                                             {{ __('msg.currency_unit') }}
                                         </span>
                                     </div>
-                                    <!-- 隨選擇變化 -->
                                     <div x-show="createForm.payout_type && createForm.payout_type !== 'none'"
                                         class="cssbvpar flex items-center justify-end ml-auto order-1 sm:order-2 -mt-3">
                                         <template x-if="createForm.payout_type === 'ball'">
@@ -158,6 +187,21 @@
                                                     x-model="createForm.ticket_value"
                                                     class="rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-1">
                                                     @foreach ([0.1, 0.5, 1, 1.5, 2, 5, 10] as $value)
+                                                        <option value="{{ $value }}">{{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                <span>{{ __('msg.currency_unit') }}</span>
+                                            </div>
+                                        </template>
+
+                                        <template x-if="createForm.payout_type === 'coins'">
+                                            <div class="flex items-center space-x-2 text-sm text-gray-700">
+                                                <span>{{ __('msg.one_token_equals') }}</span>
+                                                <select name="payout_unit_value"
+                                                    x-model="createForm.payout_unit_value"
+                                                    class="rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-1">
+                                                    @foreach ([0.5, 1, 1.5, 2, 3, 5, 10, 20, 50, 100] as $value)
                                                         <option value="{{ $value }}">{{ $value }}
                                                         </option>
                                                     @endforeach
@@ -193,17 +237,24 @@
                                                     @endforeach
                                                 </select>
                                                 <span>{{ __('msg.currency_unit') }}</span>
-                                                <span>{{ trans('msg.currency_unit') }}</span>
-                                                <!-- 或 -->
-                                                <span>@lang('msg.currency_unit')</span>
                                             </div>
                                         </template>
                                     </div>
                                 </div>
 
-                                <!-- 開洗分 Configuration -->
-                                <div class="flex flex-col flex-row sm:justify-between sm:flex-row gap-4 order-3">
-                                    <!-- 開分-->
+                                <div x-show="createForm.machine_category === 'pinball'"
+                                    class="flex items-center space-x-2 text-sm text-gray-700 mb-4">
+                                    <span>{{ __('msg.per_ball_value') }}</span>
+                                    <select name="payout_unit_value" x-model="createForm.payout_unit_value"
+                                        class="rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-1">
+                                        @foreach ([0.5, 1, 1.5, 2, 3, 5, 10, 20, 50, 100] as $value)
+                                            <option value="{{ $value }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span>{{ __('msg.currency_unit') }}</span>
+                                </div>
+
+                                <div class="flex flex-col sm:justify-between sm:flex-row gap-4 order-3">
                                     <div class="css_credit flex items-center space-x-2 text-sm text-gray-700">
                                         <input type="checkbox" x-model="createForm.credit_in_enable"
                                             :disabled="createForm.payout_type === 'none'"
@@ -217,15 +268,13 @@
                                             }">{{ __('msg.per_credit_action') }}</span>
                                         <select name="credit_button_value" id="create_credit_button_value_pinball"
                                             x-model="createForm.credit_button_value"
-                                            :disabled="!createForm.credit_in_enable"
                                             class="rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-1"
-                                            :disabled="createForm.payout_type === 'none'"
-                                            :class="{ 'opacity-50': createForm.payout_type === 'none' }"
+                                            :disabled="createForm.payout_type === 'none' || !createForm.credit_in_enable"
                                             :class="{
-                                                'opacity-50': !createForm.credit_in_enable,
+                                                'opacity-50': createForm.payout_type === 'none' || !createForm
+                                                    .credit_in_enable,
                                                 'text-gray-700': createForm.credit_in_enable,
-                                                'text-gray-400': !createForm
-                                                    .credit_in_enable // 嘗試不同的灰色
+                                                'text-gray-400': !createForm.credit_in_enable
                                             }">
                                             @foreach ([0, 50, 100, 200, 500, 1000, 5000] as $value)
                                                 <option value="{{ $value }}">{{ $value }}</option>
@@ -239,7 +288,6 @@
                                                     .credit_in_enable {{-- <--- 修改點 --}}
                                             }">{{ __('msg.currency_unit') }}</span>
                                     </div>
-                                    <!-- 洗分-->
                                     <div class="flex items-center space-x-2 text-sm text-gray-700">
                                         <input type="checkbox" x-model="createForm.create_credit_out_enable"
                                             :disabled="createForm.payout_type === 'none'"
@@ -283,7 +331,6 @@
                                 </div>
 
                                 <div class=" py-5 flex flex-row space-x-2">
-                                    <!-- Revenue Split -->
                                     <div class="mb-4 w-[50%]">
                                         <label for="create_revenue_split"
                                             class="block text-sm font-medium text-gray-700">
@@ -304,7 +351,6 @@
                                             <span class="text-xs text-red-500">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <!-- 平台 Split -->
                                     <div class="mb-4 min-w-[40%]">
                                         <label for="create_share_pct" class="block text-sm font-medium text-gray-700">
                                             {{ __('msg.platform_machine_share_pct') }}% {{-- Assuming this new translation key --}}
@@ -329,13 +375,11 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <!-- m02紙鈔轉 -->
-                        <!--***** 儲值收銀機 (money_slot) 特定設定 ******-->
-                        <div x-show="createForm.machine_type === 'money_slot'"
-                            class="border border-blue-300 p-4 rounded-md space-y-4 mt-4">
-                            <h4 class="text-md font-semibold text-blue-700">
+
+                        {{-- <div x-show="createForm.machine_type === 'money_slot'"
+                            class="border border-blue-300 p-4 rounded-md space-y-4 mt-4"> --}}
+                        {{-- <h4 class="text-md font-semibold text-blue-700">
                                 {{ __('msg.money_slot') }} {{ __('msg.specific_settings') }}
                             </h4>
                             <div>
@@ -351,83 +395,58 @@
                                         </option>
                                     @endforeach
                                 </select>
+                            </div> --}}
+                        <input type="hidden" name="accepted_denominations[]" value=""
+                            x-show="createForm.machine_type !== 'money_slot'">
+
+                        <div x-show="createForm.machine_category === 'utility'"
+                            class="border border-blue-300 p-4 rounded-md space-y-4 mt-4">
+                            <h4 class="text-md font-semibold text-blue-700">
+                                {{ __('msg.money_slot') }} {{ __('msg.specific_settings') }}
+                            </h4>
+                            <div>
+                                <label for="create_bill_currency_money_slot"
+                                    class="block text-sm font-medium text-gray-700">
+                                    {{ __('msg.bill_currency') }}
+                                </label>
+                                <select name="bill_currency" id="create_bill_currency_money_slot"
+                                    x-model="createForm.bill_currency"
+                                    class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    @foreach (config('bill_mappings', []) as $code => $displayNameKey)
+                                        <option value="{{ $code }}">{{ __('msg.' . $code) }}
+                                            ({{ __($code) }})
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-
-
-                            {{-- 紙鈔單位價值 (bill_unit_value) - 用戶手動輸入 --}}
-                            {{-- <div x-show="createForm.bill_currency && available_denominations_for_selected_currency.length > 0"
+                            <div x-show="createForm.bill_currency && available_denominations_for_selected_currency.length > 0"
                                 class="mt-4">
                                 <label
                                     class="block text-sm font-medium text-gray-700">{{ __('msg.accepted_denominations') }}</label>
-
                                 <div class="px-3 mt-2 flex flex-wrap gap-x-4 gap-y-2 justify-between">
-                                    <label class="inline-flex items-center"><input type="checkbox"
-                                            x-model="createForm.all_denominations_selected"
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" x-model="createForm.all_denominations_selected"
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         <span
-                                            class="ml-2 text-sm font-medium text-gray-700">{{ __('msg.select_all') }}
-                                        </span></label>
+                                            class="ml-2 text-sm font-medium text-gray-700">{{ __('msg.select_all') }}</span>
+                                    </label>
                                     <template x-for="denomination in available_denominations_for_selected_currency"
                                         :key="denomination">
                                         <label class="inline-flex items-center">
                                             <input type="checkbox" :value="denomination"
+                                                name="accepted_denominations[]"
                                                 x-model="createForm.accepted_denominations"
                                                 class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                            <span class="m1-2 text-sm text-gray-600"
+                                            <span class="ml-2 text-sm text-gray-600"
                                                 x-text="formatNumberWithCommas(denomination)"></span>
                                         </label>
                                     </template>
                                 </div>
-                            </div> --}}
-                            <!-- 在 money_slot 特定設定之前添加 -->
-                            <input type="hidden" name="accepted_denominations" value=""
-                                x-show="createForm.machine_type !== 'money_slot'">
-
-                            <div x-show="createForm.machine_type === 'money_slot'"
-                                class="border border-blue-300 p-4 rounded-md space-y-4 mt-4">
-                                <h4 class="text-md font-semibold text-blue-700">
-                                    {{ __('msg.money_slot') }} {{ __('msg.specific_settings') }}
-                                </h4>
-                                <div>
-                                    <label for="create_bill_currency_money_slot"
-                                        class="block text-sm font-medium text-gray-700">
-                                        {{ __('msg.bill_currency') }}
-                                    </label>
-                                    <select name="bill_currency" id="create_bill_currency_money_slot"
-                                        x-model="createForm.bill_currency"
-                                        class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        @foreach (config('bill_mappings', []) as $code => $displayNameKey)
-                                            <option value="{{ $code }}">{{ __('msg.' . $code) }}
-                                                ({{ __($code) }})</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div x-show="createForm.bill_currency && available_denominations_for_selected_currency.length > 0"
-                                    class="mt-4">
-                                    <label
-                                        class="block text-sm font-medium text-gray-700">{{ __('msg.accepted_denominations') }}</label>
-                                    <div class="px-3 mt-2 flex flex-wrap gap-x-4 gap-y-2 justify-between">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" x-model="createForm.all_denominations_selected"
-                                                class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                            <span
-                                                class="ml-2 text-sm font-medium text-gray-700">{{ __('msg.select_all') }}</span>
-                                        </label>
-                                        <template x-for="denomination in available_denominations_for_selected_currency"
-                                            :key="denomination">
-                                            <label class="inline-flex items-center">
-                                                <input type="checkbox" :value="denomination"
-                                                    x-model="createForm.accepted_denominations"
-                                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                                <span class="ml-2 text-sm text-gray-600"
-                                                    x-text="formatNumberWithCommas(denomination)"></span>
-                                            </label>
-                                        </template>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                        {{-- </div> --}}
                     </div>
+
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button type="submit"
                             class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">

@@ -6,7 +6,7 @@
 --}}
 <div
     {{ $attributes->merge([
-        'class' => 'p-3 mb-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm',
+        'class' => 'p-3 mb-3 rounded-lg bg-white border border-gray-200 shadow-sm',
     ]) }}>
     {{ $slot }}
 </div>

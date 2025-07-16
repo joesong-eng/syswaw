@@ -184,7 +184,7 @@ return [
     'change_password' => '更改密碼',
     'confirm_password' => '確認密碼',
     'create_user' => '新增使用者',
-    'current_password' => '目前密碼',
+    'current_password' => '當前密碼',
     'edit_profile' => '編輯個人資料',
     'email_not_verified_message' => '請檢查您的電子郵件收件夾，並點擊我們發送給您的驗證連結。如果您沒有收到郵件，我們可以重新發送。',
     'email_not_verified_title' => '電子郵件尚未驗證',
@@ -454,7 +454,7 @@ return [
     'bill_acceptor_enabled'    => '啟用紙幣接收',
     'bill_currency'            => '紙鈔幣種',
     'bill_unit_value'          => '紙鈔單位價值',
-    'accepted_bills'           => '可接受面額',
+    // 'accepted_bills'           => '可接受面額',
     'bill_to_token_rate'       => '紙鈔兌換代幣比例',
     'bill_acceptor_model'      => '紙鈔機型號',
     'bill_entry_source'        => '紙鈔投入口來源',
@@ -478,7 +478,7 @@ return [
     'per_point_value' => '點數價值',
     'per_ticket_value' => '彩票價值',
     'per_token_value' => '代幣價值',
-    'per_prize_value' => '獎品價值',
+    'per_prize_value' => '獎品均價',
     'failed_to_update_machine' => '更新失敗',
 
     'unauthorized_action' => '你哪位？？',
@@ -586,7 +586,26 @@ return [
     'per_point_value' => '每點點數價值',
     'per_prize_value' => '每個獎品均價',
     'per_coin_value' => '每枚代幣價值',
+    'log_out_other_browser_sessions' => '登出在別處的登入',
+    'browser_sessions' => '帳號在別處登入',
+    'account' => '帳戶',
+    'history' => '歷史記錄',
+    'template_entertainment_only' => '一般娛樂機 (投幣玩遊戲，無返還)',
+    'template_redemption' => '獎勵型遊戲機 (投幣玩遊戲，依表現給獎勵)',
+    'template_pinball' => '彈珠台 (換鋼珠，玩遊戲贏鋼珠)',
+    'template_gambling' => '電子遊戲機 (主要透過開分/洗分記帳)',
+    'template_utility' => '兌換/儲值機 (只收錢，用於兌換)',
 
+    'main_op_mode' => '主要營運模式',
+    'optional_modules' => '可選模組',
+    'machine_appearance_type' => '機台外觀型號',
+    'optional_input' => '選填，方便您辨識',
+
+    // templates display - 這些是 machine config 中 'display' 鍵對應的翻譯
+    // 範例 (請根據您的 config/machines.php 檔案調整)
+    'template_redemption_pinball' => '彈珠台 (換鋼珠，玩遊戲贏鋼珠)',
+    'template_entertainment_only' => '純娛樂型 (玩遊戲，無返還)',
+    'template_claw_machine' => '娃娃機 (玩遊戲，夾取獎品)',
     // ===================================================
 
 ];

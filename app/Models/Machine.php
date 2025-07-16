@@ -17,11 +17,12 @@ class Machine extends Model
         'created_by',
         'auth_key_id',
         'machine_id',
-        'machine_type',
+        // 將 'machine_type' 替換為 'machine_category'
+        'machine_category', //
         'status',
         'is_active',
         'revenue_split',
-        'share_pct', // 新增：平台對機台的抽成百分比
+        'share_pct',
         'coin_input_value',
         'ball_input_value',
         'balls_per_credit',
@@ -38,14 +39,14 @@ class Machine extends Model
         'is_active' => 'boolean',
         'status' => 'array',
         'revenue_split' => 'float',
-        'share_pct' => 'decimal:2', // 新增：轉換為帶兩位小數的浮點數
+        'share_pct' => 'decimal:2',
         'deleted_at' => 'datetime',
         'coin_input_value' => 'decimal:2',
         'ball_input_value' => 'decimal:2',
         'credit_button_value' => 'decimal:2',
         'payout_button_value' => 'decimal:2',
-        'balls_per_credit' => 'integer',
         'payout_unit_value' => 'decimal:2',
+        'bill_acceptor_enabled' => 'boolean',
         'accepted_denominations' => 'array',
     ];
 

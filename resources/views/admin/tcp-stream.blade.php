@@ -23,7 +23,7 @@
     <x-slot name="header">
         <div class="flex items-center m-1 border-b border-gray-200 text-sm font-medium text-gray-700 w-full">
             <div class="flex font-semibold text-lg text-gray-800 leading-tight justify-start w-[50%] text-left">
-                {{ __('msg.data_monitoring') }}
+                {{ __('msg.data_monitoring') }}ＱＱ
             </div>
         </div>
 

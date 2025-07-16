@@ -8,7 +8,7 @@ class InputOnlyMachine(BaseMachine):
     def __init__(self, config):
         super().__init__(config)
         # 紙鈔機使用頻率可能更高
-        self.BILL_INPUT_RANGE = [5, 20]
+        self.BILL_INPUT_RANGE = [1, 20]
         # 這個映射關係很重要，假設 100元->1, 500元->5, 1000元->10
         self.DENOMINATION_VALUE_TO_CODE = {
             '100': 1, '200': 2, '500': 5, '1000': 10, '2000': 20

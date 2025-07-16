@@ -75,7 +75,7 @@ trait InteractsWithDockerComposeServices
 
         // Adds the new services as dependencies of the laravel.test service...
         if (! array_key_exists('laravel.test', $compose['services'])) {
-            $this->warn('Couldn\'t find the laravel.test service. Make sure you add ['.implode(',', $services).'] to the depends_on config.');
+            $this->warn('Couldn\'t find the laravel.test service. Make sure you add [' . implode(',', $services) . '] to the depends_on config.');
         } else {
             $compose['services']['laravel.test']['depends_on'] = collect($compose['services']['laravel.test']['depends_on'] ?? [])
                 ->merge($services)
@@ -124,13 +124,15 @@ trait InteractsWithDockerComposeServices
     {
         $environment = file_get_contents($this->laravel->basePath('.env'));
 
-        if (in_array('mysql', $services) ||
+        if (
+            in_array('mysql', $services) ||
             in_array('mariadb', $services) ||
-            in_array('pgsql', $services)) {
+            in_array('pgsql', $services)
+        ) {
             $defaults = [
                 '# DB_HOST=127.0.0.1',
                 '# DB_PORT=3306',
-                '# DB_DATABASE=laravel',
+                '# DB_DATABASE=sxswaw',
                 '# DB_USERNAME=root',
                 '# DB_PASSWORD=',
             ];
@@ -143,7 +145,7 @@ trait InteractsWithDockerComposeServices
         if (in_array('mysql', $services)) {
             $environment = preg_replace('/DB_CONNECTION=.*/', 'DB_CONNECTION=mysql', $environment);
             $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=mysql", $environment);
-        }elseif (in_array('pgsql', $services)) {
+        } elseif (in_array('pgsql', $services)) {
             $environment = preg_replace('/DB_CONNECTION=.*/', 'DB_CONNECTION=pgsql', $environment);
             $environment = str_replace('DB_HOST=127.0.0.1', "DB_HOST=pgsql", $environment);
             $environment = str_replace('DB_PORT=3306', "DB_PORT=5432", $environment);
@@ -166,7 +168,7 @@ trait InteractsWithDockerComposeServices
             $environment = str_replace('REDIS_HOST=127.0.0.1', 'REDIS_HOST=redis', $environment);
         }
 
-        if (in_array('valkey',$services)){
+        if (in_array('valkey', $services)) {
             $environment = str_replace('REDIS_HOST=127.0.0.1', 'REDIS_HOST=valkey', $environment);
         }
 
@@ -256,7 +258,7 @@ trait InteractsWithDockerComposeServices
 
         file_put_contents(
             $this->laravel->basePath('.devcontainer/devcontainer.json'),
-            file_get_contents(__DIR__.'/../../../stubs/devcontainer.stub')
+            file_get_contents(__DIR__ . '/../../../stubs/devcontainer.stub')
         );
 
         $environment = file_get_contents($this->laravel->basePath('.env'));
@@ -282,7 +284,7 @@ trait InteractsWithDockerComposeServices
 
         if (count($services) > 0) {
             $this->runCommands([
-                './vendor/bin/sail pull '.implode(' ', $services),
+                './vendor/bin/sail pull ' . implode(' ', $services),
             ]);
         }
 
@@ -305,12 +307,12 @@ trait InteractsWithDockerComposeServices
             try {
                 $process->setTty(true);
             } catch (\RuntimeException $e) {
-                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> ' . $e->getMessage() . PHP_EOL);
             }
         }
 
         return $process->run(function ($type, $line) {
-            $this->output->write('    '.$line);
+            $this->output->write('    ' . $line);
         });
     }
 }

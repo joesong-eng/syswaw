@@ -1,4 +1,4 @@
-<svg fill="currentcolor" height="1.5rem" width="1.5rem" version="1.1" id="Capa_1" class="text-dark dark:text-white "
+<svg fill="currentcolor" height="1.5rem" width="1.5rem" version="1.1" id="Capa_1" class="text-dark "
     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 202.704 202.704"
     xml:space="preserve">
     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>

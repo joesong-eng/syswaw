@@ -12,8 +12,13 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionQueryController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Controllers\Tcp\TcpServerController;
+use App\Http\Controllers\DataIngestionController; // 引入新的控制器
 
 use Illuminate\Support\Facades\Redis; // 確保這行存在
+
+
+
 Route::middleware(['setLocale', 'auth'])->name('admin.')->group(function () {
     Route::prefix('monthly-reports')->name('monthly-reports.')->group(function () {
         // 報表列表頁
@@ -86,6 +91,17 @@ Route::middleware(['setLocale'])->group(function () {
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+        // 新增路由用於數據擷取與寫入資料庫
+        Route::post('/data-ingestion/ingest-mqtt', [DataIngestionController::class, 'ingestMqttData'])->name('data-ingestion.ingest-mqtt');
+
+        // 新增路由用於即時數據流顯示 (不寫入資料庫)
+        Route::get('/latestMqttData', [DataIngestionController::class, 'getStreamMqttData'])->name('latestMqttData');
+
+
+        Route::get('/streamData', [TcpServerController::class, 'streamData'])->name('streamData'); // 名稱: admin.tcp-server.streamData
+
+
         // // 機器管理相關路由 (大部分已移至 machine.php)
         Route::prefix('machines')->name('machines.')->group(function () {
             Route::patch('/update/{machine}', [MachinesController::class, 'update'])->name('update'); // 這個可能 admin 和 arcade 都需要，需確認

@@ -2,6 +2,8 @@
 return [
     // --- General ---
     'actions' => '操作',
+    'period' => '期间',
+    'time' => '时间',
     'add' => '添加',
     'address' => '地址',
     'all' => '全部',
@@ -443,6 +445,11 @@ $newKeys = [
     'payout_type_prize_claw' => '奖品 (抓娃娃机)', // 或者 '奖品 (娃娃机)'
     'payout_type_none'          => '无',
     'ball_input_value_hint' => '说明：设定每颗退出钢珠的成本价值。',
+
+    'log_out_other_browser_sessions' => '登出在別處登入',
+    'browser_sessions' => '帳號在別處登入',
+    'account' => 'Account',
+    'history' => '歷史記錄',
 ];
 
 return array_merge(parent::all(), $newKeys); // 合并现有翻译和新翻译

@@ -9,10 +9,10 @@
 @section('content')
     <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-scroll shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-scroll shadow-xl sm:rounded-lg">
                 <div class="p-2">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="text-gray-800 dark:text-white">
+                        <thead class="text-gray-800">
                             <tr>
                                 <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase">報表單號</th>
                                 <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase">報表區間</th>
@@ -22,7 +22,7 @@
                                 <th class="px-1 py-3 text-right text-xs font-medium text-gray-500 uppercase">操作</th>
                             </tr>
                         </thead>
-                        <tbody class=" divide-y divide-gray-200 text-dark dark:text-white">
+                        <tbody class=" divide-y divide-gray-200 text-dark">
                             @foreach ($reports as $report)
                                 <tr>
                                     <td class="px-1 py-4 whitespace-nowrap text-sm font-medium text-indigo-600">

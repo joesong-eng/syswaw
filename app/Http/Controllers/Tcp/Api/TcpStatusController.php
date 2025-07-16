@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache; // Add Cache facade
 use App\Models\Machine;
 use App\Models\MachineAuthKey;
 use App\Models\MachineDataRecord;
@@ -28,24 +29,50 @@ class TcpStatusController extends Controller
         $processedData = [];
         //Log::channel('redis_cmd')->info("LARAVEL #3.1# 處理數據開始", ['data' => $data]);
         foreach ($data as $item) {
-            $chipHardwareId = $item['chip_hardware_id'] ?? null;
+            $chipHardwareId = $item['chip_hardware_id'] ?? $item['chip_id'] ?? null; // 兼容 chip_id
             $authKeyValue = $item['auth_key'] ?? null;
-            if (!$chipHardwareId || !$authKeyValue) {
-                //Log::channel('redis_cmd')->warning("#3.2# 缺少 chip_hardware_id 或 auth_key", ['item' => $item]);
+            if (!$chipHardwareId) { // 只檢查 chipHardwareId
+                //Log::channel('redis_cmd')->warning("#3.2# 缺少 chip_hardware_id 或 chip_id", ['item' => $item]);
                 continue;
             }
             //Log::channel('redis_cmd')->info("LARAVEL #3.2# 處理 chip_hardware_id={$chipHardwareId}, auth_key={$authKeyValue}");
-            // 查詢 MachineAuthKey，確保 chip_hardware_id 和 auth_key 匹配
-            $authKey = MachineAuthKey::where('chip_hardware_id', $chipHardwareId)
-                ->where('auth_key', $authKeyValue)
-                ->first();
 
-            // 利用 machine 關聯取得 machine name
-            $machineName = $authKey && $authKey->machine ? $authKey->machine->name : '未知機器';
+            $cacheKey = 'machine_info:' . $chipHardwareId;
+            $cachedInfo = Cache::get($cacheKey);
+
+            $authKey = null;
+            $machineName = '未知機器';
+            $tokenValue = 'N/A'; // Default for token
+
+            if ($cachedInfo) {
+                $authKey = $cachedInfo['authKey'];
+                $machineName = $cachedInfo['machineName'];
+                $tokenValue = $cachedInfo['tokenValue'];
+            } else {
+                // 查詢 MachineAuthKey
+                $authKeyQuery = MachineAuthKey::where('chip_hardware_id', $chipHardwareId);
+                if ($authKeyValue) { // 只有當 auth_key 存在時才加入查詢條件
+                    $authKeyQuery->where('auth_key', $authKeyValue);
+                }
+                $authKey = $authKeyQuery->first();
+
+                if ($authKey) {
+                    $machineName = $authKey->machine ? $authKey->machine->name : '未知機器';
+                    $tokenValue = $authKey->auth_key; // Token is auth_key
+
+                    // Cache the information
+                    Cache::put($cacheKey, [
+                        'authKey' => $authKey,
+                        'machineName' => $machineName,
+                        'tokenValue' => $tokenValue,
+                    ], now()->addMinutes(60)); // Cache for 60 minutes
+                }
+            }
+
             $processedData[] = [
                 'machine_name'      => $machineName,
                 'chip_hardware_id'  => $chipHardwareId,
-                'auth_key'          => $authKeyValue,
+                'auth_key'          => $authKeyValue, // Keep original authKeyValue from item
                 'ball_in'           => $item['ball_in'] ?? 0,
                 'credit_in'         => $item['credit_in'] ?? 0,
                 'ball_out'          => $item['ball_out'] ?? 0,
@@ -53,6 +80,7 @@ class TcpStatusController extends Controller
                 'assign_credit'     => $item['assign_credit'] ?? 0,
                 'settled_credit'    => $item['settled_credit'] ?? 0,
                 'bill_denomination' => $item['bill_denomination'] ?? 0,
+                'token'             => $tokenValue, // Add token to processed data
             ];
             //Log::channel('redis_cmd')->info("LARAVEL #3.3# 處理結果", ['processed' => end($processedData)]);
         }
@@ -296,17 +324,19 @@ class TcpStatusController extends Controller
         $billMappings = config('bill_mappings', []);
 
         foreach ($data as $item) {
-            $chipHardwareId = $item['chip_hardware_id'] ?? null;
+            $chipHardwareId = $item['chip_hardware_id'] ?? $item['chip_id'] ?? null; // 兼容 chip_id
             $authKeyValue = $item['auth_key'] ?? null;
 
-            if (!$chipHardwareId || !$authKeyValue) {
-                Log::warning("LARAVEL 缺少 chip_hardware_id 或 auth_key", ['item' => $item]);
+            if (!$chipHardwareId) { // 只檢查 chipHardwareId
+                Log::warning("LARAVEL 缺少 chip_hardware_id 或 chip_id", ['item' => $item]);
                 continue;
             }
 
-            $authKey = MachineAuthKey::where('chip_hardware_id', $chipHardwareId)
-                ->where('auth_key', $authKeyValue)
-                ->first();
+            $authKeyQuery = MachineAuthKey::where('chip_hardware_id', $chipHardwareId);
+            if ($authKeyValue) { // 只有當 auth_key 存在時才加入查詢條件
+                $authKeyQuery->where('auth_key', $authKeyValue);
+            }
+            $authKey = $authKeyQuery->first();
 
             if (!$authKey) {
                 Log::warning("LARAVEL 未找到 MachineAuthKey", ['chip_hardware_id' => $chipHardwareId, 'auth_key' => $authKeyValue]);

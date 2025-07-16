@@ -67,11 +67,12 @@ class MachineMachinesController extends Controller
     }
     public function store(Request $request)
     {
-        $allowedMachineTypes = array_keys(config('machines.types', []));
+        $allowedMachineCategories = array_keys(config('machines.templates', []));
         $validated = $request->validate([
             'auth_key' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'machine_type' => ['required', 'string', Rule::in($allowedMachineTypes)],
+            'machine_category' => ['required', 'string', Rule::in($allowedMachineCategories)],
+            'machine_type' => 'nullable|string|max:255',
             'arcade_id' => 'required|exists:arcades,id',
             'chip_hardware_id' => [
                 'required',
@@ -81,7 +82,7 @@ class MachineMachinesController extends Controller
                     return $query->whereNull('deleted_at');
                 })
             ],
-            'owner_id' => 'required|integer|exists:users,id', // 確保是整數且存在
+            'owner_id' => 'required|integer|exists:users,id',
             'coin_input_value' => 'nullable|numeric|min:0',
             'credit_button_value' => 'nullable|numeric|min:0',
             'payout_button_value' => 'nullable|numeric|min:0',
@@ -90,9 +91,8 @@ class MachineMachinesController extends Controller
             'revenue_split' => 'nullable|numeric|min:0|max:100',
             'bill_acceptor_enabled' => 'boolean',
             'bill_currency' => 'nullable|string|max:3',
-            'accepted_denominations' => 'nullable|array', // 新增驗證
-            'accepted_denominations.*' => 'nullable|numeric', // 驗證陣列中的每個值
-
+            'accepted_denominations' => 'nullable|array',
+            'accepted_denominations.*' => 'nullable|numeric',
         ]);
 
         try {
@@ -130,31 +130,28 @@ class MachineMachinesController extends Controller
                 ]);
             }
 
-
             $machine = Machine::create([
                 'name' => $validated['name'],
-                'machine_type' => $validated['machine_type'],
+                'machine_category' => $validated['machine_category'],
+                'machine_type' => $validated['machine_type'] ?? null,
                 'arcade_id' => $validated['arcade_id'],
                 'owner_id' => $validated['owner_id'],
                 'created_by' => Auth::id(),
                 'auth_key_id' => $authKey->id,
                 'status' => 'active',
                 'is_active' => true,
-
                 'coin_input_value'      => $validated['coin_input_value'] ?? null,
                 'credit_button_value'   => $validated['credit_button_value'] ?? null,
                 'payout_button_value'   => $validated['payout_button_value'] ?? null,
                 'payout_type'           => $validated['payout_type'] ?? 'none',
                 'payout_unit_value' => $validated['payout_unit_value'] ?? null,
                 'revenue_split' => $validated['revenue_split'] ?? null,
-
                 'bill_acceptor_enabled' => $validated['bill_acceptor_enabled'] ?? false,
-                'bill_currency'         => $validated['bill_currency'] ?? null, // 保留 bill_currency 的賦值
-                'accepted_denominations' => $validated['accepted_denominations'] ?? null, // 新增賦值
-                // 移除 bill_unit_value 的賦值
+                'bill_currency'         => $validated['bill_currency'] ?? null,
+                'accepted_denominations' => $validated['accepted_denominations'] ?? null,
             ]);
-            // 如果是 money_slot 类型，强制启用 bill_acceptor_enabled
-            if ($machine->machine_type === 'money_slot') {
+
+            if ($machine->machine_category === 'money_slot') { // Logic updated to use machine_category
                 $machine->bill_acceptor_enabled = true;
             }
             $authKey->machine_id = $machine->id;
@@ -162,8 +159,7 @@ class MachineMachinesController extends Controller
 
             DB::commit();
 
-            // dd($machine->toArray(), $authKey->toArray()); // 檢查理論上已保存的數據
-            return redirect()->route('machine.machines')
+            return redirect()->route('machine.machines.index')
                 ->with('success', __('msg.machine_added_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
@@ -179,7 +175,6 @@ class MachineMachinesController extends Controller
         $user = Auth::user();
         $ownerId = $user->hasRole('machine-owner') ? $user->id : ($user->hasRole('machine-staff') ? $user->parent_id : null);
 
-        // 驗證使用者是否有權限更新此機台
         if (!$ownerId || !$machine->arcade || $machine->arcade->owner_id !== $ownerId) {
             Log::warning('updateMachine: Unauthorized attempt.', [
                 'user_id' => $user->id,
@@ -189,18 +184,15 @@ class MachineMachinesController extends Controller
             ]);
             return redirect()->back()->with('error', __('msg.unauthorized_action'))->withInput();
         }
-        Log::info('ArcadeMachinesController@update incoming request data:', $request->all());
+        Log::info('MachineMachinesController@update incoming request data:', $request->all());
 
-        $allowedMachineTypes = array_keys(config('machines.types', []));
-        Log::info('ArcadeMachinesController@update allowed machine types:', $allowedMachineTypes);
+        $allowedMachineCategories = array_keys(config('machines.templates', []));
+        Log::info('MachineMachinesController@update allowed machine categories:', $allowedMachineCategories);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'machine_type' => [
-                'required',
-                'string',
-                Rule::in($allowedMachineTypes)
-            ],
+            'machine_category' => ['required', 'string', Rule::in($allowedMachineCategories)],
+            'machine_type' => 'nullable|string|max:255',
             'arcade_id' => 'required|exists:arcades,id',
             'auth_key' => 'nullable|string|exists:machine_auth_keys,auth_key',
             'chip_hardware_id' => [
@@ -209,20 +201,17 @@ class MachineMachinesController extends Controller
                 'max:255',
                 Rule::unique('machine_auth_keys', 'chip_hardware_id')->ignore($machine->machineAuthKey->id ?? null, 'id')
             ],
-            'owner_id' => 'required|integer|exists:users,id', // 確保是整數且存在
-
+            'owner_id' => 'required|integer|exists:users,id',
             'coin_input_value' => 'nullable|numeric|min:0',
             'credit_button_value' => 'nullable|numeric|min:0',
             'payout_button_value' => 'nullable|numeric|min:0',
-            // 'balls_per_credit' => 'nullable|integer|min:1',
             'payout_type' => ['nullable', 'string', Rule::in(['points', 'tickets', 'coins', 'ball', 'prize', 'none', 'money_slot'])],
             'payout_unit_value' => 'nullable|numeric|min:0',
             'revenue_split' => 'nullable|numeric|min:0|max:100',
             'bill_acceptor_enabled' => 'boolean',
             'bill_currency' => 'nullable|string|max:3',
-            'accepted_denominations' => 'nullable|array', // 新增驗證
-            'accepted_denominations.*' => 'nullable|numeric', // 驗證陣列中的每個值
-
+            'accepted_denominations' => 'nullable|array',
+            'accepted_denominations.*' => 'nullable|numeric',
         ]);
 
         try {
@@ -230,27 +219,25 @@ class MachineMachinesController extends Controller
 
             $machineData = [
                 'name' => $validated['name'],
-                'machine_type' => $validated['machine_type'],
+                'machine_category' => $validated['machine_category'],
+                'machine_type' => $validated['machine_type'] ?? null,
                 'arcade_id' => $validated['arcade_id'],
                 'owner_id' => $validated['owner_id'],
-
-
                 'coin_input_value' => $validated['coin_input_value'] ?? null,
                 'credit_button_value' => $validated['credit_button_value'] ?? null,
                 'payout_button_value' => $validated['payout_button_value'] ?? null,
-                // 'balls_per_credit' => $validated['balls_per_credit'] ?? null,
                 'payout_type' => $validated['payout_type'] ?? 'none',
                 'payout_unit_value' => $validated['payout_unit_value'] ?? null,
                 'revenue_split' => $validated['revenue_split'] ?? null,
                 'bill_acceptor_enabled' => $validated['bill_acceptor_enabled'] ?? false,
-                'bill_currency'         => $validated['bill_currency'] ?? null, // 保留 bill_currency 的賦值
-                'accepted_denominations' => $validated['accepted_denominations'] ?? null, // 新增賦值
-                // 移除 bill_unit_value 的賦值
+                'bill_currency'         => $validated['bill_currency'] ?? null,
+                'accepted_denominations' => $validated['accepted_denominations'] ?? null,
             ];
-            // 如果是 money_slot 类型，强制启用 bill_acceptor_enabled
-            if ($validated['machine_type'] === 'money_slot') {
+
+            if ($validated['machine_category'] === 'money_slot') {
                 $machineData['bill_acceptor_enabled'] = true;
             }
+
             $currentAuthKey = $machine->machineAuthKey;
             $submittedAuthKeyValue = $validated['auth_key'] ?? null;
             $submittedChipHardwareIdValue = $validated['chip_hardware_id'] ?? null;
@@ -304,7 +291,6 @@ class MachineMachinesController extends Controller
                 $currentAuthKey->update(['owner_id' => $validated['owner_id']]);
             }
 
-            // 更新機台資料
             $machine->update($machineData);
 
             DB::commit();
@@ -312,7 +298,7 @@ class MachineMachinesController extends Controller
             return redirect()->route('machine.machines.index')->with('success', __('msg.machine_updated_successfully'));
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error updating machine in ArcadeMachinesController: ' . $e->getMessage(), ['machine_id' => $machine->id, 'request_data' => $request->all(), 'trace' => $e->getTraceAsString()]);
+            Log::error('Error updating machine in MachineMachinesController: ' . $e->getMessage(), ['machine_id' => $machine->id, 'request_data' => $request->all(), 'trace' => $e->getTraceAsString()]);
             return redirect()->back()->with('error', __('msg.error_updating_machine') . ': ' . $e->getMessage())->withInput();
         }
     }

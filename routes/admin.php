@@ -11,6 +11,8 @@ use App\Http\Controllers\Tcp\Api\TcpStatusController;
 use App\Http\Controllers\EtherealController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\MonthlyReportController;
+use App\Http\Controllers\DataIngestionController; // 引入新的控制器
+
 // 所有路由都需要登入和設定語系
 Route::middleware(['setLocale', 'auth', 'role:admin'])->group(function () {
     // =========================================================
@@ -25,12 +27,10 @@ Route::middleware(['setLocale', 'auth', 'role:admin'])->group(function () {
 
     // --- TCP Server & Ethereal ---
     Route::prefix('tcp-server')->name('tcp-server.')->group(function () {
-        Route::get('/', [TcpServerController::class, 'index'])->name('index'); // 名稱: admin.tcp-server.index
-        Route::get('/streamData', [TcpServerController::class, 'streamData'])->name('streamData'); // 名稱: admin.tcp-server.streamData
+        Route::get('/', [DataIngestionController::class, 'index'])->name('index'); // 名稱: admin.tcp-server.index
+        Route::get('/streamData', [DataIngestionController::class, 'streamData'])->name('streamData'); // 名稱: admin.tcp-server.streamData
         Route::get('/status', [TcpStatusController::class, 'getStatus'])->name('status');
         Route::post('/control', [TcpServerController::class, 'control'])->name('control');
-        Route::get('/openDataGate', [TcpServerController::class, 'openDataGate'])->middleware('auth')->name('openDataGate');
-        Route::post('/openDataGate', [TcpServerController::class, 'openDataGate'])->middleware('auth')->name('openDataGate');
     });
 
     Route::prefix('ethereal')->name('ethereal.')->group(function () {

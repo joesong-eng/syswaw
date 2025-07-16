@@ -25,28 +25,17 @@ class AdminMachinesController extends Controller
 
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $queryMachines = Machine::query();
-        $ownerId = $user->hasRole('arcade-owner') ? $user->id : ($user->hasRole('arcade-staff') ? $user->parent_id : null);
-        if ($ownerId) {
-            $arcadeIds = Arcade::where('owner_id', $ownerId)->pluck('id');
-            $queryMachines->whereIn('arcade_id', $arcadeIds);
-        }
-        $queryMachines->with(['arcade', 'owner', 'machineAuthKey']);
-        $machines = $queryMachines->orderBy('created_at', 'desc')->paginate(15);
-        $arcades = $ownerId ? Arcade::where('owner_id', $ownerId)->get(['id', 'name', 'currency']) : collect();
-        $potentialMachineOwners = User::orderBy('name')->get();
-        $availableAuthKeys = $ownerId ? MachineAuthKey::where('owner_id', $ownerId)
-            ->whereNull('machine_id')
-            ->where('status', 'pending')
-            ->get() : collect();
-
+        // 優化：移除了前面被覆蓋的無效查詢邏輯，保留有效部分。
         $machinesQuery = Machine::query()->with(['arcade', 'owner', 'machineAuthKey', 'creator']);
         $machines = $machinesQuery->latest()->paginate(15);
+
         $arcades = Arcade::orderBy('name')->get();
-        $users = User::whereHas('roles', function ($query) {
+
+        // 優化：合併了多個用戶查詢，提高效率。
+        $potentialMachineOwners = User::whereHas('roles', function ($query) {
             $query->whereIn('name', ['arcade-owner', 'machine-owner', 'admin']);
         })->orderBy('name')->get();
+
         $availableAuthKeys = MachineAuthKey::whereNull('machine_id')
             ->orderBy('chip_hardware_id') // 改為按 chip_hardware_id 排序
             ->get();
@@ -54,16 +43,20 @@ class AdminMachinesController extends Controller
         $arcadeOwners = User::role('arcade-owner')->get();
         $machineOwners = User::role('machine-owner')->get();
 
-        return view('admin.machines.index', compact('admins', 'arcadeOwners', 'machineOwners', 'machines', 'arcades', 'potentialMachineOwners', 'availableAuthKeys'));
+        return view('admin.machines.index', compact('machines', 'arcades', 'potentialMachineOwners', 'availableAuthKeys', 'admins', 'arcadeOwners', 'machineOwners'));
     }
 
     public function store(Request $request)
     {
         Log::info('提交的請求資料:', ['request_data' => $request->all(), 'chip_hardware_id' => $request->input('chip_hardware_id')]);
-        $allowedMachineTypes = array_keys(config('machines.types', []));
+
+        // 獲取 machine_category 的有效鍵
+        $allowedMachineCategories = array_keys(config('machines.templates', []));
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'machine_type' => ['required', 'string', Rule::in($allowedMachineTypes)],
+            'machine_category' => ['required', 'string', Rule::in($allowedMachineCategories)],
+            'machine_type' => 'nullable|string|max:255', // machine_type 現在是可選的詳細型號
             'arcade_id' => 'required|exists:arcades,id',
             'chip_hardware_id' => [
                 'required',
@@ -85,10 +78,14 @@ class AdminMachinesController extends Controller
             'bill_currency' => 'nullable|string|max:3',
             'accepted_denominations' => 'nullable|array',
             'share_pct' => 'nullable|numeric|min:0|max:100',
+            'ui_language' => 'nullable|string|max:255',
+            'auto_shutdown_seconds' => 'nullable|integer|min:0',
             'accepted_denominations.*' => 'nullable|numeric',
         ], [
             'chip_hardware_id.regex' => '通訊卡 ID 格式無效，請使用 1-10 位的英文、數字、下滑線、連字符、點或 @ 符號。',
             'chip_hardware_id.unique' => '此通訊卡 ID 已被使用，請選擇另一個。',
+            'machine_category.required' => '必須選擇一個主要營運模式。',
+            'machine_category.in' => '選擇的營運模式無效。',
         ]);
 
         try {
@@ -104,12 +101,13 @@ class AdminMachinesController extends Controller
 
             $machine = Machine::create([
                 'name' => $validated['name'],
-                'machine_type' => $validated['machine_type'],
+                'machine_category' => $validated['machine_category'], // 新增欄位
+                'machine_type' => $validated['machine_type'] ?? null, // 更新欄位
                 'arcade_id' => $validated['arcade_id'],
                 'owner_id' => $validated['owner_id'],
                 'created_by' => Auth::id(),
                 'auth_key_id' => $authKey->id,
-                'status' => 'active',
+                'status' => ['state' => 'active', 'message' => 'Machine created successfully.'],
                 'is_active' => true,
                 'coin_input_value' => $validated['coin_input_value'] ?? null,
                 'credit_button_value' => $validated['credit_button_value'] ?? null,
@@ -117,10 +115,12 @@ class AdminMachinesController extends Controller
                 'payout_type' => $validated['payout_type'] ?? 'none',
                 'payout_unit_value' => $validated['payout_unit_value'] ?? null,
                 'revenue_split' => $validated['revenue_split'] ?? null,
-                'bill_acceptor_enabled' => $validated['machine_type'] === 'money_slot' ? true : ($validated['bill_acceptor_enabled'] ?? false),
+                'bill_acceptor_enabled' => $request->boolean('bill_acceptor_enabled'),
                 'bill_currency' => $validated['bill_currency'] ?? null,
-                'accepted_denominations' => $validated['accepted_denominations'] ? json_encode($validated['accepted_denominations']) : null,
+                'accepted_denominations' => array_values(array_filter($validated['accepted_denominations'] ?? [], fn($v) => $v !== null)),
                 'share_pct' => $validated['share_pct'] ?? null,
+                'ui_language' => $validated['ui_language'] ?? 'en',
+                'auto_shutdown_seconds' => $validated['auto_shutdown_seconds'] ?? 300,
             ]);
 
             $authKey->machine_id = $machine->id;
@@ -138,6 +138,72 @@ class AdminMachinesController extends Controller
                 ->withInput();
         }
     }
+    public function update(Request $request, Machine $machine)
+    {
+        Log::info('AdminMachinesController@update started.', ['machine_id' => $machine->id, 'request_data' => $request->all()]);
+        if (!$machine->exists) {
+            Log::error('Machine model binding failed in update method.', ['route_parameters' => $request->route()->parameters()]);
+            return response()->json(['message' => '無法找到指定的機器記錄進行更新。'], 404);
+        }
+
+        // 獲取 machine_category 的有效鍵
+        $allowedMachineCategories = array_keys(config('machines.templates', []));
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'machine_category' => ['required', 'string', Rule::in($allowedMachineCategories)],
+            'machine_type' => 'nullable|string|max:255', // machine_type 現在是可選的詳細型號
+            'arcade_id' => 'required|exists:arcades,id',
+            'owner_id' => 'required|integer|exists:users,id',
+            'coin_input_value' => 'nullable|numeric|min:0',
+            'credit_button_value' => 'nullable|numeric|min:0',
+            'payout_button_value' => 'nullable|numeric|min:0',
+            'payout_type' => ['nullable', 'string', Rule::in(['points', 'tickets', 'coins', 'ball', 'prize', 'none', 'money_slot'])],
+            'payout_unit_value' => 'nullable|numeric|min:0',
+            'revenue_split' => 'nullable|numeric|min:0|max:100',
+            'bill_acceptor_enabled' => 'boolean',
+            'bill_currency' => 'nullable|string|max:3',
+            'accepted_denominations' => 'nullable|array',
+            'share_pct' => 'nullable|numeric|min:0|max:100',
+            'ui_language' => 'nullable|string|max:255',
+            'auto_shutdown_seconds' => 'nullable|integer|min:0',
+            'accepted_denominations.*' => 'nullable|numeric',
+        ], [
+            'machine_category.required' => '必須選擇一個主要營運模式。',
+            'machine_category.in' => '選擇的營運模式無效。',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $machineData = [
+                'name' => $validated['name'],
+                'machine_category' => $validated['machine_category'], // 新增欄位
+                'machine_type' => $validated['machine_type'] ?? null, // 更新欄位
+                'arcade_id' => $validated['arcade_id'],
+                'owner_id' => $validated['owner_id'],
+                'coin_input_value' => $validated['coin_input_value'] ?? null,
+                'credit_button_value' => $validated['credit_button_value'] ?? null,
+                'payout_button_value' => $validated['payout_button_value'] ?? null,
+                'payout_type' => $validated['payout_type'] ?? 'none',
+                'payout_unit_value' => $validated['payout_unit_value'] ?? null,
+                'revenue_split' => $validated['revenue_split'] ?? null,
+                'bill_acceptor_enabled' => $request->boolean('bill_acceptor_enabled'),
+                'bill_currency' => $validated['bill_currency'] ?? null,
+                'accepted_denominations' => array_values(array_filter($validated['accepted_denominations'] ?? [], fn($v) => $v !== null)),
+                'share_pct' => $validated['share_pct'] ?? null,
+                'ui_language' => $validated['ui_language'] ?? $machine->ui_language,
+                'auto_shutdown_seconds' => $validated['auto_shutdown_seconds'] ?? $machine->auto_shutdown_seconds,
+            ];
+
+            $machine->update($machineData);
+            DB::commit();
+            return redirect()->route('admin.machines.index')->with('success', __('msg.machine_updated_successfully'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('更新機器失敗: ' . $e->getMessage(), ['machine_id' => $machine->id, 'request_data' => $request->all(), 'trace' => $e->getTraceAsString()]);
+            return redirect()->back()->with('error', __('msg.error_updating_machine') . ': ' . $e->getMessage())->withInput();
+        }
+    }
 
     public function edit(Machine $machine)
     {
@@ -151,68 +217,7 @@ class AdminMachinesController extends Controller
         return view('admin.machines.edit', compact('machine', 'arcades', 'users'));
     }
 
-    public function update(Request $request, Machine $machine)
-    {
-        Log::info('AdminMachinesController@update started.', ['machine_id' => $machine->id, 'request_data' => $request->all()]);
-        if (!$machine->exists) {
-            Log::error('Machine model binding failed in update method.', ['route_parameters' => $request->route()->parameters()]);
-            return response()->json(['message' => '無法找到指定的機器記錄進行更新。'], 404);
-        }
 
-        $allowedMachineTypes = array_keys(config('machines.types', []));
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'machine_type' => ['required', 'string', Rule::in($allowedMachineTypes)],
-            'arcade_id' => 'required|exists:arcades,id',
-            'owner_id' => 'required|integer|exists:users,id',
-            'coin_input_value' => 'nullable|numeric|min:0',
-            'credit_button_value' => 'nullable|numeric|min:0',
-            'payout_button_value' => 'nullable|numeric|min:0',
-            'payout_type' => ['nullable', 'string', Rule::in(['points', 'tickets', 'coins', 'ball', 'prize', 'none', 'money_slot'])],
-            'payout_unit_value' => 'nullable|numeric|min:0',
-            'revenue_split' => 'nullable|numeric|min:0|max:100',
-            'bill_acceptor_enabled' => 'boolean',
-            'bill_currency' => 'nullable|string|max:3',
-            'accepted_denominations' => 'nullable|array',
-            'share_pct' => 'nullable|numeric|min:0|max:100',
-            'accepted_denominations.*' => 'nullable|numeric',
-        ], [
-            'chip_hardware_id.regex' => '通訊卡 ID 格式無效，請使用 1-10 位的英文、數字、下滑線、連字符、點或 @ 符號。',
-            'chip_hardware_id.unique' => '此通訊卡 ID 已被使用，請選擇另一個。',
-        ]);
-
-        try {
-            DB::beginTransaction();
-            $machineData = [
-                'name' => $validated['name'],
-                'machine_type' => $validated['machine_type'],
-                'arcade_id' => $validated['arcade_id'],
-                'owner_id' => $validated['owner_id'],
-                'coin_input_value' => $validated['coin_input_value'] ?? null,
-                'credit_button_value' => $validated['credit_button_value'] ?? null,
-                'payout_button_value' => $validated['payout_button_value'] ?? null,
-                'payout_type' => $validated['payout_type'] ?? 'none',
-                'payout_unit_value' => $validated['payout_unit_value'] ?? null,
-                'revenue_split' => $validated['revenue_split'] ?? null,
-                'bill_acceptor_enabled' => $validated['bill_acceptor_enabled'] ?? false,
-                'bill_currency' => $validated['bill_currency'] ?? null,
-                'accepted_denominations' => isset($validated['accepted_denominations']) && is_array($validated['accepted_denominations']) ? json_encode($validated['accepted_denominations']) : null,
-                'share_pct' => $validated['share_pct'] ?? null,
-            ];
-
-            if ($validated['machine_type'] === 'money_slot') {
-                $machineData['bill_acceptor_enabled'] = true;
-            }
-
-            $machine->update($machineData);
-            DB::commit();
-            return redirect()->route('admin.machines.index')->with('success', __('msg.machine_updated_successfully'));
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('更新機器失敗: ' . $e->getMessage(), ['machine_id' => $machine->id, 'request_data' => $request->all(), 'trace' => $e->getTraceAsString()]);
-            return redirect()->back()->with('error', __('msg.error_updating_machine') . ': ' . $e->getMessage())->withInput();
-        }
-    }
 
     public function toggleActive(Request $request, $id)
     {
@@ -257,22 +262,5 @@ class AdminMachinesController extends Controller
         return view('admin.machines.print_keys', compact('qrCodes'));
     }
 
-    private function validateChipKeyAndHardwareIdForStore(\Illuminate\Contracts\Validation\Validator $validator, Request $request): void
-    {
-        $chipHardwareId = $request->input('chip_hardware_id');
-        if (empty($chipHardwareId)) {
-            $validator->errors()->add('chip_hardware_id', __('validation.required', ['attribute' => __('msg.chip_hardware_id')]));
-            return;
-        }
-        if (!preg_match('/^[a-zA-Z0-9_\-\.@]{1,10}$/', $chipHardwareId)) {
-            $validator->errors()->add('chip_hardware_id', __('validation.regex', ['attribute' => __('msg.chip_hardware_id')]));
-            return;
-        }
-        $existingKeyWithHwId = MachineAuthKey::where('chip_hardware_id', $chipHardwareId)
-            ->whereNull('deleted_at')
-            ->first();
-        if ($existingKeyWithHwId) {
-            $validator->errors()->add('chip_hardware_id', __('validation.custom.chip_hardware_id.unique'));
-        }
-    }
+    // 移除：這個私有方法從未被呼叫，是無用的死代碼。
 }

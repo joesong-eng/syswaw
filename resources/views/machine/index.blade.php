@@ -22,14 +22,13 @@
              <div class="container mx-auto pb-3">
                  <div class="bg-white rounded-lg shadow-lg">
                      <!-- Header Row -->
-                     <div
-                         class="flex items-start border-b border-gray-200 text-sm font-medium text-gray-700 shadow-lg">
+                     <div class="flex items-start border-b border-gray-200 text-sm font-medium text-gray-700 shadow-lg">
                          <div class="w-full max-w-[10px] px-1 border-r">#</div>
                          <div class="w-full max-w-[100px] text-center px-1">{{ __('msg.name') }}/<a
                                  style="font-size: xx-small;text-overflow: ellipsis;">{{ __('msg.creator') }}</a></div>
                          <div class="w-[calc(3/11*(100%-216px))] text-center">{{ __('msg.arcade') }}</div>
                          <div class="w-[calc(3/11*(100%-216px))] text-center">{{ __('msg.owner') }}</div>
-                         <div class="w-[calc(3/11*(100%-216px))] text-center">{{ __('msg.sort') }}</div>
+                         <div class="w-[calc(3/11*(100%-216px))] text-center">{{ __('msg.type') }}</div>
                          <div class="w-[calc(2/11*(100%-216px))] text-center">{{ __('msg.token') }}</div>
                          <div class="w-[105px] flex justify-center">{{ __('msg.status') }}{{ __('msg.actions') }}</div>
                      </div>
@@ -37,8 +36,7 @@
                  <!-- Data Rows -->
                  <div class="overflow-y-auto max-h-[calc(100vh-200px)] sm:max-h-[calc(100vh-150px)] py-2">
                      @foreach ($machines as $machine)
-                         <div
-                             class="flex items-center border-b border-gray-200 text-sm font-medium text-gray-700 py-1">
+                         <div class="flex items-center border-b border-gray-200 text-sm font-medium text-gray-700 py-1">
                              <div class="w-full max-w-[10px] px-1 break-words m-auto border-r">{{ $machine->id }}</div>
                              <div class="w-full max-w-[100px] px-1 break-words m-auto text-center">
                                  {{ $machine->name }}

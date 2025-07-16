@@ -9,8 +9,8 @@ SERVER_IP = os.getenv("SERVER_IP", "127.0.0.1")
 SERVER_PORT = int(os.getenv("SERVER_PORT", "39001"))
 
 DB_HOST="127.0.0.1"
-DB_NAME = "syswaw"
-DB_USER = "syswaw"
+DB_NAME = "sxswaw"
+DB_USER = "sxswaw"
 DB_PASSWORD = "2a@684240"
 DB_PORT=3306
 
@@ -28,8 +28,8 @@ SERVER_IP = os.getenv("SERVER_IP", "127.0.0.1")
 SERVER_PORT = int(os.getenv("SERVER_PORT", "39001"))
 
 DB_HOST="127.0.0.1"
-DB_NAME = "syswaw"
-DB_USER = "syswaw"
+DB_NAME = "sxswaw"
+DB_USER = "sxswaw"
 DB_PASSWORD = "2a@684240"
 DB_PORT=3306
 

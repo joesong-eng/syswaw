@@ -1,10 +1,21 @@
-{{-- /Users/ilawusong/Documents/sysWawIot/sys180/resources/views/arcade/machines/partials/script.blade.php --}}
 @php
     $ownerId = auth()->check()
         ? (auth()->user()->isArcadeStaff() && !is_null(auth()->user()->parent)
             ? auth()->user()->parent->id
             : auth()->id())
         : null;
+
+    $arcadesData = $arcades
+        ->mapWithKeys(function ($arcade) {
+            return [$arcade->id => ['name' => $arcade->name, 'currency' => $arcade->currency ?? 'TWD']];
+        })
+        ->all();
+
+    $machineTypeNames = collect(config('machines.types', []))
+        ->mapWithKeys(function ($displayNameKey, $key) {
+            return [$key => __($displayNameKey)];
+        })
+        ->all();
 @endphp
 <script>
     document.addEventListener('alpine:init', () => {
@@ -20,42 +31,42 @@
                 arcade_currency: 'TWD',
                 chip_hardware_id: '',
                 auth_key: '',
-                machine_type: '',
+                machine_category: '', // New
+                machine_type: '', // Now for appearance
                 payout_type: 'none',
-                ball_input_value: '1',
-                point_value: '100',
-                ticket_value: '10',
-                prize_value: '30',
-                coin_input_value_enabled: false,
-                coin_input_value: '0',
-                credit_button_value: '0',
-                payout_button_value: '0',
-                revenue_split: 45,
+                payout_type_selection: [], // New
+                optional_modules: [], // New
+                selected_modules: [], // New
+                credit_value: '0',
                 balls_per_credit: '0',
-                balls_per_credit_enabled: false,
-                credit_in_enable: false,
                 points_per_credit_action: '0',
-                create_credit_out_enable: false,
+                payout_unit_value: '0',
+                revenue_split: 45,
                 owner_id: @json($ownerId),
                 bill_acceptor_enabled: false,
                 bill_currency: 'TWD',
                 accepted_denominations: [],
-                all_denominations_selected: true
+                all_denominations_selected: true,
+                share_pct: '',
             },
 
             // 編輯用的表單
             editForm: {
                 id: null,
                 name: '',
-                machine_type: '',
+                machine_category: '', // New
+                machine_type: '', // Now for appearance
+                payout_type_selection: [], // New
+                optional_modules: [], // New
+                selected_modules: [], // New
                 arcade_id: '',
                 arcade_currency: 'TWD',
                 auth_key: '',
                 chip_hardware_id: '',
                 machine_auth_key: null,
-                coin_input_value: '0',
-                credit_button_value: '0',
-                payout_button_value: '0',
+                credit_value: '0',
+                balls_per_credit: '0',
+                points_per_credit_action: '0',
                 payout_type: 'none',
                 payout_unit_value: null,
                 revenue_split: null,
@@ -64,20 +75,17 @@
                 bill_acceptor_enabled: false,
                 bill_currency: 'TWD',
                 accepted_denominations: [],
-                all_denominations_selected: false // 新增：與 createForm 一致，預設 false
+                all_denominations_selected: false,
+                share_pct: '',
             },
 
             // 可選面額，初始化為空數組
             available_denominations_for_selected_currency: [],
 
             // 從後端傳遞的數據
-            arcadesData: @json(
-                $arcades->mapWithKeys(function ($arcade) {
-                        return [$arcade->id => ['name' => $arcade->name, 'currency' => $arcade->currency ?? 'TWD']];
-                    })->all()),
-            machineTypeNames: @json(collect(config('machines.types', []))->mapWithKeys(function ($displayNameKey, $key) {
-                        return [$key => __($displayNameKey)];
-                    })->all()),
+            arcadesData: @json($arcadesData),
+            machineTemplates: @json(config('machines.templates', [])), // New
+            machineTypeNames: @json($machineTypeNames),
             payoutTypeNames: {
                 'none': "{{ __('msg.select') }}",
                 'ball': "{{ __('msg.payout_type_pachinko') }}",
@@ -86,7 +94,6 @@
                 'coins': "{{ __('msg.payout_type_coins') }}",
                 'prize': "{{ __('msg.payout_type_prize_claw') }}"
             },
-            // 定義一次 bill_mappings 配置
             mappingsConfig: @json(config('bill_mappings', [])),
 
             // 輔助函數
@@ -118,26 +125,77 @@
 
             // 模態框控制
             openCreateModal() {
-                console.log('openCreateModal called');
                 this.resetCreateForm();
-                console.log('after resetCreateForm, createForm is:', JSON.parse(JSON.stringify(this
-                    .createForm)));
                 this.showCreateMachineModal = true;
-                console.log('showCreateMachineModal is now:', this.showCreateMachineModal);
             },
 
             closeCreateModal() {
                 this.showCreateMachineModal = false;
             },
 
-            setEditForm(machine) {
-                console.log('setEditForm called with machine:', JSON.parse(JSON.stringify(
-                    machine)));
-                console.log('machine.accepted_denominations:', JSON.stringify(machine
-                    .accepted_denominations));
+            openEditModal(machine) {
+                this.setEditForm(machine);
+                this.showEditMachineModal = true;
+            },
 
+            closeEditModal() {
+                this.showEditMachineModal = false;
+            },
+
+            updateCreateFormBasedOnCategory() {
+                const category = this.createForm.machine_category;
+                const template = this.machineTemplates[category];
+
+                if (!template) {
+                    this.createForm.payout_type_selection = [];
+                    this.createForm.optional_modules = [];
+                    return;
+                }
+
+                this.createForm.payout_type_selection = template.follow_up?.payout_type_selection
+                    ?.map(item => ({
+                        value: Object.keys(item)[0],
+                        text: Object.values(item)[0]
+                    })) || [];
+
+                this.createForm.optional_modules = template.follow_up?.optional_modules?.map(item =>
+                    ({
+                        value: Object.keys(item)[0],
+                        text: Object.values(item)[0]
+                    })) || [];
+
+                // Reset selections
+                this.createForm.payout_type = '';
+                this.createForm.selected_modules = [];
+            },
+
+            updateEditFormBasedOnCategory() {
+                const category = this.editForm.machine_category;
+                const template = this.machineTemplates[category];
+
+                if (!template) {
+                    this.editForm.payout_type_selection = [];
+                    this.editForm.optional_modules = [];
+                    return;
+                }
+
+                this.editForm.payout_type_selection = template.follow_up?.payout_type_selection
+                    ?.map(item => ({
+                        value: Object.keys(item)[0],
+                        text: Object.values(item)[0]
+                    })) || [];
+
+                this.editForm.optional_modules = template.follow_up?.optional_modules?.map(item =>
+                    ({
+                        value: Object.keys(item)[0],
+                        text: Object.values(item)[0]
+                    })) || [];
+            },
+
+            setEditForm(machine) {
                 this.editForm.id = machine.id || null;
                 this.editForm.name = machine.name || '';
+                this.editForm.machine_category = machine.machine_category || '';
                 this.editForm.machine_type = machine.machine_type || '';
                 this.editForm.arcade_id = String(machine.arcade_id || '');
                 this.editForm.arcade_currency = machine.arcade?.currency || 'TWD';
@@ -158,39 +216,35 @@
                 this.editForm.bill_acceptor_enabled = machine.bill_acceptor_enabled ?? false;
                 this.editForm.bill_currency = String(machine.bill_currency ?? this.editForm
                     .arcade_currency ?? 'TWD');
-                this.editForm.accepted_denominations = Array.isArray(machine
-                        .accepted_denominations) ?
-                    machine.accepted_denominations.map(String) : [];
+                // Correctly format share_pct to match option values (e.g., "0.5", "1.0")
+                this.editForm.share_pct = machine.share_pct !== null ? parseFloat(machine.share_pct)
+                    .toFixed(1) : '';
 
-                // 更新面額
-                console.log('mappingsConfig:', JSON.parse(JSON.stringify(this.mappingsConfig)));
-                console.log('bill_currency:', this.editForm.bill_currency);
-                console.log('mappingsConfig[bill_currency]:', this.mappingsConfig[this.editForm
-                    .bill_currency]);
-
-                const denominations = this.mappingsConfig[this.editForm.bill_currency];
-                // 處理物件或陣列，提取值
-                this.available_denominations_for_selected_currency = denominations ?
-                    (Array.isArray(denominations) ? denominations : Object.values(denominations))
-                    .map(String)
-                    .filter((value, index, self) => self.indexOf(value) === index)
-                    .sort((a, b) => Number(a) - Number(b)) : [];
-
-                this.editForm.all_denominations_selected = this
-                    .available_denominations_for_selected_currency.length > 0 &&
-                    this.editForm.accepted_denominations.length === this
-                    .available_denominations_for_selected_currency.length &&
-                    this.available_denominations_for_selected_currency.every(denom =>
-                        this.editForm.accepted_denominations.includes(denom));
-
-                console.log('available_denominations_for_selected_currency:', this
-                    .available_denominations_for_selected_currency);
-                console.log('editForm.accepted_denominations:', this.editForm
-                    .accepted_denominations);
-                console.log('editForm.all_denominations_selected:', this.editForm
-                    .all_denominations_selected);
-
-                this.showEditMachineModal = true;
+                // 僅在 machine_category 為 utility 時處理面額
+                if (this.editForm.machine_category === 'utility') {
+                    this.editForm.accepted_denominations = Array.isArray(machine
+                            .accepted_denominations) ?
+                        machine.accepted_denominations.map(String) : [];
+                    const denominations = this.mappingsConfig[this.editForm.bill_currency] || [];
+                    this.available_denominations_for_selected_currency = Array.isArray(
+                            denominations) ?
+                        denominations :
+                        Object.values(denominations)
+                        .map(String)
+                        .filter((value, index, self) => self.indexOf(value) === index)
+                        .sort((a, b) => Number(a) - Number(b));
+                    this.editForm.all_denominations_selected = this
+                        .available_denominations_for_selected_currency.length > 0 &&
+                        this.editForm.accepted_denominations.length === this
+                        .available_denominations_for_selected_currency.length &&
+                        this.available_denominations_for_selected_currency.every(denom =>
+                            this.editForm.accepted_denominations.includes(denom));
+                } else {
+                    this.editForm.accepted_denominations = [];
+                    this.editForm.all_denominations_selected = false;
+                    this.available_denominations_for_selected_currency = [];
+                    this.editForm.bill_currency = 'TWD';
+                }
 
                 this.$nextTick(() => {
                     console.log('--- Debugging Edit Modal ---');
@@ -202,10 +256,6 @@
                 });
             },
 
-            closeEditModal() {
-                this.showEditMachineModal = false;
-            },
-
             resetCreateForm() {
                 this.createForm = {
                     name: '',
@@ -213,33 +263,28 @@
                     arcade_currency: 'TWD',
                     chip_hardware_id: '',
                     auth_key: '',
+                    machine_category: '',
                     machine_type: '',
                     payout_type: 'none',
-                    ball_input_value: '1',
-                    point_value: '100',
-                    ticket_value: '10',
-                    prize_value: '30',
-                    coin_input_value: '0',
-                    coin_input_value_enabled: false,
-                    credit_button_value: '0',
-                    payout_button_value: '0',
-                    revenue_split: 45,
+                    payout_type_selection: [],
+                    optional_modules: [],
+                    selected_modules: [],
+                    credit_value: '0',
                     balls_per_credit: '0',
-                    balls_per_credit_enabled: false,
-                    credit_in_enable: false,
                     points_per_credit_action: '0',
-                    create_credit_out_enable: false,
+                    payout_unit_value: '0',
+                    revenue_split: 45,
                     owner_id: @json($ownerId),
                     bill_acceptor_enabled: false,
                     bill_currency: 'TWD',
                     accepted_denominations: [],
-                    all_denominations_selected: true
+                    all_denominations_selected: true,
+                    share_pct: '',
                 };
                 this.available_denominations_for_selected_currency = [];
-                const newBillCurrency = this.createForm.bill_currency;
-                if (newBillCurrency && this.mappingsConfig && this.mappingsConfig[
-                        newBillCurrency]) {
-                    const denominations = this.mappingsConfig[newBillCurrency];
+                if (this.createForm.machine_category === 'utility' && this.createForm
+                    .bill_currency && this.mappingsConfig[this.createForm.bill_currency]) {
+                    const denominations = this.mappingsConfig[this.createForm.bill_currency];
                     this.available_denominations_for_selected_currency = (Array.isArray(
                             denominations) ? denominations : Object.values(denominations))
                         .map(String)
@@ -259,30 +304,15 @@
                 let dataToSubmit = {
                     ...this.createForm
                 };
-                switch (this.createForm.payout_type) {
-                    case 'ball':
-                        dataToSubmit.payout_unit_value = this.createForm.ball_input_value;
-                        break;
-                    case 'tickets':
-                        dataToSubmit.payout_unit_value = this.createForm.ticket_value;
-                        break;
-                    case 'points':
-                        dataToSubmit.payout_unit_value = this.createForm.point_value;
-                        break;
-                    case 'prize':
-                        dataToSubmit.payout_unit_value = this.createForm.prize_value;
-                        break;
-                    case 'coins':
-                        dataToSubmit.payout_unit_value = this.createForm.coin_input_value_enabled ?
-                            this.createForm.coin_input_value : '0';
-                        break;
-                    default:
-                        dataToSubmit.payout_unit_value = '0';
-                }
-                if (dataToSubmit.machine_type === 'money_slot') {
+                if (dataToSubmit.machine_category === 'utility') {
                     dataToSubmit.bill_acceptor_enabled = true;
+                } else {
+                    dataToSubmit.accepted_denominations = [];
+                    dataToSubmit.all_denominations_selected = false;
+                    dataToSubmit.bill_currency = null;
                 }
-                console.log('Submitting createForm data:', dataToSubmit);
+                console.log('Final data to submit:', JSON.stringify(dataToSubmit)); // <<<<<< 添加這行
+
                 axios.post('{{ route('arcade.machines.store') }}', dataToSubmit)
                     .then(response => {
                         this.closeCreateModal();
@@ -322,9 +352,74 @@
                     });
             },
 
+            submitEdit() {
+                let dataToSubmit = {
+                    ...this.editForm
+                };
+                dataToSubmit.payout_unit_value = this.formatPayoutUnitValue(this.editForm
+                    .payout_unit_value);
+                if (dataToSubmit.machine_category !== 'utility') {
+                    dataToSubmit.accepted_denominations = [];
+                    dataToSubmit.all_denominations_selected = false;
+                    dataToSubmit.bill_currency = null;
+                }
+                console.log('提交 editForm 數據:', JSON.stringify(dataToSubmit));
+
+                if (!this.editForm.id || isNaN(this.editForm.id)) {
+                    console.error('無效的機器 ID:', this.editForm.id);
+                    Swal.fire({
+                        icon: 'error',
+                        title: '{{ __('msg.error') }}',
+                        html: '無效的機器 ID，請重新嘗試。'
+                    });
+                    return;
+                }
+
+                const routeTemplate = "{{ route('arcade.machines.update', ':id') }}";
+                const url = routeTemplate.replace(':id', this.editForm.id);
+                axios.patch(url, dataToSubmit)
+                    .then(response => {
+                        this.closeEditModal();
+                        Swal.fire({
+                            icon: 'success',
+                            title: '{{ __('msg.success') }}',
+                            text: response.data.message ||
+                                '{{ __('msg.machine_updated_successfully') }}',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('更新機器失敗:', error.response);
+                        let title = '{{ __('msg.error') }}';
+                        let htmlMessage = '{{ __('msg.failed_to_update_machine') }}';
+                        if (error.response && error.response.data) {
+                            if (error.response.data.message) {
+                                htmlMessage += `<br>${error.response.data.message}`;
+                            }
+                            if (error.response.data.errors) {
+                                console.log('驗證錯誤:', error.response.data.errors);
+                                htmlMessage +=
+                                    '<ul class="mt-2 text-sm text-red-600 list-disc list-inside">';
+                                Object.values(error.response.data.errors).forEach(errorsArray =>
+                                    errorsArray.forEach(err => htmlMessage +=
+                                        `<li>${err}</li>`));
+                                htmlMessage += '</ul>';
+                            }
+                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: title,
+                            html: htmlMessage
+                        });
+                    });
+            },
+
             generateCreateKey() {
                 this.isLoadingCreateKey = true;
-                axios.post("{{ route('arcade.auth_keys.generate_single') }}")
+                axios.post("{{ route('arcade.machine_auth_keys.generateSingle') }}")
                     .then(response => {
                         if (response.data.success) {
                             this.createForm.auth_key = response.data.auth_key;
@@ -350,12 +445,6 @@
             },
 
             init() {
-                console.log('machineManagement Alpine component initialized.');
-                console.log('Initial arcadesData:', JSON.parse(JSON.stringify(this.arcadesData)));
-                console.log('Initial machineTypeNames:', JSON.parse(JSON.stringify(this
-                    .machineTypeNames)));
-                console.log('mappingsConfig:', JSON.parse(JSON.stringify(this.mappingsConfig)));
-
                 if (!this.arcadesData || Object.keys(this.arcadesData).length === 0) {
                     console.warn(
                         'No arcades data available in Alpine, setting default currency for forms'
@@ -386,8 +475,8 @@
 
                 this.$watch('createForm.payout_type', (newPayoutType) => {});
 
-                this.$watch('createForm.machine_type', (newMachineType) => {
-                    if (newMachineType === 'money_slot') {
+                this.$watch('createForm.machine_category', (newMachineCategory) => {
+                    if (newMachineCategory === 'utility') {
                         this.createForm.payout_type = 'none';
                         this.createForm.coin_input_value_enabled = false;
                         this.createForm.coin_input_value = '0';
@@ -395,13 +484,32 @@
                         this.createForm.credit_button_value = '0';
                         this.createForm.create_credit_out_enable = false;
                         this.createForm.payout_button_value = '0';
+                        this.createForm.bill_acceptor_enabled = true;
+                        this.updateCreateDenominations();
                     } else {
                         this.createForm.bill_acceptor_enabled = false;
+                        this.createForm.accepted_denominations = [];
+                        this.createForm.all_denominations_selected = false;
+                        this.createForm.bill_currency = 'TWD';
+                        this.available_denominations_for_selected_currency = [];
                         this.createForm.coin_input_value_enabled = true;
                         if (this.createForm.coin_input_value_enabled && this.createForm
                             .coin_input_value === '0') {
                             this.createForm.coin_input_value = '10';
                         }
+                    }
+                });
+
+                this.$watch('editForm.machine_category', (newMachineCategory) => {
+                    if (newMachineCategory === 'utility') {
+                        this.editForm.bill_acceptor_enabled = true;
+                        this.updateEditDenominations();
+                    } else {
+                        this.editForm.bill_acceptor_enabled = false;
+                        this.editForm.accepted_denominations = [];
+                        this.editForm.all_denominations_selected = false;
+                        this.editForm.bill_currency = 'TWD';
+                        this.available_denominations_for_selected_currency = [];
                     }
                 });
 
@@ -415,13 +523,100 @@
                         this.createForm.arcade_currency = 'TWD';
                         this.createForm.bill_currency = 'TWD';
                     }
-                    this.$dispatch('alpine-watch-bill-currency', this.createForm
-                        .bill_currency);
+                    this.updateCreateDenominations();
                 });
 
-                // 在 init() 中的 createForm.bill_currency 監聽器
+                this.$watch('editForm.arcade_id', (newArcadeId) => {
+                    if (newArcadeId && this.arcadesData && this.arcadesData[newArcadeId]) {
+                        this.editForm.arcade_currency = String(this.arcadesData[newArcadeId]
+                            .currency || 'TWD');
+                        this.editForm.bill_currency = String(this.editForm.arcade_currency);
+                    } else {
+                        this.editForm.arcade_currency = 'TWD';
+                        this.editForm.bill_currency = 'TWD';
+                    }
+                    this.updateEditDenominations();
+                });
+
                 this.$watch('createForm.bill_currency', (newBillCurrency) => {
-                    console.log('Bill currency changed to:', newBillCurrency);
+                    this.updateCreateDenominations();
+                });
+
+                this.$watch('editForm.bill_currency', (newBillCurrency) => {
+                    this.updateEditDenominations();
+                });
+
+                this.$watch('createForm.all_denominations_selected', (isAllSelected) => {
+                    if (this.createForm.machine_category !== 'utility') return;
+                    if (isAllSelected) {
+                        this.createForm.accepted_denominations = [...this
+                            .available_denominations_for_selected_currency
+                        ];
+                    } else if (this.createForm.accepted_denominations.length === this
+                        .available_denominations_for_selected_currency.length) {
+                        this.createForm.accepted_denominations = [];
+                    }
+                });
+
+                this.$watch('editForm.all_denominations_selected', (isAllSelected) => {
+                    if (this.editForm.machine_category !== 'utility') return;
+                    if (isAllSelected) {
+                        this.editForm.accepted_denominations = [...this
+                            .available_denominations_for_selected_currency
+                        ];
+                    } else if (this.editForm.accepted_denominations.length === this
+                        .available_denominations_for_selected_currency.length) {
+                        this.editForm.accepted_denominations = [];
+                    }
+                });
+
+                this.$watch('createForm.accepted_denominations', (newlyAccepted, oldValue) => {
+                    if (this.createForm.machine_category !== 'utility' || JSON.stringify(
+                            newlyAccepted) === JSON.stringify(oldValue)) return;
+                    const allCurrentlyAvailable = this
+                        .available_denominations_for_selected_currency || [];
+                    if (allCurrentlyAvailable.length > 0 && newlyAccepted && newlyAccepted
+                        .length === allCurrentlyAvailable.length &&
+                        allCurrentlyAvailable.every(denom => newlyAccepted.includes(denom))
+                    ) {
+                        if (!this.createForm.all_denominations_selected) {
+                            this.createForm.all_denominations_selected = true;
+                        }
+                    } else {
+                        if (this.createForm.all_denominations_selected) {
+                            this.createForm.all_denominations_selected = false;
+                        }
+                    }
+                });
+
+                this.$watch('editForm.accepted_denominations', (newlyAccepted, oldValue) => {
+                    if (this.editForm.machine_category !== 'utility' || JSON.stringify(
+                            newlyAccepted) === JSON.stringify(oldValue)) return;
+                    const allCurrentlyAvailable = this
+                        .available_denominations_for_selected_currency || [];
+                    if (allCurrentlyAvailable.length > 0 && newlyAccepted && newlyAccepted
+                        .length === allCurrentlyAvailable.length &&
+                        allCurrentlyAvailable.every(denom => newlyAccepted.includes(denom))
+                    ) {
+                        if (!this.editForm.all_denominations_selected) {
+                            this.editForm.all_denominations_selected = true;
+                        }
+                    } else {
+                        if (this.editForm.all_denominations_selected) {
+                            this.editForm.all_denominations_selected = false;
+                        }
+                    }
+                });
+
+                // 輔助方法更新面額
+                this.updateCreateDenominations = function() {
+                    if (this.createForm.machine_category !== 'utility') {
+                        this.available_denominations_for_selected_currency = [];
+                        this.createForm.accepted_denominations = [];
+                        this.createForm.all_denominations_selected = false;
+                        return;
+                    }
+                    const newBillCurrency = this.createForm.bill_currency;
                     if (newBillCurrency && this.mappingsConfig && this.mappingsConfig[
                             newBillCurrency]) {
                         const denominations = this.mappingsConfig[newBillCurrency];
@@ -440,106 +635,43 @@
                             this.createForm.accepted_denominations = [];
                             this.createForm.all_denominations_selected = false;
                         }
-                        console.log('Available denominations:', this
-                            .available_denominations_for_selected_currency);
                     } else {
                         this.available_denominations_for_selected_currency = [];
                         this.createForm.accepted_denominations = [];
                         this.createForm.all_denominations_selected = false;
-                        console.log('No denominations for currency or currency not found:',
-                            newBillCurrency);
                     }
-                });
+                };
 
-                this.$watch('createForm.all_denominations_selected', (isAllSelected) => {
-                    if (isAllSelected) {
-                        this.createForm.accepted_denominations = [...this
-                            .available_denominations_for_selected_currency
-                        ];
-                    } else {
-                        if (this.createForm.accepted_denominations.length === this
-                            .available_denominations_for_selected_currency.length) {
-                            this.createForm.accepted_denominations = [];
-                        }
+                this.updateEditDenominations = function() {
+                    if (this.editForm.machine_category !== 'utility') {
+                        this.available_denominations_for_selected_currency = [];
+                        this.editForm.accepted_denominations = [];
+                        this.editForm.all_denominations_selected = false;
+                        return;
                     }
-                });
-
-                this.$watch('createForm.accepted_denominations', (newlyAccepted) => {
-                    const allCurrentlyAvailable = this
-                        .available_denominations_for_selected_currency;
-                    if (allCurrentlyAvailable.length > 0 && newlyAccepted.length ===
-                        allCurrentlyAvailable.length &&
-                        allCurrentlyAvailable.every(denom => newlyAccepted.includes(denom))
-                    ) {
-                        if (!this.createForm.all_denominations_selected) this.createForm
-                            .all_denominations_selected = true;
-                    } else {
-                        if (this.createForm.all_denominations_selected) this.createForm
-                            .all_denominations_selected = false;
-                    }
-                });
-
-                this.$watch('editForm.bill_currency', (newBillCurrency) => {
-                    console.log('EditForm: Bill currency changed to:', newBillCurrency);
+                    const newBillCurrency = this.editForm.bill_currency;
                     if (newBillCurrency && this.mappingsConfig && this.mappingsConfig[
                             newBillCurrency]) {
-                        this.available_denominations_for_selected_currency = Object.values(
-                                this.mappingsConfig[newBillCurrency])
+                        const denominations = this.mappingsConfig[newBillCurrency];
+                        this.available_denominations_for_selected_currency = (Array.isArray(
+                                denominations) ? denominations : Object.values(
+                                denominations))
                             .map(String)
                             .filter((value, index, self) => self.indexOf(value) === index)
                             .sort((a, b) => Number(a) - Number(b));
-                        if (this.available_denominations_for_selected_currency.length > 0) {
+                        if (!this.editForm.accepted_denominations.length && this
+                            .available_denominations_for_selected_currency.length > 0) {
                             this.editForm.accepted_denominations = [...this
                                 .available_denominations_for_selected_currency
                             ];
                             this.editForm.all_denominations_selected = true;
-                        } else {
-                            this.editForm.accepted_denominations = [];
-                            this.editForm.all_denominations_selected = false;
                         }
                     } else {
                         this.available_denominations_for_selected_currency = [];
                         this.editForm.accepted_denominations = [];
                         this.editForm.all_denominations_selected = false;
                     }
-                });
-
-                this.$watch('editForm.all_denominations_selected', (isAllSelected) => {
-                    if (isAllSelected) {
-                        this.editForm.accepted_denominations = [...this
-                            .available_denominations_for_selected_currency
-                        ];
-                    } else {
-                        if (this.editForm.accepted_denominations.length === this
-                            .available_denominations_for_selected_currency.length) {
-                            this.editForm.accepted_denominations = [];
-                        }
-                    }
-                });
-
-                this.$watch('editForm.accepted_denominations', (newlyAccepted) => {
-                    const allCurrentlyAvailable = this
-                        .available_denominations_for_selected_currency;
-                    if (allCurrentlyAvailable.length > 0 && newlyAccepted.length ===
-                        allCurrentlyAvailable.length &&
-                        allCurrentlyAvailable.every(denom => newlyAccepted.includes(denom))
-                    ) {
-                        if (!this.editForm.all_denominations_selected) this.editForm
-                            .all_denominations_selected = true;
-                    } else {
-                        if (this.editForm.all_denominations_selected) this.editForm
-                            .all_denominations_selected = false;
-                    }
-                });
-
-                // this.$watch('available_denominations_for_selected_currency', (newValue) => {
-                //     console.log('available_denominations_for_selected_currency changed:',
-                //         JSON.parse(JSON.stringify(newValue)));
-                // });
-
-                if (this.createForm.bill_currency) {
-                    this.$dispatch('alpine-watch-bill-currency', this.createForm.bill_currency);
-                }
+                };
             }
         }));
     });

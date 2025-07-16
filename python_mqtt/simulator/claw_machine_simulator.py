@@ -7,7 +7,7 @@ class ClawMachine(BaseMachine):
         super().__init__(config)
 
         # --- 模擬參數設定 ---
-        self.COIN_INPUT_RANGE = [5, 30]      # 每輪模擬的「投幣次數」範圍
+        self.COIN_INPUT_RANGE = [1, 10]      # 每輪模擬的「投幣次數」範圍
         self.PRIZE_PROBABILITY = 0.10      # 每次遊玩的「夾中機率」
 
     def update_state(self):

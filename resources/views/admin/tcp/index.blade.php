@@ -1,7 +1,8 @@
+{{-- /www/wwwroot/syswaw/resources/views/admin/tcp/index.blade.php --}}
 @extends('layouts.app')
 @section('header')
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-        {{ __('歷史記錄') }}
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('msg.history') }}@@
     </h2>
 @endsection
 
@@ -18,49 +19,73 @@
         </div>
         <form id="filterForm">
             <!-- 表格容器 -->
-            <div class="relative bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-                <div class="table-container max-h-[calc(100vh-16rem)] overflow-y-auto">
+            <div class="relative bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="table-container max-h-[calc(100vh-11rem)] lg:max-h-[calc(100vh-11rem)] overflow-y-auto">
                     <table class="w-full table-fixed border-collapse">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr class="text-sm font-medium text-gray-700 dark:text-gray-200">
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">ID</th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">
-                                    <select name="arcade_id" id="arcade_id"
-                                        onchange="showLoadingOverlay(); document.getElementById('filterForm').submit();"
-                                        class="w-full bg-transparent text-center cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 text-sm">
-                                        <option value="all" {{ (string) $filterArcadeId === 'all' ? 'selected' : '' }}>店家
-                                        </option>
-                                        @foreach ($arcades as $arcade)
-                                            <option value="{{ $arcade->id }}"
-                                                {{ (string) $filterArcadeId === (string) $arcade->id ? 'selected' : '' }}>
-                                                {{ $arcade->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                        <thead class="bg-gray-100">
+                            <tr class="text-sm font-medium text-gray-700">
+                                <th class="hidden lg:table-cell sticky top-0 bg-gray-100 z-10"
+                                    style="width: 60px; min-width: 60px; max-width: 60px;">
+                                    <div class="px-1 py-2 text-center">ID</div>
                                 </th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">
-                                    <select name="machine_id" id="machine_id"
-                                        onchange="showLoadingOverlay(); document.getElementById('filterForm').submit();"
-                                        class="w-full bg-transparent text-center cursor-pointer text-sm">
-                                        <option value="all">{{ __('msg.all') }}</option>
-                                    </select>
+                                <!-- 店家與機器選擇欄位 (合併為一個 th) -->
+                                <th class="px-1 py-2 sticky top-0 bg-gray-100 z-10" colspan="2">
+                                    <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                        <!-- 店家選擇 -->
+                                        <div class="flex-1">
+                                            <select name="arcade_id" id="arcade_id"
+                                                onchange="showLoadingOverlay(); document.getElementById('filterForm').submit();"
+                                                class="border-b border-gray-300
+                                                w-full bg-transparent text-center cursor-pointer hover:text-blue-500 text-sm appearance-none">
+                                                <option value="all"
+                                                    {{ (string) $filterArcadeId === 'all' ? 'selected' : '' }}>店家</option>
+                                                @foreach ($arcades as $arcade)
+                                                    <option value="{{ $arcade->id }}"
+                                                        {{ (string) $filterArcadeId === (string) $arcade->id ? 'selected' : '' }}>
+                                                        {{ $arcade->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!-- 機器選擇 -->
+                                        <div class="flex-1">
+                                            <select name="machine_id" id="machine_id"
+                                                onchange="showLoadingOverlay(); document.getElementById('filterForm').submit();"
+                                                class="w-full bg-transparent text-center cursor-pointer text-sm appearance-none">
+
+                                                <option value="all">{{ __('msg.all') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </th>
-                                <th
-                                    class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800  whitespace-pre-line ">
-                                    {{ __('msg.ball_in') }}{{ __('msg.ball_out') }}</th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800">
-                                    {{ __('msg.coin') }}</th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800">
-                                    {{ __('msg.coin_out') }}</th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">
-                                    {{ __('msg.bill_denomination') }}</th>
-                                <th
-                                    class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10 whitespace-pre-line">
-                                    {{ __('msg.assign_credit') }} {{ __('msg.settled_credit') }}</th>
-                                <th class="px-2 py-3 text-center sticky top-0 bg-gray-100 dark:bg-gray-800 z-10">
+                                <!-- ball_in/ball_out -->
+                                <th class="px-1 py-2 text-center sticky top-0 bg-gray-100 z-10">
+                                    <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                        <div class="flex-1 text-center">{{ __('msg.ball_in') }}</div>
+                                        <div class="flex-1 text-center">{{ __('msg.ball_out') }}</div>
+                                    </div>
+                                </th>
+                                <!-- credit_in/coin_out -->
+                                <th class="px-1 py-2 text-center sticky top-0 bg-gray-100 z-10">
+                                    <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                        <div class="flex-1 text-center">{{ __('msg.coin') }}</div>
+                                        <div class="flex-1 text-center">{{ __('msg.coin_out') }}</div>
+                                    </div>
+                                </th>
+                                <th class="px-0 py-0 text-center sticky top-0 bg-gray-100 z-10">
+                                    {{ __('msg.bill_denomination') }}
+                                </th>
+                                <!-- assign_credit/settled_credit -->
+                                <th class="px-1 py-2 text-center sticky top-0 bg-gray-100 z-10">
+                                    <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                        <div class="flex-1 text-center">{{ __('msg.assign_credit') }}</div>
+                                        <div class="flex-1 text-center">{{ __('msg.settled_credit') }}</div>
+                                    </div>
+                                </th>
+                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-10">
                                     <select name="time_filter" id="time_filter"
                                         onchange="showLoadingOverlay(); document.getElementById('filterForm').submit();"
-                                        class="w-full bg-transparent text-center cursor-pointer hover:text-blue-500 dark:hover:text-blue-400 text-sm">
+                                        class="w-full bg-transparent text-center cursor-pointer hover:text-blue-500 text-sm appearance-none">
                                         <option value="all"
                                             {{ (string) ($filterTimeRange ?? 'all') === 'all' ? 'selected' : '' }}>
                                             {{ __('msg.all') }} {{ __('msg.time') }}
@@ -101,34 +126,70 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tbody class="divide-y divide-gray-200">
                             @forelse ($records as $record)
                                 <tr
-                                    class="text-sm text-gray-700 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800">
-                                    <td class="px-2 py-2 text-center">
-                                        {{ ($records->currentPage() - 1) * $records->perPage() + $loop->iteration }}
+                                    class="text-sm text-gray-700 hover:bg-gray-50">
+                                    <td class="hidden lg:table-cell text-center"
+                                        style="width: 60px; min-width: 60px; max-width: 60px;">
+                                        <div class="px-1 py-2">
+                                            {{ ($records->currentPage() - 1) * $records->perPage() + $loop->iteration }}
+                                        </div>
                                     </td>
-                                    <td class="px-2 py-2 text-center truncate">
-                                        {{ $record->arcade->name ?? '未知店铺' }}
+                                    <!-- 店家與機器資訊欄位 (合併為一個 td) -->
+                                    <td class="px-1 py-2" colspan="2">
+                                        <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                            <!-- 店家名稱 -->
+                                            <div class="flex-1 text-center">
+                                                <div class="truncate">
+                                                    {{ $record->arcade->name ?? '未知店铺' }}
+                                                </div>
+                                            </div>
+                                            <!-- 機器名稱 -->
+                                            <div class="flex-1 text-center">
+                                                <div class="truncate">
+                                                    {{ $record->machine->name ?? '未知机器' }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
-                                    <td class="px-2 py-2 text-center truncate">
-                                        {{ $record->machine->name ?? '未知机器' }}
+                                    <!-- ball_in/ball_out -->
+                                    <td class="px-1 py-2 text-center">
+                                        <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                            <div class="flex-1 text-center">{{ $record->ball_in }}</div>
+                                            <div class="flex-1 text-center">{{ $record->ball_out }}</div>
+                                        </div>
                                     </td>
-                                    <td class="px-2 py-2 text-center whitespace-pre-line">{{ $record->ball_in }}
-                                        {{ $record->ball_out }}</td>
-                                    <td class="px-2 py-2 text-center">{{ $record->credit_in }}</td>
-                                    <td class="px-2 py-2 text-center">{{ $record->coin_out }}</td>
-                                    <td class="px-2 py-2 text-center">{{ $record->bill_denomination }}</td>
-                                    <td class="px-2 py-2 text-center whitespace-pre-line">{{ $record->assign_credit }}
-                                        {{ $record->settled_credit }}</td>
-                                    <td class="px-2 py-2 text-center text-xs">
-                                        {{ $record->timestamp ? \Carbon\Carbon::parse($record->timestamp)->format('ymd Hi:s') : 'N/A' }}
+                                    <!-- credit_in/coin_out -->
+                                    <td class="px-1 py-2 text-center">
+                                        <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                            <div class="flex-1 text-center">
+                                                {{ $record->credit_in }}</div>
+                                            <div class="flex-1 text-center">
+                                                {{ $record->coin_out }}</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-1 py-2 text-center">{{ $record->bill_denomination }}</td>
+                                    <td class="px-1 py-2 text-center">
+                                        <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                            <div class="flex-1 text-center">
+                                                {{ $record->assign_credit }}</div>
+                                            <div class="flex-1 text-center">
+                                                {{ $record->settled_credit }}</div>
+                                        </div>
+                                    </td>
+                                    <td class="px-1 py-2 text-center text-xs">
+                                        @if ($record->timestamp)
+                                            {{ \Carbon\Carbon::parse($record->timestamp)->timezone('Asia/Taipei')->format('ymd H:i:s') }}
+                                        @else
+                                            N/A
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="11" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
-                                        暂无历史数据记录。
+                                    <td colspan="8" class="px-4 py-4 text-center text-gray-500">
+                                        {{ __('暫無歷史紀錄') }}。
                                     </td>
                                 </tr>
                             @endforelse
@@ -281,13 +342,13 @@
                     redisStatusDiv.textContent = tcpStateMap[status] || '未知狀態';
                     if (status === 'running') {
                         redisStatusDiv.className =
-                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-green-100 text-green-800';
                     } else if (status === 'stopped') {
                         redisStatusDiv.className =
-                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-red-100 text-red-800';
                     } else {
                         redisStatusDiv.className =
-                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+                            'inline-block px-2 py-0.5 rounded text-xs sm:text-sm font-semibold bg-gray-100 text-gray-800';
                     }
                 }
             }
@@ -348,7 +409,7 @@
             function sendCaptureTrigger() {
                 if (captureDataBtn) captureDataBtn.disabled = true;
                 showLoadingOverlay('captureOverlay');
-                fetch('/admin/tcp-server/openDataGate', {
+                fetch('{{ route('data-ingestion.ingest-mqtt') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

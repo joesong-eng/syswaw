@@ -8,9 +8,9 @@ SERVER_PORT = 39001
 # MySQL 資料庫配置
 DB_CONFIG = {
     'host': '127.0.0.1',
-    'user': 'your_db_user', # <-- 請替換為您的資料庫用戶名
-    'password': 'your_db_password', # <-- 請替換為您的資料庫密碼
-    'database': 'syswaw',
+    'user': 'sxswaw', # <-- 請替換為您的資料庫用戶名
+    'password': '2a@684240', # <-- 請替換為您的資料庫密碼
+    'database': 'sxswaw',
     'raise_on_warnings': True
 }
 

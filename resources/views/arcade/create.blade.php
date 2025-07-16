@@ -96,7 +96,8 @@
                             autocomplete="new-password" />
                     </div>
                     <div class="mt-4"><!-- 店主密碼確認欄位 -->
-                        <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" class="text-gray-700" />
+                        <x-label for="password_confirmation" value="{{ __('msg.confirm_password') }}"
+                            class="text-gray-700" />
                         <x-input id="password_confirmation" class="w-full" type="password" name="password_confirmation"
                             required autocomplete="new-password" />
                     </div>

@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="py-0" x-data="adminMachineManagement()">
+    <div class="py-0" x-data="adminMachineManagement()" wire:ignore.self>
         <div class="flex justify-end items-center  px-0">
             <button @click="openCreateModal()"
                 class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition hover:text-blue-100">
@@ -25,7 +25,7 @@
                     <div class="w-[23%] text-center">
                         {{ __('msg.arcade') }}</div>
                     <div class="w-[15%] text-center">{{ __('msg.owner') }}</div>
-                    <div class="w-[16%] text-center">{{ __('msg.sort') }}</div>
+                    <div class="w-[16%] text-center">{{ __('msg.type') }}</div>
                     <div class="w-[9%]  text-center border-l">{{ __('msg.status') }}</div>
                     <div class="w-[15%] flex justify-center ">{{ __('msg.actions') }}</div>
                 </div>
@@ -78,6 +78,8 @@
                                 </button>
                             </form>
                         </div>
+                        {{-- <pre class="w-full text-xs overflow-auto">{{ json_encode($machine->toArray(), JSON_PRETTY_PRINT) }}</pre> --}}
+
                         <div class="w-[15%] flex items-center justify-center space-x-1 m-auto">
                             <!-- 編輯按鈕 -->
                             <div class="flex justify-items-end space-x-1">
@@ -88,6 +90,7 @@
                                             'id' => $machine->id,
                                             'name' => $machine->name ?? '',
                                             'machine_type' => $machine->machine_type ?? '',
+                                            'machine_category' => $machine->machine_category ?? '',
                                             'arcade_id' => $machine->arcade_id ?? '',
                                             'arcade' => $machine->arcade
                                                 ? [
@@ -140,6 +143,10 @@
                         {{ __('msg.no_machines_found') }}
                     </div>
                 @endforelse
+            </div>
+            <!-- Pagination Links -->
+            <div class="mt-4">
+                {{ $machines->links() }}
             </div>
         </div>
         {{-- Include Modals --}}

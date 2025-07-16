@@ -33,9 +33,9 @@ class PinballMachine(BaseMachine):
         super().__init__(config)
 
         # --- 模擬參數設定 ---
-        self.COIN_INPUT_RANGE = [2, 15] # 投幣次數範圍
+        self.COIN_INPUT_RANGE = [2, 10] # 投幣次數範圍
         # 遊戲返還率(RTP)，例如 80% ~ 110%。這代表玩家投入的球，平均能贏回多少
-        self.RTP_RANGE = [0.8, 1.1]
+        self.RTP_RANGE = [0.7, 0.85]
         self.exchange_rate = (self.coin_input_value / self.payout_unit_value) if self.payout_unit_value > 0 else 0
 
     def update_state(self):
@@ -72,3 +72,7 @@ class PinballMachine(BaseMachine):
         self.credit_in += delta_credit_in
         self.ball_in += delta_ball_in
         self.ball_out += delta_ball_out
+
+
+
+
