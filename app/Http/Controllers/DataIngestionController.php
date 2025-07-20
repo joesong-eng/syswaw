@@ -407,7 +407,7 @@ class DataIngestionController extends Controller
                 $machine = Machine::where('id', $authKeyModel->machine_id)
                     ->where('is_active', true)
                     ->first();
-                dump(isset($machine->name) ? $machine->name : "");
+                // dump(isset($machine->name) ? $machine->name : "");
             }
         }
         return view('admin.tcp.streamData');

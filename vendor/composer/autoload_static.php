@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
+class ComposerStaticInit3da087d9985768d06497d3a982e1eac2
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -736,6 +736,13 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
         'App\\Actions\\Fortify\\ResetUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/ResetUserPassword.php',
         'App\\Actions\\Fortify\\UpdateUserPassword' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserPassword.php',
         'App\\Actions\\Fortify\\UpdateUserProfileInformation' => __DIR__ . '/../..' . '/app/Actions/Fortify/UpdateUserProfileInformation.php',
+        'App\\Actions\\Jetstream\\AddTeamMember' => __DIR__ . '/../..' . '/app/Actions/Jetstream/AddTeamMember.php',
+        'App\\Actions\\Jetstream\\CreateTeam' => __DIR__ . '/../..' . '/app/Actions/Jetstream/CreateTeam.php',
+        'App\\Actions\\Jetstream\\DeleteTeam' => __DIR__ . '/../..' . '/app/Actions/Jetstream/DeleteTeam.php',
+        'App\\Actions\\Jetstream\\DeleteUser' => __DIR__ . '/../..' . '/app/Actions/Jetstream/DeleteUser.php',
+        'App\\Actions\\Jetstream\\InviteTeamMember' => __DIR__ . '/../..' . '/app/Actions/Jetstream/InviteTeamMember.php',
+        'App\\Actions\\Jetstream\\RemoveTeamMember' => __DIR__ . '/../..' . '/app/Actions/Jetstream/RemoveTeamMember.php',
+        'App\\Actions\\Jetstream\\UpdateTeamName' => __DIR__ . '/../..' . '/app/Actions/Jetstream/UpdateTeamName.php',
         'App\\Console\\Commands\\FixHistoricalMachineData' => __DIR__ . '/../..' . '/app/Console/Commands/FixHistoricalMachineData.php',
         'App\\Console\\Commands\\GenerateMonthlyReports' => __DIR__ . '/../..' . '/app/Console/Commands/GenerateMonthlyReports.php',
         'App\\Console\\Commands\\TcpScheduleCommand' => __DIR__ . '/../..' . '/app/Console/Commands/TcpScheduleCommand.php',
@@ -813,12 +820,15 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
         'App\\Models\\MachineDataExtended' => __DIR__ . '/../..' . '/app/Models/MachineDataExtended.php',
         'App\\Models\\MachineDataRecord' => __DIR__ . '/../..' . '/app/Models/MachineDataRecord.php',
         'App\\Models\\MachineManager' => __DIR__ . '/../..' . '/app/Models/MachineManager.php',
+        'App\\Models\\Membership' => __DIR__ . '/../..' . '/app/Models/Membership.php',
         'App\\Models\\MonthlyReport' => __DIR__ . '/../..' . '/app/Models/MonthlyReport.php',
         'App\\Models\\MonthlyReportDetail' => __DIR__ . '/../..' . '/app/Models/MonthlyReportDetail.php',
         'App\\Models\\RevenueShare' => __DIR__ . '/../..' . '/app/Models/RevenueShare.php',
         'App\\Models\\RevenueSharing' => __DIR__ . '/../..' . '/app/Models/RevenueSharing.php',
         'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Store' => __DIR__ . '/../..' . '/app/Models/Store.php',
+        'App\\Models\\Team' => __DIR__ . '/../..' . '/app/Models/Team.php',
+        'App\\Models\\TeamInvitation' => __DIR__ . '/../..' . '/app/Models/TeamInvitation.php',
         'App\\Models\\TempMachineTransaction' => __DIR__ . '/../..' . '/app/Models/TempMachineTransaction.php',
         'App\\Models\\TempTransaction' => __DIR__ . '/../..' . '/app/Models/TempTransaction.php',
         'App\\Models\\Transaction' => __DIR__ . '/../..' . '/app/Models/Transaction.php',
@@ -830,6 +840,7 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\FortifyServiceProvider' => __DIR__ . '/../..' . '/app/Providers/FortifyServiceProvider.php',
+        'App\\Providers\\JetstreamServiceProvider' => __DIR__ . '/../..' . '/app/Providers/JetstreamServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Services\\FortifyRedirectService' => __DIR__ . '/../..' . '/app/Services/FortifyRedirectService.php',
         'App\\Services\\PlatformUserFinder' => __DIR__ . '/../..' . '/app/Services/PlatformUserFinder.php',
@@ -1103,9 +1114,11 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
         'DASPRiD\\Enum\\Exception\\SerializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/SerializeNotSupportedException.php',
         'DASPRiD\\Enum\\Exception\\UnserializeNotSupportedException' => __DIR__ . '/..' . '/dasprid/enum/src/Exception/UnserializeNotSupportedException.php',
         'DASPRiD\\Enum\\NullValue' => __DIR__ . '/..' . '/dasprid/enum/src/NullValue.php',
+        'Database\\Factories\\TeamFactory' => __DIR__ . '/../..' . '/database/factories/TeamFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\ArcadeKeySeeder' => __DIR__ . '/../..' . '/database/seeders/ArcadeKeySeeder.php',
         'Database\\Seeders\\ArcadeSeeder' => __DIR__ . '/../..' . '/database/seeders/ArcadeSeeder.php',
+        'Database\\Seeders\\BillRecordsSeeder' => __DIR__ . '/../..' . '/database/seeders/BillRecordsSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\MachineAuthKeySeeder' => __DIR__ . '/../..' . '/database/seeders/MachineAuthKeySeeder.php',
         'Database\\Seeders\\MachineSeeder' => __DIR__ . '/../..' . '/database/seeders/MachineSeeder.php',
@@ -8475,17 +8488,24 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
         'Tests\\Feature\\AuthenticationTest' => __DIR__ . '/../..' . '/tests/Feature/AuthenticationTest.php',
         'Tests\\Feature\\BrowserSessionsTest' => __DIR__ . '/../..' . '/tests/Feature/BrowserSessionsTest.php',
         'Tests\\Feature\\CreateApiTokenTest' => __DIR__ . '/../..' . '/tests/Feature/CreateApiTokenTest.php',
+        'Tests\\Feature\\CreateTeamTest' => __DIR__ . '/../..' . '/tests/Feature/CreateTeamTest.php',
         'Tests\\Feature\\DeleteAccountTest' => __DIR__ . '/../..' . '/tests/Feature/DeleteAccountTest.php',
         'Tests\\Feature\\DeleteApiTokenTest' => __DIR__ . '/../..' . '/tests/Feature/DeleteApiTokenTest.php',
+        'Tests\\Feature\\DeleteTeamTest' => __DIR__ . '/../..' . '/tests/Feature/DeleteTeamTest.php',
         'Tests\\Feature\\EmailVerificationTest' => __DIR__ . '/../..' . '/tests/Feature/EmailVerificationTest.php',
         'Tests\\Feature\\ExampleTest' => __DIR__ . '/../..' . '/tests/Feature/ExampleTest.php',
+        'Tests\\Feature\\InviteTeamMemberTest' => __DIR__ . '/../..' . '/tests/Feature/InviteTeamMemberTest.php',
+        'Tests\\Feature\\LeaveTeamTest' => __DIR__ . '/../..' . '/tests/Feature/LeaveTeamTest.php',
         'Tests\\Feature\\PasswordConfirmationTest' => __DIR__ . '/../..' . '/tests/Feature/PasswordConfirmationTest.php',
         'Tests\\Feature\\PasswordResetTest' => __DIR__ . '/../..' . '/tests/Feature/PasswordResetTest.php',
         'Tests\\Feature\\ProfileInformationTest' => __DIR__ . '/../..' . '/tests/Feature/ProfileInformationTest.php',
         'Tests\\Feature\\ProfileTest' => __DIR__ . '/../..' . '/tests/Feature/ProfileTest.php',
         'Tests\\Feature\\RegistrationTest' => __DIR__ . '/../..' . '/tests/Feature/RegistrationTest.php',
+        'Tests\\Feature\\RemoveTeamMemberTest' => __DIR__ . '/../..' . '/tests/Feature/RemoveTeamMemberTest.php',
         'Tests\\Feature\\TwoFactorAuthenticationSettingsTest' => __DIR__ . '/../..' . '/tests/Feature/TwoFactorAuthenticationSettingsTest.php',
         'Tests\\Feature\\UpdatePasswordTest' => __DIR__ . '/../..' . '/tests/Feature/UpdatePasswordTest.php',
+        'Tests\\Feature\\UpdateTeamMemberRoleTest' => __DIR__ . '/../..' . '/tests/Feature/UpdateTeamMemberRoleTest.php',
+        'Tests\\Feature\\UpdateTeamNameTest' => __DIR__ . '/../..' . '/tests/Feature/UpdateTeamNameTest.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Tests\\Unit\\ExampleTest' => __DIR__ . '/../..' . '/tests/Unit/ExampleTest.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
@@ -8611,10 +8631,10 @@ class ComposerStaticInitd3989aed97588348d472e4bf463eabc2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd3989aed97588348d472e4bf463eabc2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd3989aed97588348d472e4bf463eabc2::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd3989aed97588348d472e4bf463eabc2::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitd3989aed97588348d472e4bf463eabc2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3da087d9985768d06497d3a982e1eac2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3da087d9985768d06497d3a982e1eac2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit3da087d9985768d06497d3a982e1eac2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit3da087d9985768d06497d3a982e1eac2::$classMap;
 
         }, null, ClassLoader::class);
     }
