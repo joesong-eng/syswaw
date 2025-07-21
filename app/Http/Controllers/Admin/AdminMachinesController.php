@@ -140,6 +140,7 @@ class AdminMachinesController extends Controller
     }
     public function update(Request $request, Machine $machine)
     {
+
         Log::info('AdminMachinesController@update started.', ['machine_id' => $machine->id, 'request_data' => $request->all()]);
         if (!$machine->exists) {
             Log::error('Machine model binding failed in update method.', ['route_parameters' => $request->route()->parameters()]);
@@ -194,7 +195,6 @@ class AdminMachinesController extends Controller
                 'ui_language' => $validated['ui_language'] ?? $machine->ui_language,
                 'auto_shutdown_seconds' => $validated['auto_shutdown_seconds'] ?? $machine->auto_shutdown_seconds,
             ];
-
             $machine->update($machineData);
             DB::commit();
             return redirect()->route('admin.machines.index')->with('success', __('msg.machine_updated_successfully'));

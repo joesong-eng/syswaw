@@ -3,13 +3,12 @@
 # ==================================
 /node_modules
 /vendor
-
+vendor/
 # ==================================
 # Laravel Specific (Laravel 框架)
 # ==================================
 # Environment file - DO NOT COMMIT THIS!
 .env
-<<<<<<< HEAD
 
 # Storage and logs
 /storage/*.log
@@ -38,8 +37,5 @@ __pycache__/
 # ==================================
 .DS_Store
 Thumbs.db
-=======
-node_modules
-/.note.*/
-certs/
->>>>>>> ee952fa (完成階段性工作，系統正常運作)
+
+*.zip

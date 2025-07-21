@@ -182,49 +182,47 @@ class DataIngestionController extends Controller
         ));
     }
     /**
+     * 應該是棄用了,待確認後刪除
      * 主方法：處理前端或定時任務的數據擷取請求。
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function ingestMqttData(Request $request): JsonResponse
-    {
-        $lockKey = 'data_ingestion_lock';
-        $lockTimeout = 30; // 設置較長的鎖定時間，以確保處理完成
+    // public function ingestMqttData(Request $request): JsonResponse
+    // {
+    //     $lockKey = 'data_ingestion_lock';
+    //     $lockTimeout = 30; // 設置較長的鎖定時間，以確保處理完成
+    //     // 嘗試獲取 Redis 鎖 (使用 SET NX EX 原子操作)
+    //     $acquiredLock = Redis::set($lockKey, 'locked', 'EX', $lockTimeout, 'NX');
 
-        // 嘗試獲取 Redis 鎖 (使用 SET NX EX 原子操作)
-        $acquiredLock = Redis::set($lockKey, 'locked', 'EX', $lockTimeout, 'NX');
+    //     if (!$acquiredLock) {
+    //         Log::warning('DataIngestionController: 請求被鎖定，避免重複執行。', ['lockKey' => $lockKey]);
+    //         return response()->json(['status' => 'warning', 'message' => '數據擷取正在處理中，請勿重複提交。'], 429);
+    //     }
 
-        if (!$acquiredLock) {
-            Log::warning('DataIngestionController: 請求被鎖定，避免重複執行。', ['lockKey' => $lockKey]);
-            return response()->json(['status' => 'warning', 'message' => '數據擷取正在處理中，請勿重複提交。'], 429);
-        }
-
-        try {
-            $processedRecords = $this->processRedisStreamData();
-
-            // 處理完成後釋放鎖
-            Redis::del($lockKey);
-
-            return response()->json([
-                'status' => 'success',
-                'message' => '數據擷取與寫入完成',
-                'processed_count' => count($processedRecords),
-                'details' => $processedRecords // 可以返回處理詳情
-            ]);
-        } catch (\Exception $e) {
-            // 發生錯誤時也釋放鎖
-            Redis::del($lockKey);
-            Log::error('DataIngestionController: 數據擷取與寫入失敗', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return response()->json([
-                'status' => 'error',
-                'message' => '數據擷取與寫入失敗: ' . $e->getMessage()
-            ], 500);
-        }
-    }
+    //     try {
+    //         $processedRecords = $this->processRedisStreamData();
+    //         // 處理完成後釋放鎖
+    //         Redis::del($lockKey);
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'message' => '數據擷取與寫入完成',
+    //             'processed_count' => count($processedRecords),
+    //             'details' => $processedRecords // 可以返回處理詳情
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         // 發生錯誤時也釋放鎖
+    //         Redis::del($lockKey);
+    //         Log::error('DataIngestionController: 數據擷取與寫入失敗', [
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'message' => '數據擷取與寫入失敗: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
 
     /**
      * 從 Redis Stream 獲取數據並寫入資料庫。

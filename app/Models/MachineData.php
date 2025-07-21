@@ -25,7 +25,6 @@ class MachineData extends Model
         'bill_denomination',
         'error_code',
         'timestamp',
-        'redis_stream_id', // 新增字段
     ];
 
     protected $casts = [

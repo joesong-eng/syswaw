@@ -17,8 +17,8 @@ class Machine extends Model
         'created_by',
         'auth_key_id',
         'machine_id',
-        // 將 'machine_type' 替換為 'machine_category'
-        'machine_category', //
+        'machine_category',
+        'machine_type',
         'status',
         'is_active',
         'revenue_split',

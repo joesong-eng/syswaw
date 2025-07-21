@@ -483,6 +483,7 @@ return [
 
     'unauthorized_action' => '你哪位？？',
     'error_deleting_machine' => '刪除時出錯',
+    'error_updating_machine' => '更新機器時出錯',
     'zh_ask' => '?',
     'invitation_code_generated' => '新的邀請碼好了',
     'staff_updated_successfully' => '新增職員--OK',

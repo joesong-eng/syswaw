@@ -60,7 +60,7 @@
                             {{ $machine->owner->name ?? 'Unknown' }}
                         </div>
                         <div class="w-[16%] flex m-auto justify-center">
-                            {{ __('msg.' . $machine->machine_type) ?? 'Unknown' }}</div>
+                            {{ __($machine->machine_type) ?? 'Unknown' }}</div>
                         <div class="w-[9%] flex items-center justify-center m-auto">
                             <form action="{{ route('admin.machines.toggleActive', $machine->id) }}" method="POST"
                                 class="flex justify-items-end space-x-1">
