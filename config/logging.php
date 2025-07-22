@@ -76,6 +76,7 @@ return [
             'max_files' => 3, // <--- 這裡可以調整保留的檔案數量，與 days 搭配使用
             'max_size' => 3, // 可選：每個檔案的最大大小（MB），達到後會輪替
             'replace_placeholders' => true,
+            'permissions' => 0664,
         ],
 
         'slack' => [

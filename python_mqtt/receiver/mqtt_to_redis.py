@@ -51,7 +51,7 @@ def on_message(client, userdata, msg):
         # 使用 SET 命令，以 auth_key 為 key，覆蓋舊數據
         redis_key = f"machine_data:{auth_key}" # Key 格式改為 machine_data:{auth_key}
         redis_client.set(redis_key, message_data_str)
-        logger.info(f"已將機器 '{auth_key}' 的最新數據儲存到 Redis Key '{redis_key}'")
+        # logger.info(f"已將機器 '{auth_key}' 的最新數據儲存到 Redis Key '{redis_key}'")
 
     except json.JSONDecodeError as e:
         logger.error(f"解析 MQTT 消息為 JSON 時發生錯誤: {e} - 原始消息: {msg.payload.decode('utf-8')}")

@@ -229,7 +229,7 @@ class DataIngestionController extends Controller
      *
      * @return array 處理後的記錄詳情
      */
-    private function processRedisStreamData(): array
+    public function processRedisStreamData(): array
     {
         // 獲取所有以 'machine_data:' 開頭的 Key
         $keys = Redis::keys('machine_data:*');

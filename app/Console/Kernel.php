@@ -20,8 +20,10 @@ class Kernel extends ConsoleKernel
     {
         // 任務1: 每天的 0:00 將 Redis 每台遊戲機的數據寫入資料庫
         $schedule->command('data:sync-redis-to-db')
-            ->dailyAt('00:00') // 每天午夜 00:00 執行
-            ->withoutOverlapping();
+            // ->dailyAt('00:00') // 每天午夜 00:00 執行
+            ->everyFiveMinutes() //測試每5分鐘
+            ->withoutOverlapping()
+        ;
 
         // 將數據擷取任務改為每小時執行，以便測試 ＊＊應該是棄用了,待確認後刪除
         // $schedule->call(function () {
