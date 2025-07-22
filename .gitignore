@@ -38,4 +38,15 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+# ==================================
+# Local Specific (本地專屬檔案)
+# ==================================
+# VS Code specific files
+.vscode/
+
+# Temporary files from uploads/backups
+.tmp.driveupload/
+
+# Your custom note directory if not already ignored by .note/
+.note.v1/ # 如果您希望保留這個備份但不追蹤，則取消註解此行
 *.zip
