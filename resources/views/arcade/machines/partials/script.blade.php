@@ -473,9 +473,23 @@
                     this.createForm.payout_button_value = isChecked ? '100' : '0';
                 });
 
-                this.$watch('createForm.payout_type', (newPayoutType) => {});
+                this.$watch('createForm.payout_type', (newPayoutType) => {
+                    const category = this.createForm.machine_category;
+                    if (category === 'redemption') {
+                        if (newPayoutType === 'tickets') {
+                            this.createForm.payout_unit_value = '1'; // 彩票預設值
+                        } else if (newPayoutType === 'coins') {
+                            this.createForm.payout_unit_value = '10'; // 代幣預設值
+                        } else if (newPayoutType === 'prize') {
+                            this.createForm.payout_unit_value = '30'; // 獎品預設值
+                        } else if (newPayoutType === 'points') {
+                            this.createForm.payout_unit_value = '10'; // 點數預設值
+                        }
+                    }
+                });
 
                 this.$watch('createForm.machine_category', (newMachineCategory) => {
+                    // ... 您現有的 utility 和 gambling 判斷邏輯 ...
                     if (newMachineCategory === 'utility') {
                         this.createForm.payout_type = 'none';
                         this.createForm.coin_input_value_enabled = false;
@@ -497,6 +511,11 @@
                             .coin_input_value === '0') {
                             this.createForm.coin_input_value = '10';
                         }
+                    }
+
+                    if (newMachineCategory === 'pinball' || newMachineCategory ===
+                        'pinball_pachinko') { // 建議使用 pinball_pachinko 保持一致
+                        this.createForm.payout_unit_value = '1'; // 彈珠台預設值
                     }
                 });
 

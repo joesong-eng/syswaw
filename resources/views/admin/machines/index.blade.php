@@ -60,7 +60,8 @@
                             {{ $machine->owner->name ?? 'Unknown' }}
                         </div>
                         <div class="w-[16%] flex m-auto justify-center">
-                            {{ __($machine->machine_type) ?? 'Unknown' }}</div>
+                            {{ __($machine->machine_type) ?? 'Unknown' }}
+                        </div>
                         <div class="w-[9%] flex items-center justify-center m-auto">
                             <form action="{{ route('admin.machines.toggleActive', $machine->id) }}" method="POST"
                                 class="flex justify-items-end space-x-1">
@@ -113,7 +114,7 @@
                                             'credit_button_value' => $machine->credit_button_value ?? '0',
                                             'payout_button_value' => $machine->payout_button_value ?? '0',
                                             'payout_type' => $machine->payout_type ?? 'none',
-                                            'payout_unit_value' => $machine->payout_unit_value ?? '0',
+                                            'payout_unit_value' => $machine->payout_unit_value,
                                             'revenue_split' => $machine->revenue_split ?? 45,
                                             'bill_acceptor_enabled' => $machine->bill_acceptor_enabled ?? false,
                                             'bill_currency' => $machine->bill_currency ?? 'TWD',

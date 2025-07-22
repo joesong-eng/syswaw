@@ -28,13 +28,15 @@ SIMULATION_INTERVAL_SECONDS = 86400 # 每天 0:00 寫入一次數據 (24小時 *
 
 # --- Behavioral Template Mapping ---
 BEHAVIOR_MAP = {
-    'pinball': 'pinball_like', 'pachinko': 'pinball_like',
-    'claw_machine': 'claw_like', 'giant_claw_machine': 'claw_like', 'stacker_machine': 'claw_like',
-    'slot_machine': 'gambling_like', 'gambling': 'gambling_like',
-    'normally': 'simple_io', 'racing_game': 'simple_io', 'dance_game': 'simple_io',
-    'basketball_game': 'simple_io',
-    'money_slot': 'input_only',
-    'ball': 'pinball_like',
+    'pure_game': 'simple_io',          # 純遊戲機
+    'redemption': 'claw_like',         # 獎勵型遊戲機 (如夾娃娃機、推幣機)
+    'pinball_pachinko': 'pinball_like',# 彈珠/柏青哥機台 (標準 category 名稱)
+    'gambling': 'gambling_like',       # 賭博型機台
+
+    # 以下是根據您實際從資料庫獲取的 machine_category 值進行補充映射
+    'pinball': 'pinball_like',         # <-- 處理資料庫中可能仍存在的 'pinball' 類型
+    'utility': 'input_only',           # <-- 處理資料庫中可能仍存在的 'utility' 類型 (如帳單機)
+    'entertainment_only': 'simple_io', # <-- 處理資料庫中可能仍存在的 'entertainment_only' 類型 (如純娛樂遊戲機)
 }
 
 # --- Machine Class Factory ---
@@ -53,7 +55,7 @@ def fetch_machine_configs_from_db():
         cursor = conn.cursor(dictionary=True)
         query = """
             SELECT
-                m.id, m.name, m.machine_type, m.coin_input_value, m.payout_unit_value,
+                m.id, m.name, m.machine_category, m.coin_input_value, m.payout_unit_value,
                 m.credit_button_value, m.bill_acceptor_enabled, m.accepted_denominations,
                 a.chip_hardware_id, a.auth_key,
                 m.auth_key_id,
@@ -67,6 +69,8 @@ def fetch_machine_configs_from_db():
         cursor.execute(query)
         machines = cursor.fetchall()
         print(f"成功獲取 {len(machines)} 台機台的配置。")
+        for machine in machines:
+            print(f"機台 ID: {machine['id']}, 名稱: {machine['name']}, 分類: {machine['machine_category']}")
         return machines
     except mysql.connector.Error as err:
         print(f"資料庫錯誤: {err}")
@@ -125,11 +129,11 @@ def insert_data_into_db(data):
 
 
 def generate_historical_data_for_machine(config, start_time, end_time, interval_seconds):
-    machine_type = config.get('machine_type')
-    behavior = BEHAVIOR_MAP.get(machine_type, 'unknown')
+    machine_category = config.get('machine_category')
+    behavior = BEHAVIOR_MAP.get(machine_category, 'unknown')
 
     if behavior not in MACHINE_CLASSES:
-        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_type}' (行為範本 '{behavior}')，因未註冊模擬器。")
+        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_category}' (行為範本 '{behavior}')，因未註冊模擬器。")
         return
 
     MachineClass = MACHINE_CLASSES[behavior]
@@ -188,7 +192,7 @@ def generate_historical_data_for_machine(config, start_time, end_time, interval_
                 "machine_id": config['id'],
                 "arcade_id": config['arcade_id'],
                 "auth_key_id": config['auth_key_id'],
-                "machine_type": config['machine_type'],
+                "machine_type": config['machine_category'], # 將 machine_type 改為 machine_category
                 "credit_in": int(getattr(machine, "credit_in", 0)),
                 "ball_in": int(getattr(machine, "ball_in", 0)),
                 "ball_out": int(getattr(machine, "ball_out", 0)),

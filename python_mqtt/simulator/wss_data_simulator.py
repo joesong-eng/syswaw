@@ -37,22 +37,20 @@ DB_CONFIG = {
 
 # --- Behavioral Template Mapping ---
 BEHAVIOR_MAP = {
-    'pinball': 'pinball_like',
-    'pachinko': 'pinball_like',
-    'claw_machine': 'claw_like',
-    'giant_claw_machine': 'claw_like',
-    'stacker_machine': 'claw_like',
-    'slot_machine': 'gambling_like',
-    'gambling': 'gambling_like',
-    'normally': 'simple_io',
-    'racing_game': 'simple_io',
-    'dance_game': 'simple_io',
-    'basketball_game': 'simple_io',
-    'money_slot': 'input_only',
-    'ball': 'pinball_like',
+    'pure_game': 'simple_io',          # 純遊戲機 (例如競速遊戲)
+    'redemption': 'claw_like',         # 獎勵型遊戲機 (例如夾娃娃機、推幣機)
+    'pinball_pachinko': 'pinball_like',# 如果資料庫最終會返回這個標準 category 值，則保留
+    'gambling': 'gambling_like',       # 賭博型機台
+
+    # 根據您最新執行輸出中實際從資料庫獲取的 `machine_category` 值進行補充映射
+    'pinball': 'pinball_like',         # <-- 新增：處理資料庫返回的 'pinball'
+    'utility': 'input_only',           # <-- 新增：處理資料庫返回的 'utility' (例如帳單機通常只有簡單的輸入行為)
+    'entertainment_only': 'simple_io', # <-- 新增：處理資料庫返回的 'entertainment_only' (類似純遊戲機)
+
+    # 'other': 'input_only',             # 如果未來還有無法明確分類的，可以使用 'other'
 }
 
-# --- Machine Class Factory ---
+# --- Machine Class Factory --- (保持不變，因為行為範本名稱沒有改變)
 MACHINE_CLASSES = {
     "pinball_like": PinballMachine,
     "claw_like": ClawMachine,
@@ -68,7 +66,7 @@ def fetch_machine_configs_from_db():
         cursor = conn.cursor(dictionary=True)
         query = """
             SELECT
-                m.id, m.name, m.machine_type, m.coin_input_value, m.payout_unit_value,
+                m.id, m.name, m.machine_category, m.coin_input_value, m.payout_unit_value,
                 m.credit_button_value, m.bill_acceptor_enabled, m.accepted_denominations,
                 a.chip_hardware_id, a.auth_key
             FROM machines AS m
@@ -81,7 +79,7 @@ def fetch_machine_configs_from_db():
         machines = cursor.fetchall()
         print(f"成功獲取 {len(machines)} 台機台的配置。")
         for machine in machines: # <-- 新增這段來檢查
-            print(f"機台名稱: {machine['name']}, 機型: '{machine['machine_type']}'") # 用引號包住，檢查有無多餘空格
+            print(f"機台名稱: {machine['name']}, 機型: '{machine['machine_category']}'") # 用引號包住，檢查有無多餘空格
         return machines
     except mysql.connector.Error as err:
         print(f"資料庫錯誤: {err}")
@@ -92,11 +90,11 @@ def fetch_machine_configs_from_db():
             conn.close()
 
 def simulate_esp32(config):
-    machine_type = config.get('machine_type')
-    behavior = BEHAVIOR_MAP.get(machine_type, 'unknown')
+    machine_category = config.get('machine_category')
+    behavior = BEHAVIOR_MAP.get(machine_category, 'unknown')
 
     if behavior not in MACHINE_CLASSES:
-        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_type}' (行為範本 '{behavior}')，因未註冊模擬器。")
+        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_category}' (行為範本 '{behavior}')，因未註冊模擬器。")
         return
 
     MachineClass = MACHINE_CLASSES[behavior]

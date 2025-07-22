@@ -18,7 +18,7 @@
     )" class="py-1">
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-8">
             <!-- 篩選器區域 (可折疊) -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-2 absolute top-0 right-0 z-10">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-2 absolute top-0 right-0 z-40">
                 <div class="p-1 px-3 sm:px-6 bg-white border-b border-gray-200">
                     <!-- 篩選條件標題列 -->
                     <div class="flex justify-between items-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors px-3 py-2 rounded-md"
@@ -153,9 +153,6 @@
                     </div>
                 </div>
             </div>
-
-
-
             <!-- 報表結果顯示區 -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-2 sm:px-6 bg-white border-b border-gray-200">
@@ -169,9 +166,73 @@
                                     報表結果
                                 @endif
                             </h3>
-                            @if (session('dateRange'))
+                            @if (session('reportData'))
+                                {{-- 只有當有報表數據時才顯示這些資訊 --}}
                                 <div class="mt-1 text-sm text-gray-600 space-y-1">
-                                    <p>報表區間：{{ session('dateRange.start') }} ~ {{ session('dateRange.end') }}</p>
+                                    @if (session('dateRange'))
+                                        <p>報表區間：{{ session('dateRange.start') }} ~ {{ session('dateRange.end') }}</p>
+                                    @endif
+
+                                    @php
+                                        $searchConditions = [];
+
+                                        // Period
+                                        $periodMap = [
+                                            'today' => '今天',
+                                            'yesterday' => '昨天',
+                                            'last_3_days' => '最近3天',
+                                            'this_week' => '本週',
+                                            'last_week' => '上週',
+                                            'this_month' => '本月',
+                                            'last_month' => '上月',
+                                        ];
+                                        if (session('filters.period')) {
+                                            $searchConditions[] = $periodMap[session('filters.period')] ?? '';
+                                        }
+
+                                        // Owner
+                                        if (session('filterContext.owner_name')) {
+                                            $searchConditions[] = '廠商' . session('filterContext.owner_name');
+                                        } else {
+                                            $searchConditions[] = '所有廠商';
+                                        }
+
+                                        // Arcade
+                                        if (session('filterContext.arcade_name')) {
+                                            $searchConditions[] = session('filterContext.arcade_name');
+                                        } else {
+                                            $searchConditions[] = '所有場地';
+                                        }
+
+                                        // Machine Type
+                                        if (session('filters.machine_type')) {
+                                            $searchConditions[] = $machineTypes[session('filters.machine_type')] ?? '';
+                                        } else {
+                                            $searchConditions[] = '所有類型';
+                                        }
+
+                                        // Machine
+                                        if (session('filters.machine_id')) {
+                                            $selectedMachine = collect($machinesForFilter)->firstWhere(
+                                                'id',
+                                                session('filters.machine_id'),
+                                            );
+                                            if ($selectedMachine) {
+                                                $searchConditions[] = $selectedMachine['name'];
+                                            } else {
+                                                $searchConditions[] = '特定機器';
+                                            }
+                                        } else {
+                                            $searchConditions[] = '所有機器';
+                                        }
+
+                                        $searchConditionsString = implode(' ', array_filter($searchConditions));
+                                    @endphp
+
+                                    @if (!empty($searchConditionsString))
+                                        <p>搜尋條件：<span class="font-semibold">{{ $searchConditionsString }}</span></p>
+                                    @endif
+
                                     @if (session('filterContext.arcade_name'))
                                         <p>場地：<span class="font-semibold">{{ session('filterContext.arcade_name') }}</span>
                                         </p>

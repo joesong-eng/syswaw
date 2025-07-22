@@ -302,8 +302,12 @@
                 this.editForm.payout_button_value = this.formatPayoutUnitValue(machine
                     .payout_button_value ?? '0');
                 this.editForm.payout_type = machine.payout_type || 'none';
+                console.log('Debug: machine.payout_unit_value before format:', machine
+                    .payout_unit_value);
                 this.editForm.payout_unit_value = this.formatPayoutUnitValue(machine
                     .payout_unit_value ?? '0');
+                console.log('Debug: editForm.payout_unit_value after format:', this.editForm
+                    .payout_unit_value);
                 this.editForm.revenue_split = String(machine.revenue_split ?? 45);
                 this.editForm.bill_acceptor_enabled = machine.bill_acceptor_enabled ?? false;
                 this.editForm.bill_currency = String(machine.bill_currency ?? this.editForm
@@ -593,7 +597,20 @@
                     this.createForm.payout_button_value = isChecked ? '100' : '0';
                 });
 
-                this.$watch('createForm.payout_type', (newPayoutType) => {});
+                this.$watch('createForm.payout_type', (newPayoutType) => {
+                    const category = this.createForm.machine_category;
+                    if (category === 'redemption') {
+                        if (newPayoutType === 'tickets') {
+                            this.createForm.payout_unit_value = '1'; // 彩票預設值
+                        } else if (newPayoutType === 'coins') {
+                            this.createForm.payout_unit_value = '10'; // 代幣預設值
+                        } else if (newPayoutType === 'prize') {
+                            this.createForm.payout_unit_value = '30'; // 獎品預設值
+                        } else if (newPayoutType === 'points') {
+                            this.createForm.payout_unit_value = '10'; // 點數預設值
+                        }
+                    }
+                });
 
                 this.$watch('createForm.machine_category', (newMachineCategory) => {
                     if (newMachineCategory === 'utility') {
@@ -618,6 +635,12 @@
                             this.createForm.coin_input_value = '10';
                         }
                     }
+
+                    // 也要監聽 machine_category 的變化，來設定彈珠台的預設值
+                    if (newMachineCategory === 'pinball' || newMachineCategory ===
+                        'pinball_pachinko') {
+                        this.createForm.payout_unit_value = '1'; // 彈珠台預設值
+                    }
                 });
 
                 this.$watch('editForm.machine_category', (newMachineCategory) => {
@@ -631,6 +654,12 @@
                         this.editForm.bill_currency = 'TWD';
                         this.available_denominations_for_selected_currency = [];
                     }
+                    // 也要監聽 editForm.machine_category 的變化，來設定彈珠台的預設值
+                    // 移除：不再在此處硬編碼彈珠台的 payout_unit_value，應由資料庫值決定
+                    // if (newMachineCategory === 'pinball' || newMachineCategory ===
+                    //     'pinball_pachinko') {
+                    //     this.editForm.payout_unit_value = '1'; // 彈珠台預設值
+                    // }
                 });
 
                 this.$watch('createForm.arcade_id', (newArcadeId) => {

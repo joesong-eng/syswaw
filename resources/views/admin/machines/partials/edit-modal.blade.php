@@ -168,7 +168,8 @@
                                     <!-- 隨選擇變化 -->
                                     <div x-show="editForm.payout_type && editForm.payout_type !== 'none'"
                                         class="cssbvpar flex items-center justify-end ml-auto order-1 sm:order-2 -mt-3">
-                                        <template x-if="editForm.payout_type === 'ball'">
+                                        <template
+                                            x-if="editForm.payout_type === 'ball' && editForm.machine_category !== 'pinball'">
                                             <div class="cssbv flex items-center space-x-2 text-sm text-gray-700">
                                                 <span> {{ __('msg.per_ball_value') }}</span>
                                                 <select name="payout_unit_value" id="edit_ball_input_value_arcade"
