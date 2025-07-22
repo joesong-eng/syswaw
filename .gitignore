@@ -48,5 +48,5 @@ Thumbs.db
 .tmp.driveupload/
 
 # Your custom note directory if not already ignored by .note/
-.note.v1/ # 如果您希望保留這個備份但不追蹤，則取消註解此行
+.note.v1/ 
 *.zip
