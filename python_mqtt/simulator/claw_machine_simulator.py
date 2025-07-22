@@ -20,9 +20,10 @@ class ClawMachine(BaseMachine):
         # b. 來自開分的次數
         plays_from_assign = 0
         if self.is_assign_credit_triggered():
-            self.assign_credit += 1 # 累加開分計數
+            # 修正：assign_credit 記錄的是觸發「次數」，所以累加 1
+            self.assign_credit += 1
             if self.coin_input_value > 0:
-                # 計算這次開分等於多少次免費遊戲
+                # 計算這次開分等於多少次免費遊戲 (此處邏輯不變，仍依據 credit_button_value)
                 plays_from_assign = int(self.credit_button_value / self.coin_input_value)
 
         # 總遊玩次數 = 投幣次數 + 開分換來的免費次數

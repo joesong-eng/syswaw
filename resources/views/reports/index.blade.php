@@ -245,7 +245,7 @@
                                                     洗分
                                                 </th>
                                                 <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
-                                                    退幣
+                                                    贈獎
                                                 </th>
                                                 <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
                                                     總支出

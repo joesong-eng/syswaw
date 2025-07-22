@@ -128,8 +128,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @forelse ($records as $record)
-                                <tr
-                                    class="text-sm text-gray-700 hover:bg-gray-50">
+                                <tr class="text-sm text-gray-700 hover:bg-gray-50">
                                     <td class="hidden lg:table-cell text-center"
                                         style="width: 60px; min-width: 60px; max-width: 60px;">
                                         <div class="px-1 py-2">

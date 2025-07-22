@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('token')->nullable()->comment('設備 token');
             $table->string('machine_type')->nullable()->comment('機型: pinball, lottery, doll, gambling, bill');
             $table->integer('credit_in')->default(0)->comment('投幣數（硬幣或紙鈔總額）');
-            // $table->integer('coin_out')->default(0)->comment('退幣數');
+            // $table->integer('coin_out')->default(0)->comment('贈獎數');
             $table->integer('return_value')->default(0)->comment('退等值物品的價值（彩票/禮物）');
             $table->timestamp('timestamp')->useCurrent();
             $table->timestamps();

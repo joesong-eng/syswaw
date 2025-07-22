@@ -13,6 +13,7 @@ class SimpleIOMachine(BaseMachine):
 
         plays_from_assign = 0
         if self.is_assign_credit_triggered():
+            # 修正：assign_credit 記錄的是觸發「次數」，所以累加 1
             self.assign_credit += 1
             if self.coin_input_value > 0:
                 plays_from_assign = int(self.credit_button_value / self.coin_input_value)

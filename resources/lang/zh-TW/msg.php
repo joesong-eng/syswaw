@@ -507,7 +507,7 @@ return [
     'this_month' => '本月',
     'last_month' => '上個月',
 
-    'coin_out' => '退幣',
+    'coin_out' => '贈獎',
     'bill_denomination' => '紙鈔',
     'assign_credit' => '開分',
     'settled_credit' => '洗分',

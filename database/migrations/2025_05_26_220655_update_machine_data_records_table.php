@@ -10,7 +10,7 @@ return new class extends Migration
     {
         // 第一步：新增新欄位並設置索引
         Schema::table('machine_data_records', function (Blueprint $table) {
-            $table->integer('coin_out')->default(0)->comment('退幣數')->after('credit_in');
+            $table->integer('coin_out')->default(0)->comment('贈獎數')->after('credit_in');
         });
 
         // 第二步：遷移現有 ball_in, ball_out 數據到 machine_data_extended

@@ -34,9 +34,11 @@ class GamblingLikeMachine(BaseMachine):
         # 紙鈔面額到計數的映射 (用於 bill_denomination)
         self.DENOMINATION_VALUE_TO_CODE = { '100': 1, '200': 2, '500': 5, '1000': 10, '2000': 20 }
 
-        # --- 新增：洗分相關參數 ---
-        self.SETTLED_CREDIT_PROBABILITY = 0.05 # 5% 的機率觸發洗分
-        self.SETTLED_CREDIT_RANGE = [10, 50]   # 每次洗分的數量範圍
+        # --- 新增：手動操作相關參數 ---
+        # 這些機率是為了讓手動開分/洗分事件在模擬中更平衡
+        # 現在明確在 GamblingLikeMachine 中定義 ASSIGN_CREDIT_PROBABILITY
+        self.ASSIGN_CREDIT_PROBABILITY = 0.50 # 設定開分觸發機率 (之前此行不存在於此類別中)
+        self.SETTLED_CREDIT_PROBABILITY = 0.50 # 設定洗分觸發機率 (從 0.80 調整為 0.50)
 
     def update_state(self):
         # --- Step 1: 計算本輪總共「可玩幾次」 (Total Plays) ---
@@ -46,7 +48,8 @@ class GamblingLikeMachine(BaseMachine):
 
         # b. 來自開分的次數
         plays_from_assign = 0
-        if self.is_assign_credit_triggered():
+        # 修正：直接使用 GamblingLikeMachine 自己的 ASSIGN_CREDIT_PROBABILITY
+        if random.random() < self.ASSIGN_CREDIT_PROBABILITY:
             self.assign_credit += 1
             if self.coin_input_value > 0:
                 plays_from_assign = int(self.credit_button_value / self.coin_input_value)
@@ -81,9 +84,12 @@ class GamblingLikeMachine(BaseMachine):
                 delta_coin_out += random.randint(*self.payout_count_range)
 
         # --- Step 3: 模擬洗分 (Settled Credit) ---
+        # 根據您的明確指示：settled_credit 記錄的是觸發「次數」，所以累加 1
         if random.random() < self.SETTLED_CREDIT_PROBABILITY:
-            self.settled_credit += random.randint(*self.SETTLED_CREDIT_RANGE)
+            self.settled_credit += 1
 
         # --- Step 4: 更新累計「計數」 ---
         self.credit_in += delta_credit_in # 只累加真實的投幣次數
         self.coin_out += delta_coin_out
+
+

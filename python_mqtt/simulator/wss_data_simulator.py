@@ -148,17 +148,21 @@ def simulate_esp32(config):
 
     while True:
         try:
+            # ****** 核心修正開始 ******
+            # 1. 調用模擬器的 update_state 方法來更新機台的內部計數
             machine.update_state()
+            # 2. 從機台物件的屬性中直接獲取最新的累計數據來構建 payload
             current_payload_data = {
                 "chip_id": machine.chip_id, # 數據更新時依然攜帶 chip_id
-                "ball_in": int(getattr(machine, "ball_in", 0)),
-                "credit_in": int(getattr(machine, "credit_in", 0)),
-                "ball_out": int(getattr(machine, "ball_out", 0)),
-                "coin_out": int(getattr(machine, "coin_out", 0)),
-                "assign_credit": int(getattr(machine, "assign_credit", 0)),
-                "settled_credit": int(getattr(machine, "settled_credit", 0)),
-                "bill_denomination": int(getattr(machine, "bill_denomination", 0)),
+                "ball_in": int(machine.ball_in), # 從機台物件讀取 ball_in 累計值
+                "credit_in": int(machine.credit_in), # 從機台物件讀取 credit_in 累計值
+                "ball_out": int(machine.ball_out), # 從機台物件讀取 ball_out 累計值
+                "coin_out": int(machine.coin_out), # 從機台物件讀取 coin_out 累計值
+                "assign_credit": int(machine.assign_credit), # 從機台物件讀取 assign_credit 累計值
+                "settled_credit": int(machine.settled_credit), # 從機台物件讀取 settled_credit 累計值
+                "bill_denomination": int(machine.bill_denomination), # 從機台物件讀取 bill_denomination 累計值
             }
+            # ****** 核心修正結束 ******
 
             send_data_update = False
             # 判斷數據是否有變化

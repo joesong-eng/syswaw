@@ -16,7 +16,7 @@ class BaseMachine:
         self.bill_acceptor_enabled = bool(config.get('bill_acceptor_enabled', False))
         self.accepted_denominations = config.get('accepted_denominations', '[]')
         self.ball_in, self.credit_in, self.ball_out, self.coin_out, self.assign_credit, self.settled_credit, self.bill_denomination = 0, 0, 0, 0, 0, 0, 0
-        self.ASSIGN_CREDIT_PROBABILITY = 0.02
+        self.ASSIGN_CREDIT_PROBABILITY = 0.10
     def is_assign_credit_triggered(self):
         return self.credit_button_value > 0 and random.random() < self.ASSIGN_CREDIT_PROBABILITY
     def update_state(self):
@@ -72,7 +72,3 @@ class PinballMachine(BaseMachine):
         self.credit_in += delta_credit_in
         self.ball_in += delta_ball_in
         self.ball_out += delta_ball_out
-
-
-
-
