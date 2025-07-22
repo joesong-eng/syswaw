@@ -211,40 +211,47 @@
                             <div class="mt-2 overflow-x-auto">
                                 <div class="overflow-y-auto max-h-[calc(100vh-150px)]">
                                     <table
-                                        class="min-w-full divide-y divide-gray-200 w-full table-fixed border-collapse text-sm">
+                                        class="min-w-full divide-y divide-gray-200 w-full table-fixed border-collapse text-sm text-center ">
                                         <thead class="bg-gray-50">
                                             <tr>
-                                                <th class="px-2 py-0 text-left sticky top-0 bg-gray-100 z-1 w-[20%]">
+                                                <th class="px-2 py-0 sticky top-0 bg-gray-100 z-1 w-[10%]">
                                                     機台
                                                 </th>
                                                 <!-- 場地與廠商（合併為一個 th） -->
                                                 @if (empty(session('filters.arcade_id')) || empty(session('filters.owner_id')))
-                                                    <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[30%] min-w-[100px]"
+                                                    <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[25%] "
                                                         colspan="2">
                                                         <div
-                                                            class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 min-w-[100px]">
+                                                            class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2 ">
                                                             @if (empty(session('filters.arcade_id')))
-                                                                <div class="flex-1 text-left min-w-[100px]">場地</div>
+                                                                <div class="flex-1 ">場地</div>
                                                             @endif
                                                             @if (empty(session('filters.owner_id')))
-                                                                <div class="flex-1 text-left min-w-[100px]">廠商</div>
+                                                                <div class="flex-1">廠商</div>
                                                             @endif
                                                         </div>
                                                     </th>
                                                 @endif
-                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
-                                                    投幣
+                                                {{-- 投幣開分 --}}
+                                                <th colspan="2"
+                                                    class="px-2 py-0 justify-end sticky top-0 bg-blue-100 z-1 w-[25%]">
+                                                    <div
+                                                        class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2 ">
+                                                        <div class="flex-1 text-right">投幣</div>
+                                                        <div class="flex-1 text-right">開分</div>
+                                                    </div>
                                                 </th>
-                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
-                                                    開分
+                                                {{-- 收入支出 --}}
+                                                <th colspan="2"
+                                                    class="px-2 py-0 justify-end sticky top-0 bg-blue-100 z-1 w-[25%]">
+                                                    <div
+                                                        class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-2 ">
+                                                        <div class="flex-1 text-right text-green-500">收入
+                                                        </div>
+                                                        <div class="flex-1 text-right text-red-500">支出</div>
+                                                    </div>
                                                 </th>
-                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
-                                                    收入
-                                                </th>
-                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
-                                                    支出
-                                                </th>
-                                                <th class="px-2 py-0 text-center sticky top-0 bg-gray-100 z-1 w-[10%]">
+                                                <th class="px-2 py-0 text-right sticky top-0 bg-gray-100 z-1 w-[15%] ">
                                                     淨利
                                                 </th>
                                             </tr>
@@ -252,33 +259,46 @@
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             <template x-for="(data, index) in displayedData" :key="index">
                                                 <tr>
-                                                    <td class="px-1 py-2  text-sm text-gray-900"
+                                                    <td class="px-1 py-2  text-sm text-gray-900 text-center"
                                                         x-text="data.machine_name"></td>
                                                     @if (empty(session('filters.arcade_id')) || empty(session('filters.owner_id')))
-                                                        <td class="px-2 py-2  text-sm text-gray-500" colspan="2"
-                                                            style="min-width: 100px;">
+                                                        <td class="px-1 py-2  text-sm text-center text-gray-500"
+                                                            colspan="2">
                                                             <div
                                                                 class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 min-w-[100px]">
                                                                 @if (empty(session('filters.arcade_id')))
-                                                                    <div class="flex-1 text-left min-w-[100px] inline-block truncate"
+                                                                    <div class="flex-1  inline-block truncate"
                                                                         x-text="data.arcade_name"></div>
                                                                 @endif
                                                                 @if (empty(session('filters.owner_id')))
-                                                                    <div class="flex-1 text-left  min-w-[100px] inline-block truncate"
+                                                                    <div class="flex-1 inline-block truncate"
                                                                         x-text="data.owner_name"></div>
                                                                 @endif
                                                             </div>
                                                         </td>
                                                     @endif
-                                                    <td class="px-1 py-2  text-sm text-center"
-                                                        x-text="formatNumber(data.credit_in_value)"></td>
-                                                    <td class="px-1 py-2  text-sm text-center"
-                                                        x-text="formatNumber(data.assign_credit_value)"></td>
-                                                    <td class="px-1 py-2  text-sm text-center text-green-600 font-semibold"
-                                                        x-text="formatNumber(data.total_revenue)"></td>
-                                                    <td class="px-1 py-2  text-sm text-center text-red-600"
-                                                        x-text="formatNumber(data.total_cost)"></td>
-                                                    <td class="px-1 py-2  text-sm text-center font-bold"
+                                                    {{-- 投幣開分 --}}
+                                                    <td colspan="2" class="px-2 py-0 justify-end  top-0 bg-blue-50">
+                                                        <div
+                                                            class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 justify-end lg:space-x-4 text-blue-500">
+                                                            <div x-text="formatNumber(data.credit_in_value)"
+                                                                class="flex-1 text-right "> </div>
+                                                            <div x-text="formatNumber(data.assign_credit_value)"
+                                                                class="flex-1 text-right"> </div>
+                                                        </div>
+                                                    </td>
+                                                    {{-- 收入支出 --}}
+                                                    <td colspan="2" class="px-2 py-0 justify-end  top-0">
+                                                        <div
+                                                            class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 justify-end lg:space-x-4 text-blue-500">
+                                                            <div x-text="formatNumber(data.total_revenue)"
+                                                                class="flex-1 text-right text-green-600"> </div>
+                                                            <div x-text="formatNumber(data.total_cost)"
+                                                                class="flex-1 text-right text-red-600">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-1 py-2  text-sm text-right font-bold"
                                                         :class="data.net_profit >= 0 ? 'text-blue-600' : 'text-red-700'"
                                                         x-text="formatNumber(data.net_profit)"></td>
                                                 </tr>
