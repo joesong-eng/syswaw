@@ -99,7 +99,7 @@ Route::middleware(['setLocale'])->group(function () {
         Route::get('/latestMqttData', [DataIngestionController::class, 'getStreamMqttData'])->name('latestMqttData');
 
 
-        Route::get('/streamData', [TcpServerController::class, 'streamData'])->name('streamData'); // 名稱: admin.tcp-server.streamData
+        Route::get('/streamData', [DataIngestionController::class, 'streamData'])->name('streamData'); // 名稱: admin.tcp-server.streamData
 
 
         // // 機器管理相關路由 (大部分已移至 machine.php)

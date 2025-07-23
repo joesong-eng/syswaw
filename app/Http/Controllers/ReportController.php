@@ -31,24 +31,24 @@ class ReportController extends Controller
         // 2. 準備機台相關篩選器
         // **修改這裡：排除 'money_slot' 機台類型**
         $machinesForFilter = $baseMachineQuery->clone()
-            ->where('machine_type', '!=', 'money_slot') // <-- 新增：排除紙鈔機
+            ->where('machine_category', '!=', 'utility') // <-- 新增：排除紙鈔機
             ->with('arcade:id,name')
             ->orderBy('name')
-            ->get(['id', 'name', 'arcade_id', 'machine_type', 'owner_id']);
+            ->get(['id', 'name', 'arcade_id', 'machine_category', 'owner_id']);
 
         // **修改這裡：排除 'money_slot' 機台類型**
-        $machineTypes = $baseMachineQuery->clone()->select('machine_type')
-            ->whereNotNull('machine_type')
-            ->where('machine_type', '!=', 'money_slot') // <-- 新增：排除紙鈔機
-            ->distinct()->pluck('machine_type');
+        $machineTypes = $baseMachineQuery->clone()->select('machine_category')
+            ->whereNotNull('machine_category')
+            ->where('machine_category', '!=', 'utility') // <-- 新增：排除紙鈔機
+            ->distinct()->pluck('machine_category');
 
         // 3. 準備廠商篩選器
         $authorizedOwnerIds = $baseMachineQuery->clone()->select('owner_id')->distinct()->pluck('owner_id');
         $owners = User::whereIn('id', $authorizedOwnerIds)->orderBy('name')->get();
 
 
-        // **修改這裡：在 generate 方法的查詢中排除 'money_slot' 機台類型**
-        $machineQuery = $baseMachineQuery->where('machine_type', '!=', 'money_slot'); // <-- 新增：排除紙鈔機
+        // **修改這裡：在 generate 方法的查詢中排除 'utility' 機台類型**
+        $machineQuery = $baseMachineQuery->where('machine_category', '!=', 'utility'); // <-- 新增：排除紙鈔機
 
         if (!empty($filters['arcade_id'])) {
             $machineQuery->where('arcade_id', $filters['arcade_id']);
@@ -56,8 +56,8 @@ class ReportController extends Controller
         if (!empty($filters['machine_id'])) {
             $machineQuery->where('id', $filters['machine_id']);
         }
-        if (!empty($filters['machine_type'])) {
-            $machineQuery->where('machine_type', $filters['machine_type']);
+        if (!empty($filters['machine_category'])) {
+            $machineQuery->where('machine_category', $filters['machine_category']);
         }
         if (!empty($filters['owner_id'])) {
             $machineQuery->where('owner_id', $filters['owner_id']);
@@ -89,6 +89,7 @@ class ReportController extends Controller
             'arcade_id' => 'nullable|exists:arcades,id',
             'machine_id' => 'nullable|exists:machines,id',
             'machine_type' => 'nullable|string',
+            'machine_category' => 'nullable|string',
             'owner_id' => 'nullable|exists:users,id',
         ]);
 
@@ -98,6 +99,7 @@ class ReportController extends Controller
             'end_date',
             'arcade_id',
             'machine_id',
+            'machine_category',
             'machine_type',
             'owner_id'
         ]);
@@ -120,7 +122,7 @@ class ReportController extends Controller
         $baseMachineQuery = $this->getAuthorizedMachineQuery($user);
 
         // **修改這裡：在 generate 方法的查詢中排除 'money_slot' 機台類型**
-        $machineQuery = $baseMachineQuery->where('machine_type', '!=', 'money_slot'); // <-- 新增：排除紙鈔機
+        $machineQuery = $baseMachineQuery->where('machine_category', '!=', 'utility'); // <-- 新增：排除紙鈔機
 
         if (!empty($filters['arcade_id'])) {
             $machineQuery->where('arcade_id', $filters['arcade_id']);
@@ -128,8 +130,8 @@ class ReportController extends Controller
         if (!empty($filters['machine_id'])) {
             $machineQuery->where('id', $filters['machine_id']);
         }
-        if (!empty($filters['machine_type'])) {
-            $machineQuery->where('machine_type', $filters['machine_type']);
+        if (!empty($filters['machine_category'])) {
+            $machineQuery->where('machine_category', $filters['machine_category']);
         }
         if (!empty($filters['owner_id'])) {
             $machineQuery->where('owner_id', $filters['owner_id']);
@@ -233,6 +235,7 @@ class ReportController extends Controller
                 'machine_name' => $machine->name,
                 'arcade_name' => $machine->arcade->name ?? 'N/A',
                 'owner_name' => $machine->owner->name ?? 'N/A',
+                'machine_category' => $machine->machine_category,
                 'machine_type' => $machine->machine_type, // 為了前端顯示或驗證，保留機台類型
                 'credit_in_initial' => $initialValues['credit_in'],
                 'credit_in_latest' => $latest->credit_in,

@@ -40,7 +40,7 @@ SIMULATION_INTERVAL_SECONDS = 86400 # 每天 0:00 寫入一次數據 (24小時 *
 BEHAVIOR_MAP = {
     'pure_game': 'simple_io',          # 純遊戲機
     'redemption': 'claw_like',         # 獎勵型遊戲機 (如夾娃娃機、推幣機)
-    'pinball': 'pinball_like',         # 彈珠/柏青哥機台 (鍵名從 'pinball_pachinko' 修改為 'pinball')
+    'pinball': 'pinball_like',         # 彈珠/柏青哥機台
     'gambling': 'gambling_like',       # 博弈機台
     'utility': 'input_only',           # 純輸入型設備 (如紙鈔機)
     'entertainment_only': 'simple_io', # 新增：純娛樂機，映射到簡單輸入輸出機

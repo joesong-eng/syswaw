@@ -162,13 +162,13 @@
                     <!-- <<< 修改：將標題和新的 checkbox 包在一個 flex 容器中 >>> -->
                     <div class="flex justify-between items-end">
                         <div>
-                            <h3 class="text-lg font-medium text-gray-900">
+                            <h5 class="text-lg font-medium text-gray-900">
                                 @if (session('reportTitle'))
                                     {{ session('reportTitle') }}
                                 @else
                                     報表結果
                                 @endif
-                            </h3>
+                            </h5>
                             @if (session('dateRange'))
                                 <div class="mt-1 text-sm text-gray-600 space-y-1">
                                     <p>報表區間：{{ session('dateRange.start') }} ~ {{ session('dateRange.end') }}</p>

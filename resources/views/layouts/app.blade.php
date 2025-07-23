@@ -149,21 +149,22 @@
         } */
 
         .bg-logo1 {
-            background-image: url('{{ asset('storage/images/iotlink_01.png') }}');
+            background-image: url('{{ asset('images/iotlink_01.png') }}');
         }
 
         .bg-logo2 {
-            background-image: url('{{ asset('storage/images/iotlink_02.png') }}');
+            background-image: url('{{ asset('images/iotlink_02.png') }}');
         }
+
 
         /* 暗黑模式下切換背景圖片 */
         @media (prefers-color-scheme: dark) {
             .bg-logo1 {
-                background-image: url('{{ asset('storage/images/iotlink_02.png') }}');
+                background-image: url('{{ asset('images/iotlink_02.png') }}');
             }
 
             .bg-logo2 {
-                background-image: url('{{ asset('storage/images/iotlink_01.png') }}');
+                background-image: url('{{ asset('images/iotlink_01.png') }}');
             }
         }
 
@@ -317,10 +318,10 @@
     </div>
     {{-- 添加全局狀態指示器 --}}
     <div id="global-reverb-status"
-        class="fixed bottom-0 right-0 text-xs px-2 py-0 rounded-full bg-gray-500 text-white z-50 opacity-75 ">
+        class="fixed bottom-2 right-2 text-xs px-2 py-1 rounded bg-gray-500 text-white z-50 opacity-75">
         連接中...
     </div>
-    <div id="loadingOverlay" class="loading-overlay">
+    <div id="loadingOverlay" class="loading-overlay" wire:loading.flex>
         <div class="spinner"></div>
     </div>
     @livewireScripts
@@ -330,13 +331,6 @@
 </html>
 
 <script>
-    function showLoadingOverlay(id = 'loadingOverlay') {
-        document.getElementById(id).style.display = 'flex';
-    }
-
-    function hideLoadingOverlay(id = 'loadingOverlay') {
-        document.getElementById(id).style.display = 'none';
-    }
     // 綁定表單提交事件
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('form').forEach(form => {
@@ -364,19 +358,16 @@
                             console.log(
                                 'User confirmed the action'
                             ); // Log when user clicks Confirm
-                            showLoadingOverlay();
                             form.submit();
                         } else {
                             console.log(
                                 'User canceled the action'); // Log when user clicks Cancel
-                            hideLoadingOverlay();
                         }
                     } catch (error) {
                         console.error('Confirmation dialog error:', error);
-                        hideLoadingOverlay();
                     }
                 } else {
-                    showLoadingOverlay();
+                    // No manual showLoadingOverlay() needed here, Livewire handles it
                 }
             });
         });

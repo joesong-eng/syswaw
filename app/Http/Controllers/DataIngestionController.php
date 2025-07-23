@@ -225,7 +225,7 @@ class DataIngestionController extends Controller
     // }
 
     /**
-     * 從 Redis Stream 獲取數據並寫入資料庫。
+     * 從 Redis Key-Value 儲存獲取最新的 MQTT 數據，並寫入資料庫。
      *
      * @return array 處理後的記錄詳情
      */
@@ -332,7 +332,7 @@ class DataIngestionController extends Controller
                     'message' => '重複記錄 (時間戳)'
                 ];
                 // 處理完畢後，從 Redis 中刪除該 Key，避免下次重複處理
-                Redis::del($key);
+                // Redis::del($key); // 這裡不刪除，因為我們希望 Redis 保持最新數據
                 continue;
             }
 
@@ -363,8 +363,8 @@ class DataIngestionController extends Controller
                         'timestamp' => $isoTimestamp
                     ];
                     Log::info('DataIngestionController: 成功處理並儲存記錄', ['key' => $key, 'machine_id' => $machineId]);
-                    // 處理完畢後，從 Redis 中刪除該 Key (已註解，因為我們希望 Redis 保持最新數據)
-                    // Redis::del($key);
+                    // 處理完畢後，從 Redis 中刪除該 Key
+                    Redis::del($key);
                 } catch (\Exception $e) {
                     Log::error('DataIngestionController: 無法創建 MachineData 記錄', [
                         'error' => $e->getMessage(),
@@ -417,6 +417,7 @@ class DataIngestionController extends Controller
      */
     public function getStreamMqttData(): JsonResponse
     {
+        // return "????????";
         try {
             // 獲取所有以 'machine_data:' 開頭的 Key
             $keys = Redis::keys('machine_data:*');

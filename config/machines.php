@@ -34,7 +34,7 @@ return [
             'display' => 'msg.template_pinball', // "彈珠台 (換鋼珠，玩遊戲贏鋼珠)"
             'follow_up' => [],
             'fixed_payout_type' => 'ball',
-            'db_category_map' => 'pinball_pachinko',
+            'db_category_map' => 'pinball',
         ],
         'gambling' => [
             'display' => 'msg.template_gambling', // "電子遊戲機 (主要透過開分/洗分記帳)"

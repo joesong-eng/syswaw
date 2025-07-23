@@ -25,7 +25,7 @@ class ClawMachine(BaseMachine):
                 # 計算這次開分等於多少次免費遊戲
                 plays_from_assign = int(self.credit_button_value / self.coin_input_value)
 
-        # 總遊玩次數 = 投幣次數 + 開分換來的免費次數
+        # 總遊玩次數 =  投幣次數         +   開分換來的免費次數
         total_plays = delta_credit_in + plays_from_assign
 
         # --- Step 2: 根據總遊玩次數，計算總「出獎次數」 ---

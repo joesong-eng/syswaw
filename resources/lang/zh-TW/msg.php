@@ -592,8 +592,8 @@ return [
     'account' => '帳戶',
     'history' => '歷史記錄',
     'template_entertainment_only' => '一般娛樂機 (投幣玩遊戲，無返還)',
-    'template_redemption' => '獎勵型遊戲機 (投幣玩遊戲，依表現給獎勵)',
-    'template_pinball' => '彈珠台 (換鋼珠，玩遊戲贏鋼珠)',
+    'template_redemption' => '獎勵型遊戲機 (投幣玩遊戲，贏獎品 如娃娃機)',
+    'template_pinball' => '彈珠台 (柏青哥)',
     'template_gambling' => '電子遊戲機 (主要透過開分/洗分記帳)',
     'template_utility' => '兌換/儲值機 (只收錢，用於兌換)',
 

@@ -2,7 +2,7 @@
 @extends('layouts.app')
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight w-full">
-        🎧{{ __('即時數據') }}XX
+        🎧{{ __('即時數據') }}X
     </h2>
 @endsection
 @section('content')

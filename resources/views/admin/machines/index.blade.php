@@ -50,7 +50,7 @@
                         </div>
                         <div class="w-[23%] px-1 break-words m-auto text-center">
                             <div class="ps-2 font-thin text-xs text-center whitespace-nowrap overflow-hidden text-ellipsis">
-                                {{ $machine->arcade->share_pct ?? 'Unknown' }}</div>
+                                {{ $machine->revenue_split ?? 'Unknown' }}</div>
                             {{ $machine->arcade->name ?? 'Unknown' }}
                         </div>
 

@@ -217,7 +217,7 @@
                                                 <select name="payout_unit_value" id="edit_prize_value_arcade"
                                                     x-model="editForm.payout_unit_value"
                                                     class="w-24 rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm py-1">
-                                                    @foreach ([0.1, 0.5, 1.5, 2, 5, 10, 20, 30, 50, 100] as $value)
+                                                    @foreach ([0.1, 0.5, 1, 1.5, 2, 5, 10, 20, 30, 50, 100] as $value)
                                                         <option value="{{ $value }}">{{ $value }}
                                                         </option>
                                                     @endforeach
@@ -364,7 +364,7 @@
                                 <select name="revenue_split" id="edit_revenue_split_arcade"
                                     x-model="editForm.revenue_split" required
                                     class="mt-1 block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    @foreach (range(5, 50, 5) as $value)
+                                    @foreach (range(0, 50, 5) as $value)
                                         {{-- Assuming max 50% for owner split, adjust if needed --}}
                                         <option value="{{ $value }}">{{ $value }}%</option>
                                     @endforeach
