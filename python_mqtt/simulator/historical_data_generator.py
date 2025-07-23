@@ -28,13 +28,15 @@ SIMULATION_INTERVAL_SECONDS = 86400 # 每天 0:00 寫入一次數據 (24小時 *
 
 # --- Behavioral Template Mapping ---
 BEHAVIOR_MAP = {
-    'pinball': 'pinball_like', 'pachinko': 'pinball_like',
-    'claw_machine': 'claw_like', 'giant_claw_machine': 'claw_like', 'stacker_machine': 'claw_like',
-    'slot_machine': 'gambling_like', 'gambling': 'gambling_like',
-    'normally': 'simple_io', 'racing_game': 'simple_io', 'dance_game': 'simple_io',
-    'basketball_game': 'simple_io',
-    'money_slot': 'input_only',
-    'ball': 'pinball_like',
+    'pure_game': 'simple_io',          # 純遊戲機
+    'redemption': 'claw_like',         # 獎勵型遊戲機 (如夾娃娃機、推幣機)
+    'pinball_pachinko': 'pinball_like',# 彈珠/柏青哥機台 (標準 category 名稱)
+    'gambling': 'gambling_like',       # 賭博型機台
+
+    # 以下是根據您實際從資料庫獲取的 machine_category 值進行補充映射
+    'pinball': 'pinball_like',         # <-- 處理資料庫中可能仍存在的 'pinball' 類型
+    'utility': 'input_only',           # <-- 處理資料庫中可能仍存在的 'utility' 類型 (如帳單機)
+    'entertainment_only': 'simple_io', # <-- 處理資料庫中可能仍存在的 'entertainment_only' 類型 (如純娛樂遊戲機)
 }
 
 # --- Machine Class Factory ---
@@ -53,7 +55,7 @@ def fetch_machine_configs_from_db():
         cursor = conn.cursor(dictionary=True)
         query = """
             SELECT
-                m.id, m.name, m.machine_type, m.coin_input_value, m.payout_unit_value,
+                m.id, m.name, m.machine_category, m.coin_input_value, m.payout_unit_value,
                 m.credit_button_value, m.bill_acceptor_enabled, m.accepted_denominations,
                 a.chip_hardware_id, a.auth_key,
                 m.auth_key_id,
@@ -67,6 +69,8 @@ def fetch_machine_configs_from_db():
         cursor.execute(query)
         machines = cursor.fetchall()
         print(f"成功獲取 {len(machines)} 台機台的配置。")
+        for machine in machines:
+            print(f"機台 ID: {machine['id']}, 名稱: {machine['name']}, 分類: {machine['machine_category']}")
         return machines
     except mysql.connector.Error as err:
         print(f"資料庫錯誤: {err}")
@@ -125,11 +129,11 @@ def insert_data_into_db(data):
 
 
 def generate_historical_data_for_machine(config, start_time, end_time, interval_seconds):
-    machine_type = config.get('machine_type')
-    behavior = BEHAVIOR_MAP.get(machine_type, 'unknown')
+    machine_category = config.get('machine_category')
+    behavior = BEHAVIOR_MAP.get(machine_category, 'unknown')
 
     if behavior not in MACHINE_CLASSES:
-        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_type}' (行為範本 '{behavior}')，因未註冊模擬器。")
+        print(f"[{config.get('chip_hardware_id')}] 警告：跳過機型 '{machine_category}' (行為範本 '{behavior}')，因未註冊模擬器。")
         return
 
     MachineClass = MACHINE_CLASSES[behavior]
@@ -181,21 +185,22 @@ def generate_historical_data_for_machine(config, start_time, end_time, interval_
 
     while current_simulated_time <= end_time:
         try:
-            machine.update_state()
+            # 調用模擬器的 simulate_event 方法
+            new_data = machine.simulate_event(current_simulated_time)
 
             # 構建要插入的數據字典
             data_to_insert = {
                 "machine_id": config['id'],
                 "arcade_id": config['arcade_id'],
                 "auth_key_id": config['auth_key_id'],
-                "machine_type": config['machine_type'],
-                "credit_in": int(getattr(machine, "credit_in", 0)),
-                "ball_in": int(getattr(machine, "ball_in", 0)),
-                "ball_out": int(getattr(machine, "ball_out", 0)),
-                "coin_out": int(getattr(machine, "coin_out", 0)),
-                "assign_credit": int(getattr(machine, "assign_credit", 0)),
-                "settled_credit": int(getattr(machine, "settled_credit", 0)),
-                "bill_denomination": int(getattr(machine, "bill_denomination", 0)),
+                "machine_type": config['machine_category'], # 將 machine_type 改為 machine_category
+                "credit_in": int(new_data.get("credit_in", 0)),
+                "ball_in": int(new_data.get("ball_in", 0)),
+                "ball_out": int(new_data.get("ball_out", 0)),
+                "coin_out": int(new_data.get("coin_out", 0)),
+                "assign_credit": int(new_data.get("assign_credit", 0)),
+                "settled_credit": int(new_data.get("settled_credit", 0)),
+                "bill_denomination": int(new_data.get("bill_denomination", 0)),
                 "error_code": None, # 預設為 NULL
                 "timestamp": current_simulated_time,
                 "chip_id": config['chip_hardware_id'] # 僅用於打印，不插入資料庫
@@ -203,7 +208,37 @@ def generate_historical_data_for_machine(config, start_time, end_time, interval_
 
             insert_data_into_db(data_to_insert)
 
+            # 從 config 獲取轉換比例 (這些值應該來自 machine 表)
+            coin_input_value = config.get('coin_input_value', 1) # 每單位投幣的價值，例如10元/點
+            payout_unit_value = config.get('payout_unit_value', 1) # 每單位退幣/獎品的價值，例如1元/點
+            credit_button_value = config.get('credit_button_value', 100) # 每次開分的價值，例如100元/次
+            payout_button_value = config.get('payout_button_value', 100) # 每次洗分的價值，例如100元/次
+
+            # --- 計算實際金額值用於收入/支出 ---
+            actual_credit_in_value = data_to_insert['credit_in'] # 這個已經是點數價值
+            actual_coin_out_value = data_to_insert['coin_out'] # 這個已經是點數價值
+
+            # 開分 (assign_credit) 收入：操作員幫客戶開分，對機台是一種收入
+            # 將次數轉換為實際價值
+            actual_assign_credit_value = data_to_insert['assign_credit'] * credit_button_value
+
+            # 洗分 (settled_credit) 支出：玩家從機台洗分，對機台是一種支出
+            # 將次數轉換為實際價值
+            actual_settled_credit_value = data_to_insert['settled_credit'] * payout_button_value
+
+            # 紙鈔收入 (bill_denomination)：已經是實際金額
+            actual_bill_denomination_value = data_to_insert['bill_denomination']
+
+            # --- 彙總收入與支出 ---
+            total_revenue = actual_credit_in_value + actual_assign_credit_value + actual_bill_denomination_value
+            total_expense = actual_coin_out_value + actual_settled_credit_value
+
+            net_profit = total_revenue - total_expense
+
             print(f"[{data_to_insert['chip_id']}] 已生成數據: {current_simulated_time.strftime('%Y-%m-%d %H:%M:%S')} - CI:{data_to_insert['credit_in']} BO:{data_to_insert['ball_out']} CO:{data_to_insert['coin_out']} BD:{data_to_insert['bill_denomination']}")
+            print(f"  機台名稱: {config.get('name')}, 淨利: {net_profit}")
+            print(f"  投幣總值: {actual_credit_in_value}, 開分總值: {actual_assign_credit_value}, 紙鈔總值: {actual_bill_denomination_value}")
+            print(f"  退幣總值: {actual_coin_out_value}, 洗分總值: {actual_settled_credit_value}")
 
             current_simulated_time += timedelta(seconds=interval_seconds)
 
