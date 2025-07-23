@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('data:sync-redis-to-db')
             // ->dailyAt('00:00') // 每天午夜 00:00 執行
             ->everyFiveMinutes() //測試每5分鐘
+            // ->hourly() // 將數據擷取任務改為每小時執行
             ->withoutOverlapping()
         ;
 

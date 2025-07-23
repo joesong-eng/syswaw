@@ -19,7 +19,7 @@
         <div class="max-w-7xl mx-auto sm:px-3 lg:px-8">
             <!-- 篩選器區域 (可折疊) -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mb-2 absolute top-0 right-0 z-10">
-                <div class="p-1 px-3 sm:px-6 bg-white border-b border-gray-200">
+                <div class="p-1 px-3 sm:px-6 bg-opacity-20 border-b border-gray-200">
                     <!-- 篩選條件標題列 -->
                     <div class="flex justify-between items-center cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors px-3 py-2 rounded-md"
                         @click="filtersOpen = !filtersOpen">

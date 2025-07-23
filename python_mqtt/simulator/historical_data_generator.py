@@ -3,6 +3,7 @@ import mysql.connector
 import json
 from datetime import datetime, timezone, timedelta
 import random # 確保 random 模組被導入
+import redis # 新增：導入 redis 模組
 
 # --- Import all simulator classes ---
 from pinball_simulator import PinballMachine
@@ -10,6 +11,15 @@ from claw_machine_simulator import ClawMachine
 from simple_io_simulator import SimpleIOMachine
 from gambling_simulator import GamblingLikeMachine
 from input_only_simulator import InputOnlyMachine
+
+# Redis 配置
+REDIS_CONFIG = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 0,
+    'decode_responses': True
+}
+redis_client = redis.Redis(**REDIS_CONFIG)
 
 # 取得腳本所在的目錄
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -127,6 +137,16 @@ def insert_machine_data(data):
             cursor.close()
             conn.close()
 
+def save_machine_state_to_redis(chip_id, machine_state):
+    """將機台的最新累積狀態儲存到 Redis"""
+    try:
+        redis_key = f"machine_state:{chip_id}"
+        state_json = json.dumps(machine_state)
+        redis_client.set(redis_key, state_json)
+        print(f"[{chip_id}] 機台狀態已儲存到 Redis (Key: {redis_key}, Value: {state_json})") # 新增：印出儲存的值
+    except Exception as e:
+        print(f"[{chip_id}] 儲存機台狀態到 Redis 失敗: {e}")
+
 def generate_historical_data_for_machine(config, start_date, end_date, interval_seconds):
     chip_id = config.get('chip_hardware_id') # 使用 .get()
     machine_id = config.get('id') # 使用 .get()
@@ -204,6 +224,19 @@ def generate_historical_data_for_machine(config, start_date, end_date, interval_
             time.sleep(5)
 
     print(f"[{chip_id}] 歷史數據生成完成。")
+
+    # 將最終狀態儲存到 Redis
+    final_machine_state = {
+        "ball_in": machine.ball_in,
+        "credit_in": machine.credit_in,
+        "ball_out": machine.ball_out,
+        "coin_out": machine.coin_out,
+        "assign_credit": machine.assign_credit,
+        "settled_credit": machine.settled_credit,
+        "bill_denomination": machine.bill_denomination,
+        "timestamp": datetime.now(timezone.utc).isoformat(timespec='seconds') # 記錄儲存時間
+    }
+    save_machine_state_to_redis(chip_id, final_machine_state)
 
 
 if __name__ == "__main__":

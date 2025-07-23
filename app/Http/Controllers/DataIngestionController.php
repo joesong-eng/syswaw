@@ -491,6 +491,14 @@ class DataIngestionController extends Controller
                             $machineType = $machine->machine_type;
                             $authKeyString = $authKeyModel->auth_key;
 
+                            $arcadeName = 'N/A';
+                            if ($arcadeId) {
+                                $arcade = Arcade::find($arcadeId);
+                                if ($arcade) {
+                                    $arcadeName = $arcade->name;
+                                }
+                            }
+
                             // 只有當找到有效的機台資訊時才加入 processedData
                             $processedData[] = [
                                 'data' => $decodedData,
@@ -499,6 +507,7 @@ class DataIngestionController extends Controller
                                 'auth_key_string' => $authKeyString,
                                 'machine_id' => $machineId,
                                 'arcade_id' => $arcadeId,
+                                'arcade_name' => $arcadeName, // 新增店舖名稱
                                 'machine_type' => $machineType,
                                 'status' => 'read_only' // 標記為只讀數據
                             ];

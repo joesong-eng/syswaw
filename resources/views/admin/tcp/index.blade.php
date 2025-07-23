@@ -2,16 +2,16 @@
 @extends('layouts.app')
 @section('header')
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('msg.history') }}@@
+        {{ __('msg.history') }}
     </h2>
 @endsection
 
 @section('content')
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto relative">
         <!-- 按鈕 -->
-        <div id="captureOverlay" class="ctrl-overlay">
+        {{-- <div id="captureOverlay" class="ctrl-overlay">
             <div class="spinner"></div>
-        </div>
+        </div> --}}
         <div class="flex justify-end">
             <button id="capture-data-btn" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700">
                 {{ __('msg.current_data') }}
@@ -136,6 +136,8 @@
                                         </div>
                                     </td>
                                     <!-- 店家與機器資訊欄位 (合併為一個 td) -->
+
+
                                     <td class="px-1 py-2" colspan="2">
                                         <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
                                             <!-- 店家名稱 -->
@@ -207,38 +209,38 @@
 @push('style')
     <style>
         /* 遮罩樣式 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.2);
-            z-index: 50;
-        }
+        /* .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.2);
+                z-index: 50;
+            } */
 
-        .ctrl-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 0.5rem;
-            z-index: 40;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
+        /* .ctrl-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    border-radius: 0.5rem;
+                    z-index: 40;
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
+                }
 
-        .ctrl-overlay .spinner {
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
+                .ctrl-overlay .spinner {
+                    border: 6px solid #f3f3f3;
+                    border-top: 6px solid #3498db;
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 1s linear infinite;
+                } */
 
         select {
             -webkit-appearance: none;
@@ -310,14 +312,14 @@
             }
 
             // 遮罩函數，保留因為手動擷取可能還會用到
-            window.showLoadingOverlay = (overlayId = 'captureOverlay') => {
-                const overlay = document.getElementById(overlayId);
-                if (overlay) overlay.style.display = 'flex';
-            };
-            const hideLoadingOverlay = (overlayId = 'captureOverlay') => {
-                const overlay = document.getElementById(overlayId);
-                if (overlay) overlay.style.display = 'none';
-            };
+            // window.showLoadingOverlay = (overlayId = 'captureOverlay') => {
+            //     const overlay = document.getElementById(overlayId);
+            //     if (overlay) overlay.style.display = 'flex';
+            // };
+            // const hideLoadingOverlay = (overlayId = 'captureOverlay') => {
+            //     const overlay = document.getElementById(overlayId);
+            //     if (overlay) overlay.style.display = 'none';
+            // };
 
             // 以下 TCP 服務控制相關的變數和函數，如果其用途是控制 tcp:schedule，則可移除
             // 如果它們用於控制 TCP 服務本身（如 Socket 伺服器），則需要保留
@@ -406,38 +408,121 @@
             const captureDataBtn = document.getElementById('capture-data-btn');
 
             function sendCaptureTrigger() {
+                console.log('sendCaptureTrigger called');
                 if (captureDataBtn) captureDataBtn.disabled = true;
-                showLoadingOverlay('captureOverlay');
-                fetch('{{ route('data-ingestion.ingest-mqtt') }}', {
-                        method: 'POST',
+                showLoadingOverlay('loadingOverlay');
+                fetch('{{ route('latestMqttData') }}', {
+                        method: 'GET', // 更改為 GET 請求
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({})
+                        }
                     })
                     .then(response => response.ok ? response.json() : response.json().then(err => Promise.reject(
                         err)))
                     .then(data => {
                         console.log('Capture Trigger Success:', data);
-                        Swal.fire('成功', '數據截取成功，頁面即將刷新', 'success');
-                        setTimeout(() => {
-                            hideLoadingOverlay('captureOverlay');
-                            location.reload();
-                        }, 2000);
+                        updateTableWithMqttData(data); // 呼叫新函式更新表格
+                        // 在這裡添加延遲
+                        // setTimeout(() => {
+                        hideLoadingOverlay('loadingOverlay');
+                        // }, 2000); // 延遲 500 毫秒
                     })
                     .catch(error => {
                         console.error('Capture Trigger Error:', error);
-                        Swal.fire('錯誤', `截取失敗: ${error.error || '請檢查日誌'}`, 'error');
-                        hideLoadingOverlay('captureOverlay');
+                        Swal.fire('錯誤', `擷取失敗: ${error.error || '請檢查日誌'}`, 'error');
+                        setTimeout(() => { // 錯誤時也延遲隱藏
+                            hideLoadingOverlay('captureOverlay');
+                        }, 500);
                     })
                     .finally(() => {
                         if (captureDataBtn) captureDataBtn.disabled = false;
                     });
+
             }
 
             if (captureDataBtn) {
                 captureDataBtn.addEventListener('click', sendCaptureTrigger);
+            }
+
+            // 新增函式：更新表格內容
+            function updateTableWithMqttData(mqttData) {
+                const tbody = document.querySelector('.table-fixed tbody');
+                if (!tbody) {
+                    console.error('Table body not found.');
+                    return;
+                }
+
+                tbody.innerHTML = ''; // 清空現有內容
+
+                if (mqttData.length === 0) {
+                    const noRecordsRow = document.createElement('tr');
+                    noRecordsRow.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="px-4 py-4 text-center text-gray-500">
+                                {{ __('暫無歷史紀錄') }}。
+                            </td>
+                        </tr>
+                    `;
+                    tbody.appendChild(noRecordsRow);
+                    return;
+                }
+
+                mqttData.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.className = 'text-sm text-gray-700 hover:bg-gray-50';
+
+                    // 格式化時間戳
+                    const formattedTimestamp = item.timestamp ? new Date(item.timestamp).toLocaleString(
+                        'zh-TW', {
+                            year: '2-digit',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: false
+                        }).replace(/\//g, '') : 'N/A';
+
+                    row.innerHTML = `
+                        <td class="hidden lg:table-cell text-center" style="width: 60px; min-width: 60px; max-width: 60px;">
+                            <div class="px-1 py-2">${index + 1}</div>
+                        </td>
+                        <td class="px-1 py-2" colspan="2">
+                            <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                <div class="flex-1 text-center">
+                                    <div class="truncate">${item.arcade_name || '未知店铺'}</div>
+                                </div>
+                                <div class="flex-1 text-center">
+                                    <div class="truncate">${item.machine_name || '未知机器'}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-1 py-2 text-center">
+                            <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                <div class="flex-1 text-center">${item.data.ball_in || 0}</div>
+                                <div class="flex-1 text-center">${item.data.ball_out || 0}</div>
+                            </div>
+                        </td>
+                        <td class="px-1 py-2 text-center">
+                            <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                <div class="flex-1 text-center">${item.data.credit_in || 0}</div>
+                                <div class="flex-1 text-center">${item.data.coin_out || 0}</div>
+                            </div>
+                        </td>
+                        <td class="px-1 py-2 text-center">${item.data.bill_denomination || 0}</td>
+                        <td class="px-1 py-2 text-center">
+                            <div class="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4">
+                                <div class="flex-1 text-center">${item.data.assign_credit || 0}</div>
+                                <div class="flex-1 text-center">${item.data.settled_credit || 0}</div>
+                            </div>
+                        </td>
+                        <td class="px-1 py-2 text-center text-xs">
+                            ${formattedTimestamp}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
             }
 
             // Reverb 監聽器也需簡化

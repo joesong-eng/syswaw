@@ -19,6 +19,7 @@ class ReportController extends Controller
     public function index(): View
     {
         $user = Auth::user();
+        $userTimeZone = $user->timeZone ?? config('app.timezone'); // 獲取用戶時區，如果沒有則使用應用程式預設時區
         // dd($user->hasRole('admin'));
         $baseMachineQuery = $this->getAuthorizedMachineQuery($user);
 
@@ -74,7 +75,8 @@ class ReportController extends Controller
             'machinesForFilter' => $machinesForFilter,
             'owners' => $owners,
             'reportData' => session('reportData') ?? [],
-            'filters' => session('filters') ?? ['period' => 'last_week']
+            'filters' => session('filters') ?? ['period' => 'last_week'],
+            'userTimeZone' => $userTimeZone, // 傳遞用戶時區到視圖
         ]);
     }
 
@@ -100,9 +102,21 @@ class ReportController extends Controller
             'owner_id'
         ]);
 
-        list($startDate, $endDate) = $this->calculateDateRange($filters);
-
         $user = Auth::user();
+        $userTimeZone = $user->timeZone ?? config('app.timezone'); // 獲取用戶時區，如果沒有則使用應用程式預設時區
+
+        $dateRangeData = $this->calculateDateRange($filters, $userTimeZone); // 傳遞時區
+
+        $startDate = $dateRangeData['query_start_date_utc']; // 用於資料庫查詢的 UTC 開始時間
+        $endDate = $dateRangeData['query_end_date_utc'];     // 用於資料庫查詢的 UTC 結束時間
+
+        // 記錄用於資料庫查詢的精確 UTC 時間範圍和篩選條件
+        \Log::info('ReportController: Database Query UTC Range for Verification', [
+            'start_utc' => $startDate->toDateTimeString(),
+            'end_utc' => $endDate->toDateTimeString(),
+            'filters' => $filters, // 記錄所有篩選條件
+        ]);
+
         $baseMachineQuery = $this->getAuthorizedMachineQuery($user);
 
         // **修改這裡：在 generate 方法的查詢中排除 'money_slot' 機台類型**
@@ -245,55 +259,84 @@ class ReportController extends Controller
             return $a['machine_name'] <=> $b['machine_name'];
         });
 
+        // 將日期和時間資訊存入 session
+        session()->flash('dateRange', [
+            'start' => $dateRangeData['display_start_date']->format('Y-m-d'),
+            'end' => $dateRangeData['display_end_date']->format('Y-m-d'),
+            'start_time' => $dateRangeData['display_start_date']->format('H:i:s'),
+            'end_time' => $dateRangeData['display_end_date']->format('H:i:s'),
+        ]);
+
+        // 將篩選條件的上下文資訊存入 session
+        $filterContext = [];
+        if (!empty($filters['arcade_id'])) {
+            $filterContext['arcade_name'] = Arcade::find($filters['arcade_id'])->name ?? 'N/A';
+        }
+        if (!empty($filters['owner_id'])) {
+            $filterContext['owner_name'] = User::find($filters['owner_id'])->name ?? 'N/A';
+        }
+        session()->flash('filterContext', $filterContext);
+
+        // 生成報表標題並存入 session
+        session()->flash('reportTitle', $this->generateReportTitle($filters));
+
         return redirect()->back()->with('reportData', $reportData)->with('filters', $filters);
     }
 
-    private function calculateDateRange(array $filters): array
+    private function calculateDateRange(array $filters, string $userTimeZone): array
     {
         $startDate = null;
         $endDate = null;
 
         switch ($filters['period']) {
             case 'today':
-                $startDate = Carbon::today();
-                $endDate = Carbon::today();
+                $startDate = Carbon::today($userTimeZone);
+                $endDate = Carbon::today($userTimeZone);
                 break;
             case 'yesterday':
-                $startDate = Carbon::yesterday();
-                $endDate = Carbon::yesterday();
+                $startDate = Carbon::yesterday($userTimeZone);
+                $endDate = Carbon::yesterday($userTimeZone);
                 break;
             case 'last_3_days':
-                $endDate = Carbon::today();
-                $startDate = Carbon::today()->subDays(2); // 包含今天，共3天
+                $endDate = Carbon::today($userTimeZone);
+                $startDate = Carbon::today($userTimeZone)->subDays(2);
                 break;
             case 'this_week':
-                $startDate = Carbon::now()->startOfWeek();
-                $endDate = Carbon::now()->endOfWeek();
+                $startDate = Carbon::now($userTimeZone)->startOfWeek();
+                $endDate = Carbon::now($userTimeZone)->endOfWeek();
                 break;
             case 'last_week':
-                $startDate = Carbon::now()->subWeek()->startOfWeek();
-                $endDate = Carbon::now()->subWeek()->endOfWeek();
+                $startDate = Carbon::now($userTimeZone)->subWeek()->startOfWeek();
+                $endDate = Carbon::now($userTimeZone)->subWeek()->endOfWeek();
                 break;
             case 'this_month':
-                $startDate = Carbon::now()->startOfMonth();
-                $endDate = Carbon::now()->endOfMonth();
+                $startDate = Carbon::now($userTimeZone)->startOfMonth();
+                $endDate = Carbon::now($userTimeZone)->endOfMonth();
                 break;
             case 'last_month':
-                $startDate = Carbon::now()->subMonth()->startOfMonth();
-                $endDate = Carbon::now()->subMonth()->endOfMonth();
+                $startDate = Carbon::now($userTimeZone)->subMonth()->startOfMonth();
+                $endDate = Carbon::now($userTimeZone)->subMonth()->endOfMonth();
                 break;
             case 'custom':
-                $startDate = Carbon::parse($filters['start_date']);
-                $endDate = Carbon::parse($filters['end_date']);
+                $startDate = Carbon::parse($filters['start_date'], $userTimeZone);
+                $endDate = Carbon::parse($filters['end_date'], $userTimeZone);
                 break;
             default:
-                // 預設為上週
-                $startDate = Carbon::now()->subWeek()->startOfWeek();
-                $endDate = Carbon::now()->subWeek()->endOfWeek();
+                $startDate = Carbon::now($userTimeZone)->subWeek()->startOfWeek();
+                $endDate = Carbon::now($userTimeZone)->subWeek()->endOfWeek();
                 break;
         }
 
-        return [$startDate, $endDate];
+        // 為了資料庫查詢，將 $startDate 和 $endDate 轉換為 UTC
+        $startDateUtc = $startDate->copy()->setTimezone('UTC')->startOfDay();
+        $endDateUtc = $endDate->copy()->setTimezone('UTC')->endOfDay();
+
+        return [
+            'display_start_date' => $startDate,
+            'display_end_date' => $endDate,
+            'query_start_date_utc' => $startDateUtc,
+            'query_end_date_utc' => $endDateUtc,
+        ];
     }
 
     private function getAuthorizedMachineQuery(User $user)

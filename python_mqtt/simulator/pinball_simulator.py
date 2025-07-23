@@ -15,7 +15,14 @@ class BaseMachine:
         self.credit_button_value = to_float(config.get('credit_button_value'))
         self.bill_acceptor_enabled = bool(config.get('bill_acceptor_enabled', False))
         self.accepted_denominations = config.get('accepted_denominations', '[]')
-        self.ball_in, self.credit_in, self.ball_out, self.coin_out, self.assign_credit, self.settled_credit, self.bill_denomination = 0, 0, 0, 0, 0, 0, 0
+        # 累積計數器不再在此處初始化為0，而是在 simulate_esp32 中根據資料庫數據或預設值初始化
+        self.ball_in = 0
+        self.credit_in = 0
+        self.ball_out = 0
+        self.coin_out = 0
+        self.assign_credit = 0
+        self.settled_credit = 0
+        self.bill_denomination = 0
         self.ASSIGN_CREDIT_PROBABILITY = 0.10
     def is_assign_credit_triggered(self):
         return self.credit_button_value > 0 and random.random() < self.ASSIGN_CREDIT_PROBABILITY
@@ -33,7 +40,7 @@ class PinballMachine(BaseMachine):
         super().__init__(config)
 
         # --- 模擬參數設定 ---
-        self.COIN_INPUT_RANGE = [2, 10] # 投幣次數範圍
+        self.COIN_INPUT_RANGE = [0, 1] # 投幣次數範圍，調整為更小的範圍以降低增長速度
         # 遊戲返還率(RTP)，例如 80% ~ 110%。這代表玩家投入的球，平均能贏回多少
         self.RTP_RANGE = [0.7, 0.85]
         self.exchange_rate = (self.coin_input_value / self.payout_unit_value) if self.payout_unit_value > 0 else 0

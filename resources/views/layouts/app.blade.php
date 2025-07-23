@@ -317,7 +317,7 @@
     </div>
     {{-- 添加全局狀態指示器 --}}
     <div id="global-reverb-status"
-        class="fixed bottom-2 right-2 text-xs px-2 py-1 rounded bg-gray-500 text-white z-50 opacity-75">
+        class="fixed bottom-0 right-0 text-xs px-2 py-0 rounded-full bg-gray-500 text-white z-50 opacity-75 ">
         連接中...
     </div>
     <div id="loadingOverlay" class="loading-overlay">
