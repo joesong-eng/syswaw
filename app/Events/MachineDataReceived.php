@@ -4,20 +4,25 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MachineDataReceived
+class MachineDataReceived implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * The data payload.
+     *
+     * @var array
+     */
     public $data;
 
     /**
      * Create a new event instance.
+     *
+     * @param array $data
      */
     public function __construct(array $data)
     {
@@ -27,13 +32,22 @@ class MachineDataReceived
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            // 如果需要廣播到前端，可以在這裡定義公共頻道
-            // new Channel('machine-data'),
-        ];
+        // 啟用廣播到名為 'machine-data' 的公開頻道
+        return new Channel('machine-data');
+    }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        // 給事件一個明確的名稱，方便前端監聽
+        return 'machine.data.received';
     }
 }

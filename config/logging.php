@@ -64,7 +64,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'replace_placeholders' => true,
-            'permissions' => 0664, // 添加這一行
+            'permissions' => 0775, // 添加這一行
 
         ],
 
@@ -74,9 +74,9 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 3,
             'max_files' => 3, // <--- 這裡可以調整保留的檔案數量，與 days 搭配使用
-            'max_size' => 3, // 可選：每個檔案的最大大小（MB），達到後會輪替
+            'max_size' => 1, // 可選：每個檔案的最大大小（MB），達到後會輪替
             'replace_placeholders' => true,
-            'permissions' => 0664,
+            'permissions' => 0775,
         ],
 
         'slack' => [
@@ -139,7 +139,7 @@ return [
             // 'path' => storage_path('logs/redis_cmd-' . date('Y-m-d') . '.log'),
             'days' => 3, // 保留最近 7 天的日誌
             'level' => 'info', // 此通道的最低日誌別
-            'permission' => 0664,  // 可選，文件權限
+            'permission' => 0775,  // 可選，文件權限
             // 重要的：定義日誌格式以控制日誌行的結構。
             // 這有助於 Laravel 和 Python 之間日誌解析的一致性。
             'formatter' => LineFormatter::class,

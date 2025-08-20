@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Controllers\Tcp\TcpServerController;
 use App\Http\Controllers\DataIngestionController; // 引入新的控制器
-
 use Illuminate\Support\Facades\Redis; // 確保這行存在
 
 
@@ -140,4 +139,18 @@ Route::middleware(['setLocale'])->group(function () {
         return view('test.responsive-test', ['title' => 'Responsive Layout Test']);
     })->name('test.responsive'); // 給它一個名字方便查找
 
+    // 顯示 MQTT 儀表板頁面
+    Route::get('/mqtt-dashboard', [MachinesController::class, 'showMqttDashboard'])->name('mqtt.dashboard');
+
+    // 用於手動測試廣播功能的網址
+    Route::get('/test-broadcast', function () {
+        $testData = [
+            'chip_id' => 'iot_001',
+            'credit' => rand(0, 100),
+            'timestamp' => now()->toIso8601String()
+        ];
+        // 注意：這裡我們使用修改後的 MachineDataReceived 事件
+        event(new \App\Events\MachineDataReceived($testData));
+        return '測試事件已發送！';
+    });
 });

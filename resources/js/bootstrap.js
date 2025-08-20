@@ -14,10 +14,7 @@ window.Echo = new Echo({
     wsHost: import.meta.env.VITE_REVERB_HOST,
     wsPort: import.meta.env.VITE_REVERB_PORT,
     wssPort: import.meta.env.VITE_REVERB_PORT,
-    scheme: import.meta.env.VITE_REVERB_SCHEME,
-    encrypted: import.meta.env.VITE_REVERB_SCHEME === 'wss',
-    wsPath: import.meta.env.VITE_REVERB_PATH,
-    disableStats: true,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
 });
 if (window.Echo.connector.pusher) { // 確保 pusher connector 存在

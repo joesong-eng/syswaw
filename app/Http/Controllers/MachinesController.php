@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator; // 引入 Validator Facade
+use Illuminate\Support\Facades\Redis; // 引入 Redis Facade
 
 use function compact;
 
@@ -523,4 +524,43 @@ class MachinesController extends Controller
 
     // Add printKeys method if needed, similar to how it worked for chips
     // public function printKeys(Request $request) { ... }
+
+    public function showMqttDashboard()
+    {
+        $machines = Machine::with('machineAuthKey')->get();
+
+        // 從 Redis 獲取每台機器的即時狀態和數據
+        $machines->each(function ($machine) {
+            if ($machine->machineAuthKey && $machine->machineAuthKey->chip_hardware_id) {
+                $chipId = $machine->machineAuthKey->chip_hardware_id;
+                $redisStatusKey = "machine_status:{$chipId}";
+                $redisDataKey = "machine_data:{$chipId}"; // 數據鍵
+
+                $status = Redis::get($redisStatusKey); // 從 Redis 獲取狀態
+                $data = Redis::get($redisDataKey); // 從 Redis 獲取數據
+
+                // 將狀態附加到機器物件上
+                $machine->isOnline = ($status === 'online');
+
+                // 如果機器離線，則不顯示數據
+                if (!$machine->isOnline) {
+                    $machine->data = null;
+                } else {
+                    // 如果數據存在，解析為 JSON
+                    $machine->data = $data ? json_decode($data, true) : null;
+                }
+            } else {
+                $machine->isOnline = false; // 如果沒有 chip_hardware_id，預設為離線
+                $machine->data = null; // 沒有 chip_hardware_id 的機器也沒有數據
+            }
+        });
+
+        return view('espmqtt', [
+            'machines' => $machines,
+            'reverb_app_key' => env('VITE_REVERB_APP_KEY'),
+            'reverb_host' => env('VITE_REVERB_HOST'),
+            'reverb_port' => env('VITE_REVERB_PORT'),
+            'reverb_scheme' => env('VITE_REVERB_SCHEME')
+        ]);
+    }
 }

@@ -20,7 +20,6 @@ MQTT_HOST = "direct-mqtt.tg25.win"
 MQTT_PORT = 8883
 MQTT_DATA_TOPIC = "device/+/data/update"    # 用於接收所有設備的數據更新
 MQTT_AUTH_TOPIC = "device/+/auth/request"    # 用於接收所有設備的認證請求
-MQTT_STATUS_TOPIC = "device/+/status"    # 監控設備狀態變化 (LWT + Birth Message)
 CA_CERT_PATH = "python_mqtt/certs/ca.crt"
 CLIENT_CERT_PATH = "python_mqtt/certs/client.crt"
 CLIENT_KEY_PATH = "python_mqtt/certs/client.key"
@@ -44,9 +43,11 @@ def on_connect(client, userdata, flags, rc, properties=None):
         # 訂閱認證請求主題
         client.subscribe(MQTT_AUTH_TOPIC)
         logger.info(f"已訂閱認證主題: {MQTT_AUTH_TOPIC}")
-        # 新增：訂閱設備狀態主題（LWT + Birth Messages）
-        client.subscribe(MQTT_STATUS_TOPIC)
-        logger.info(f"已訂閱狀態主題: {MQTT_STATUS_TOPIC}")
+
+        # 新增：訂閱系統主題以監控客戶端連線/斷線
+        client.subscribe("$SYS/broker/clients/connected")
+        client.subscribe("$SYS/broker/clients/disconnected")
+        logger.info("已訂閱客戶端上下線狀態主題。")
     else:
         logger.error(f"MQTT 連接失敗，返回碼: {rc}")
 
@@ -72,53 +73,62 @@ def post_to_laravel_api(data):
         logger.error(f"呼叫 Laravel API 時發生網路錯誤: {e}")
 
 def on_message(client, userdata, msg):
-    # --- 調試日誌：記錄所有收到的訊息 ---
-    logger.info(f"收到原始訊息 - 主題: {msg.topic}, 內容: {msg.payload.decode('utf-8', errors='ignore')}")
     try:
-        # 1. 從 Topic 中解析 chip_id
+        # --- 處理上下線事件 ---
+        if msg.topic == "$SYS/broker/clients/connected":
+            # 大多數 broker 返回的是純文字 client_id，而非 JSON
+            client_id = msg.payload.decode('utf-8').strip()
+
+            # 過濾掉我們自己的監聽器，避免不必要的 API 請求
+            if client_id and client_id != "mqtt_to_redis_bridge":
+                logger.info(f"設備上線: {client_id}")
+                post_status_to_laravel_api(client_id, 'online')
+            return
+
+        if msg.topic == "$SYS/broker/clients/disconnected":
+            # 大多數 broker 返回的是純文字 client_id，而非 JSON
+            client_id = msg.payload.decode('utf-8').strip()
+
+            if client_id and client_id != "mqtt_to_redis_bridge":
+                logger.info(f"設備離線: {client_id}")
+                post_status_to_laravel_api(client_id, 'offline')
+            return
+
+        # 如果您的 broker 確實返回 JSON 格式，可以使用這個版本：
+        """
+        if msg.topic == "$SYS/broker/clients/connected":
+            payload_str = msg.payload.decode('utf-8')
+            try:
+                # 先嘗試解析為 JSON
+                payload = json.loads(payload_str)
+                if isinstance(payload, dict):
+                    client_id = payload.get('clientid')
+                else:
+                    client_id = None
+            except json.JSONDecodeError:
+                # 如果不是 JSON，則當作純文字處理
+                client_id = payload_str.strip()
+
+            if client_id and client_id != "mqtt_to_redis_bridge":
+                logger.info(f"設備上線: {client_id}")
+                post_status_to_laravel_api(client_id, 'online')
+            return
+        """
+
+        # 其餘的資料處理邏輯保持不變...
         topic_parts = msg.topic.split('/')
         if len(topic_parts) < 3:
             logger.warning(f"收到的 Topic 格式不正確: {msg.topic}")
             return
         chip_id = topic_parts[1]
 
-        # 2. 處理狀態訊息（上下線檢測）
-        if mqtt.topic_matches_sub(MQTT_STATUS_TOPIC, msg.topic):
-            status = None
-            payload_str = msg.payload.decode('utf-8')
-            try:
-                # 優先嘗試解析 JSON (來自模擬器)
-                payload_json = json.loads(payload_str)
-                status = payload_json.get("status")
-            except json.JSONDecodeError:
-                # 如果解析失敗，則視為純文字 (來自真實 ESP32)
-                status = payload_str.strip()
-
-            if status in ["online", "offline"]:
-                logger.info(f"設備 '{chip_id}' 狀態更新: {status}")
-
-                redis_client = userdata['redis_client']
-                redis_status_key = f"machine_status:{chip_id}"
-                redis_client.set(redis_status_key, status)
-                logger.info(f"設備 '{chip_id}' 狀態 '{status}' 已儲存到 Redis。")
-
-                post_status_to_laravel_api(chip_id, status)
-            else:
-                logger.warning(f"收到來自 '{chip_id}' 的未知狀態訊息: {payload_str}")
-            return # 狀態訊息處理完畢
-
-        # 3. 處理數據和認證訊息 (JSON 格式)
         message_data_str = msg.payload.decode('utf-8')
-        try:
-            message_json = json.loads(message_data_str)
-            if not isinstance(message_json, dict):
-                logger.warning(f"收到的消息格式不是預期的字典類型: {message_data_str}")
-                return
-        except json.JSONDecodeError as e:
-            logger.error(f"解析 MQTT 消息為 JSON 時發生錯誤: {e} - 原始消息: {message_data_str}")
+        message_json = json.loads(message_data_str)
+
+        if not isinstance(message_json, dict):
+            logger.warning(f"收到的消息格式不是預期的字典類型，已忽略。Topic: {msg.topic}, Payload: {message_data_str}")
             return
 
-        # 處理數據更新
         if mqtt.topic_matches_sub(MQTT_DATA_TOPIC, msg.topic):
             logger.info(f"收到來自設備 '{chip_id}' 的數據更新: {message_data_str}")
 
@@ -130,15 +140,11 @@ def on_message(client, userdata, msg):
             api_payload['chip_id'] = chip_id
             post_to_laravel_api(api_payload)
 
-        # 處理認證請求
         elif mqtt.topic_matches_sub(MQTT_AUTH_TOPIC, msg.topic):
             logger.info(f"收到來自設備 '{chip_id}' 的認證請求: {message_data_str}")
-            # 可以在此處添加處理認證請求的邏輯
-            pass
 
-        else:
-            logger.warning(f"收到未匹配任何處理邏輯的主題: {msg.topic}")
-
+    except json.JSONDecodeError as e:
+        logger.error(f"解析 MQTT 消息為 JSON 時發生錯誤: {e} - 原始消息: {msg.payload.decode('utf-8')}")
     except Exception as e:
         logger.error(f"處理訊息時發生未知錯誤: {e}")
 
